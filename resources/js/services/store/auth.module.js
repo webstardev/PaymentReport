@@ -6,13 +6,13 @@ export const SET_AUTH = 'setAuth';
 export const UPDATE_AUTH = 'updateAUth';
 export const PURGE_AUTH = 'removeAuth';
 
-const userc = localStorage.getItem('user');
+const userc = localStorage.getItem('paymentReportUser');
 
 const state = {
   user:
     'undefined' === typeof userc
       ? null
-      : JSON.parse(localStorage.getItem('user')),
+      : JSON.parse(localStorage.getItem('paymentReportUser')),
   token: Cookies.get('token')
 };
 
@@ -37,18 +37,20 @@ const actions = {
 const mutations = {
   [SET_AUTH](state, data) {
     state.user = data.user;
-    localStorage.setItem('user', JSON.stringify(data.user));
-    Cookies.set('token', data.access_token, { expires: data.expires_in });
+    localStorage.setItem('paymentReportUser', JSON.stringify(data.user));
+    Cookies.set('paymentReportToken', data.access_token, {
+      expires: data.expires_in
+    });
   },
   [PURGE_AUTH](state) {
     state.user = null;
     state.token = null;
-    localStorage.removeItem('user');
-    Cookies.remove('user');
+    localStorage.removeItem('paymentReportUser');
+    Cookies.remove('paymentReportToken');
   },
   [UPDATE_AUTH](state, data) {
     state.user = data;
-    localStorage.setItem('user', JSON.stringify(data));
+    localStorage.setItem('paymentReportUser', JSON.stringify(data));
   }
 };
 
