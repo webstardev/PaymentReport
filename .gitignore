@@ -1,6 +1,6 @@
 /node_modules
-/pbulic/js
-/public/css
+/pbulic/js/*
+/public/css/*
 /public/hot
 /public/storage
 /storage/*.key
