@@ -9,12 +9,26 @@ const routes = [
   {
     path: '/',
     name: 'brand',
+    beforeEnter: auth,
     component: () => import('@/views/pages/brand')
   },
   {
     path: '/brand',
     name: 'brand',
+    beforeEnter: auth,
     component: () => import('@/views/pages/brand')
+  },
+  {
+    path: '/login',
+    name: 'login',
+    beforeEnter: guest,
+    component: () => import('@/views/pages/login')
+  },
+  {
+    path: '/register',
+    name: 'register',
+    beforeEnter: guest,
+    component: () => import('@/views/pages/register')
   },
   {
     path: '*',

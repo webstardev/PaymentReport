@@ -1,6 +1,9 @@
 <template>
-  <b-modal id="login-modal" title="Login" hide-footer>
-    <b-form>
+  <div
+    class="d-flex justify-content-center align-items-center min-height-100vh"
+  >
+    <b-form class="login-signup-form" @submit="onSubmit">
+      <h1 class="text-center mb-2">Login</h1>
       <b-form-group
         id="login-username"
         label="Username or Email"
@@ -26,17 +29,17 @@
           required
         ></b-form-input>
         <div class="d-flex justify-content-end mt-4">
-          <b-button @click="hideModal">Cancel</b-button>
+          <b-button @click="hideModal">Register</b-button>
           <b-button variant="primary" class="ml-3" type="submit">Ok</b-button>
         </div>
       </b-form-group>
     </b-form>
-  </b-modal>
+  </div>
 </template>
 
 <script>
 export default {
-  name: 'login-modal',
+  name: 'login',
   data() {
     return {
       form: {
@@ -44,11 +47,6 @@ export default {
         password: ''
       }
     };
-  },
-  methods: {
-    hideModal() {
-      this.$bvModal.hide('login-modal');
-    }
   }
 };
 </script>

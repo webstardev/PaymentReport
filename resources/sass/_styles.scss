@@ -1,0 +1,13 @@
+.min-height-100vh {
+  min-height: 100vh;
+}
+
+.login-signup-form {
+  display: flex;
+  flex-direction: column;
+  align-items: stretch;
+  justify-content: center;
+  width: 100%;
+  max-width: 400px;
+  padding: 1rem;
+}

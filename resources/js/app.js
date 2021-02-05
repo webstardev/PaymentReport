@@ -38,6 +38,21 @@ Vue.use(BootstrapVue);
 // Optionally install the BootstrapVue icon components plugin
 Vue.use(IconsPlugin);
 
+import axios from 'axios';
+Vue.prototype.$http = axios;
+
+import 'sweetalert2/src/sweetalert2.scss';
+
+import Loading from 'vue-loading-overlay';
+import 'vue-loading-overlay/dist/vue-loading.css';
+Vue.use(Loading, {
+  loader: 'spinner',
+  color: '#08c',
+  backgroundColor: '#3e3838'
+});
+
+import '@/services/axios/axios.service.js';
+
 new Vue({
   router,
   store,
