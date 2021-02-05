@@ -8,20 +8,13 @@ Vue.use(Router);
 const routes = [
   {
     path: '/',
-    name: 'welcome',
-    component: () => import('@/views/pages/welcome')
+    name: 'brand',
+    component: () => import('@/views/pages/brand')
   },
   {
-    path: '/login',
-    name: 'login',
-    beforeEnter: guest,
-    component: () => import('@/views/pages/auth/login')
-  },
-  {
-    path: '/profile',
-    name: 'profile',
-    beforeEnter: auth,
-    component: () => import('@/views/pages/profile')
+    path: '/brand',
+    name: 'brand',
+    component: () => import('@/views/pages/brand')
   },
   {
     path: '*',
