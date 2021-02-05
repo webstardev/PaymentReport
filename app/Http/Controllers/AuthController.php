@@ -51,12 +51,12 @@ class AuthController extends Controller
             // check duplicate email and username
 			$emailDuplicate = User::where('email', $request->email)->first();
 			if ($emailDuplicate) {
-				return response()->json(['error' => 'Email already exist'], 409);
+				return response()->json(['error' => ['field' => 'email', 'msg' => 'Email already exist.']], 409);
 			}
 
 			$usernameDuplicate = User::where('username', $request->username)->first();
 			if ($usernameDuplicate) {
-				return response()->json(['error' => 'Username already exist'], 409);
+				return response()->json(['error' => ['field' => 'username', 'msg' => 'Username already exist.']], 409);
             }
 
 			$user = new User();
