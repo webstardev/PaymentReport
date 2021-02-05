@@ -15,3 +15,16 @@ export const REGISTER_USER = {
     }
   }
 };
+
+export const LOGIN_USER = {
+  en: {
+    custom: {
+      username: {
+        required: requiredStr
+      },
+      password: {
+        required: requiredStr
+      }
+    }
+  }
+};

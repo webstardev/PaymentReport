@@ -52,7 +52,9 @@
         ></b-form-input>
       </b-form-group>
       <div class="d-flex justify-content-end mt-4">
-        <b-button variant="outline-primary">Login</b-button>
+        <b-button variant="outline-primary" @click="handleClickLogin"
+          >Login</b-button
+        >
         <b-button variant="primary" class="ml-3" type="submit"
           >Register</b-button
         >
@@ -118,10 +120,10 @@ export default {
           loader.hide();
         }
       });
+    },
+    handleClickLogin() {
+      this.$router.push({ name: 'login' });
     }
-  },
-  mounted() {
-    this.form = { email: '', username: '', password: '' };
   }
 };
 </script>
