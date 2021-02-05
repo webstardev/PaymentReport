@@ -2,32 +2,135 @@
   <b-container fluid class="root-container">
     <top-navbar></top-navbar>
     <b-container fluid="xl" class="ml-auto mr-auto py-4">
-      <b-row>
-        <b-col md="12">
-          <h1>Create Brand</h1>
-        </b-col>
+      <b-row class="mb-4">
         <b-col md="6">
+          <h3>Create Brand</h3>
+        </b-col>
+        <b-col md="6" class="d-flex">
+          <b-button variant="primary" class="ml-auto">Create</b-button>
+        </b-col>
+      </b-row>
+      <b-row>
+        <b-col md="4">
           <b-form-group label="Brand Name:" label-for="brand-name">
             <b-form-input
               id="brand-name"
-              v-model="formData.brandName"
+              v-model="formData.brand_name"
+              required
             ></b-form-input>
           </b-form-group>
         </b-col>
       </b-row>
       <hr />
       <b-row>
-        <b-col md="6">
-          <b-form-group label="Category:" label-for="category">
-            <b-form-select id="category" v-model="formData.category">
+        <b-col md="4">
+          <b-form-group label="Super Master:" label-for="super-master">
+            <b-form-input
+              id="super-master"
+              v-model="formData.supermaster"
+              required
+            ></b-form-input>
+          </b-form-group>
+        </b-col>
+        <b-col md="4">
+          <b-form-group label="Master:" label-for="master">
+            <b-form-input
+              id="master"
+              v-model="formData.master"
+              required
+            ></b-form-input>
+          </b-form-group>
+        </b-col>
+        <b-col md="4">
+          <b-form-group label="Agent:" label-for="agent">
+            <b-form-input
+              id="agent"
+              v-model="formData.agent"
+              required
+            ></b-form-input>
+          </b-form-group>
+        </b-col>
+      </b-row>
+      <hr />
+      <b-row>
+        <b-col md="4">
+          <b-form-group label="Api:" label-for="api">
+            <b-form-input
+              id="api"
+              v-model="formData.api"
+              required
+            ></b-form-input>
+          </b-form-group>
+        </b-col>
+        <b-col md="4">
+          <b-form-group label="White label:" label-for="white_label">
+            <b-form-input
+              id="white_label"
+              v-model="formData.white_label"
+              required
+            ></b-form-input>
+          </b-form-group>
+        </b-col>
+        <b-col md="4">
+          <b-form-group label="Other:" label-for="other">
+            <b-form-input
+              id="other"
+              v-model="formData.other"
+              required
+            ></b-form-input>
+          </b-form-group>
+        </b-col>
+      </b-row>
+      <hr />
+      <b-row>
+        <b-col md="4">
+          <b-form-group label="Counry:" label-for="country">
+            <b-form-select id="country" v-model="formData.country" required>
               <option
-                v-for="(option, idx) in categoryOptions"
+                v-for="(option, idx) in countryOptions"
                 :key="idx"
-                :value="option.value"
+                :value="option.name"
               >
-                {{ option.text }}
+                {{ option.name }}
               </option>
             </b-form-select>
+          </b-form-group>
+        </b-col>
+        <b-col md="4">
+          <b-form-group label="Currency:" label-for="currency">
+            <b-form-select id="country" v-model="formData.currency" required>
+              <option
+                v-for="(option, idx) in currencyOptions"
+                :key="idx"
+                :value="option"
+              >
+                {{ option }}
+              </option>
+            </b-form-select>
+          </b-form-group>
+        </b-col>
+        <b-col md="4">
+          <b-form-group label="Selling:" label-for="selling">
+            <b-input-group append="%" label="Selling">
+              <b-form-input
+                id="selling"
+                v-model="formData.selling"
+                type="number"
+                required
+              ></b-form-input>
+            </b-input-group>
+          </b-form-group>
+        </b-col>
+        <b-col md="12">
+          <b-form-group label="Comment:" label-for="comment">
+            <b-form-textarea
+              id="comment"
+              v-model="formData.comment"
+              placeholder="Enter something..."
+              rows="3"
+              max-rows="6"
+              required
+            ></b-form-textarea>
           </b-form-group>
         </b-col>
       </b-row>
@@ -36,7 +139,7 @@
 </template>
 
 <script>
-import { CATEGORY_OPTIONS } from '@/constants.js';
+import { CATEGORY_OPTIONS, COUNTRIES, CURRENCIES } from '@/constants.js';
 import TopNavbar from '@/sharedComponents/top-navbar.vue';
 export default {
   components: { TopNavbar },
@@ -44,9 +147,20 @@ export default {
   data() {
     return {
       categoryOptions: CATEGORY_OPTIONS,
+      countryOptions: COUNTRIES,
+      currencyOptions: Object.keys(CURRENCIES),
       formData: {
-        brandName: '',
-        category: CATEGORY_OPTIONS[0].value
+        brand_name: '',
+        supermaster: '',
+        master: '',
+        agent: '',
+        api: '',
+        white_label: '',
+        other: '',
+        country: '',
+        currency: '',
+        selling: 0,
+        comment: ''
       }
     };
   }
