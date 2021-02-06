@@ -37,6 +37,7 @@ const actions = {
 const mutations = {
   [SET_AUTH](state, data) {
     state.user = data.user;
+    state.token = data.access_token;
     localStorage.setItem('paymentReportUser', JSON.stringify(data.user));
     Cookies.set('paymentReportToken', data.access_token, {
       expires: data.expires_in

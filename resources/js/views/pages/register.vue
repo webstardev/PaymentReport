@@ -94,7 +94,6 @@ export default {
           const loader = this.$loading.show();
           try {
             let res = await axios.post('/api/register', this.form);
-            debugger;
             if (res && res.data) {
               Swal.fire({
                 title: 'Register Successed',

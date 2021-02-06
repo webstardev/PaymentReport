@@ -17,9 +17,15 @@
 
       <b-navbar-nav class="ml-auto">
         <template v-if="check">
-          <b-nav-item>
-            {{ currentUser.username }}
-          </b-nav-item>
+          <b-nav-item-dropdown right>
+            <!-- Using 'button-content' slot -->
+            <template #button-content>
+              <em>{{ currentUser.username }}</em>
+            </template>
+            <b-dropdown-item @click="handleClickSignOut"
+              >Sign Out</b-dropdown-item
+            >
+          </b-nav-item-dropdown>
         </template>
         <template v-else>
           <b-nav-item @click="handleClickLogin">Login</b-nav-item>
@@ -32,6 +38,7 @@
 
 <script>
 import { mapGetters } from 'vuex';
+import { LOGOUT } from '@/services/store/auth.module';
 
 export default {
   name: 'top-navbar',
@@ -44,13 +51,22 @@ export default {
     },
     handleClickRegister() {
       this.$router.push({ name: 'register' });
+    },
+    handleClickSignOut() {
+      this.$store.dispatch(LOGOUT);
+      this.$router.push({ name: 'login' });
     }
   }
 };
 </script>
 
-<style scoped lang="scss">
+<style lang="scss">
 #pr-navbar {
+  .navbar-nav {
+    .nav-link {
+      color: white;
+    }
+  }
   .nav-link {
     color: white;
   }
