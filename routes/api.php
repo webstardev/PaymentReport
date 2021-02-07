@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\BrandController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
@@ -26,4 +27,5 @@ Route::group(['middleware' => 'auth:api'], function () {
     Route::get('brand/{id}', 'BrandController@get');
     Route::post('keyin', 'KeyInController@store');
     Route::get('keyin/{id}', 'KeyInController@get');
+    Route::post('keyin/filter', 'KeyInController@filter');
 });

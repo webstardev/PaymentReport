@@ -1,6 +1,6 @@
 <template>
-  <b-row class="income-data-filter-container">
-    <b-col class="income-data-filter-col mt-3" md="12">
+  <b-row class="expenses-data-filter-container">
+    <b-col class="expenses-data-filter-col mt-3" md="12">
       <b-form-group
         class="dropdown-container mr-3"
         label="Brand:"
@@ -97,6 +97,27 @@
       </b-form-group>
       <b-form-group
         class="dropdown-container mr-3"
+        label="Expenses Type:"
+        labe-for="filter-expenses-type"
+      >
+        <b-form-select
+          id="filter-expenses-type"
+          :value="filter.expenses_type"
+          @change="$event => changeFilter('expenses_type', $event)"
+        >
+          <option value="all" key="all">All</option>
+          <option
+            v-for="option in expensesOptions"
+            :key="option"
+            :value="option"
+          >
+            {{ option }}
+          </option>
+        </b-form-select>
+      </b-form-group>
+
+      <b-form-group
+        class="dropdown-container mr-3"
         label="Payment Method:"
         labe-for="filter-payment-method"
       >
@@ -145,7 +166,7 @@ import {
 } from '@/constants';
 
 export default {
-  name: 'income-report-data-filter',
+  name: 'expenses-report-data-filter',
   props: {
     filter: {
       type: Object,
@@ -169,6 +190,7 @@ export default {
       paymentOptions: PAYMENT_METHOD.map(item => {
         return { name: item, code: item };
       }),
+      expensesOptions: EXPENSES_TYPE,
       brandList: []
     };
   },
@@ -194,7 +216,7 @@ export default {
 </script>
 
 <style scoped lang="scss">
-.income-data-filter-col {
+.expenses-data-filter-col {
   display: flex;
   justify-content: flex-start;
 }

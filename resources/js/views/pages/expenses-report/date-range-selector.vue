@@ -1,5 +1,5 @@
 <template>
-  <b-row class="income-report-date-filter">
+  <b-row class="expenses-report-date-filter">
     <b-col md="4">
       <date-range-picker
         ref="picker"
@@ -68,7 +68,7 @@
 import DateRangePicker from 'vue2-daterange-picker';
 import { getDateRange } from '@/utils/date';
 export default {
-  name: 'income-report-date-range-selector',
+  name: 'expenses-report-date-range-selector',
   components: {
     DateRangePicker
   },

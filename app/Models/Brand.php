@@ -15,7 +15,7 @@ class Brand extends Model
 
     }
 
-    public function getLanguageAttribute($value)
+    public function getCategoryAttribute($value)
     {
         return json_decode($value);
     }

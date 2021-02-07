@@ -4,7 +4,7 @@ export const USER_TYPE = {
 };
 export const CATEGORY = {
   AGENT_SYSTEM: 'Agent system',
-  API: 'Api',
+  API: 'API',
   WHITELABEL: 'White label',
   OTHER: 'Other'
 };

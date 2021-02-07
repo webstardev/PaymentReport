@@ -16,7 +16,7 @@ class CreateKeyInsTable extends Migration
         Schema::create('key_ins', function (Blueprint $table) {
             $table->id();
             $table->string('type');
-            $table->foreignId('user_id');
+            $table->foreignId('user_id')->constraind('users');
             $table->foreignId('brand_id')->constraind('brains');
             $table->timestamp('date');
             $table->float('sum');
