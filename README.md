@@ -5,8 +5,6 @@
 
 1. Configure database
   - Create database
-  - Migrate the tables
-     For now, it has only one table called users
 
 2. How to run the project
 
@@ -16,6 +14,6 @@ npm install
 
 npm run dev (watch or prod)
 
-php artisan migrate
+php artisan migrate (Migrate the tables)
 
 php artisan serve
