@@ -16,6 +16,7 @@ import '@/plugins/sweetalert.js';
 import '@/plugins/axios.js';
 import '@/plugins/loading-overlay.js';
 import '@/plugins/vee-validate.js';
+import '@/plugins/vue-multiselect.js';
 
 new Vue({
   router,

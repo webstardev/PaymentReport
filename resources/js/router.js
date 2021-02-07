@@ -19,6 +19,12 @@ const routes = [
     component: () => import('@/views/pages/brand')
   },
   {
+    path: '/key-in',
+    name: 'key-in',
+    beforeEnter: auth,
+    component: () => import('@/views/pages/key-in')
+  },
+  {
     path: '/login',
     name: 'login',
     beforeEnter: guest,

@@ -17,6 +17,37 @@ export const CATEGORY_OPTIONS = [
   }
 ];
 
+export const KEY_IN_TYPE = {
+  INCOME: 'Income',
+  EXPENSES: 'Expenses'
+};
+
+export const PAYMENT_METHOD = [
+  'BTC payment',
+  'Wire',
+  'Netseller',
+  'Skrill',
+  'Other'
+];
+
+export const RECEIVED_STATUS = {
+  YES: 'Yes',
+  PENDING: 'Pending'
+};
+
+export const EXPENSES_TYPE = {
+  CHIPS_OUT: 'Chips-out',
+  HOSTING: 'Hosting',
+  DOMAIN_RENEWAL: 'Domain renewal',
+  MOBILE_EXPENSES: 'Mobile expenses',
+  OFFICE_SUPPLY: 'Office supply',
+  SALARY: 'Salary',
+  SET_UP_FEE: 'Set up fee',
+  TRANSPORTATION: 'Transportation',
+  TRAVEL: 'Travel',
+  OTHER: 'Other'
+};
+
 export const COUNTRIES = [
   {
     name: 'Afghanistan',
