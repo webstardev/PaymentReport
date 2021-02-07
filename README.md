@@ -16,4 +16,6 @@ npm install
 
 npm run dev (watch or prod)
 
+php artisan migrate
+
 php artisan serve
