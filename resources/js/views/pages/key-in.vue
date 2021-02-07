@@ -1,7 +1,7 @@
 <template>
   <b-container fluid class="root-container">
     <top-navbar></top-navbar>
-    <b-container fluid="xl" class="ml-auto mr-auto py-4">
+    <b-container fluid="xl" class="main-container ml-auto mr-auto py-4">
       <b-form @submit="onSubmit">
         <b-row class="mb-4">
           <b-col md="6">
@@ -36,12 +36,12 @@
         <b-row>
           <b-col md="4">
             <b-form-group label="Brand:" label-for="brand">
-              <b-form-select id="brand" v-model="formData.brand" rqeuired>
+              <b-form-select id="brand" v-model="formData.brand_id" rqeuired>
                 <option
-                  v-for="(option, idx) in Object.keys(keyInType)"
+                  v-for="(brand, idx) in brandList"
                   :key="idx"
-                  :value="keyInType[option]"
-                  >{{ keyInType[option] }}
+                  :value="brand.id"
+                  >{{ brand.name }}
                 </option>
               </b-form-select>
             </b-form-group>
@@ -92,24 +92,21 @@
             </b-col>
             <b-col md="4">
               <b-form-group label="Expenses type:" label-for="expenses-type">
-                <b-form-select
-                  id="expenses-type"
+                <multiselect
                   v-model="formData.expenses_type"
+                  tag-placeholder="Add this as new expenses type"
+                  placeholder="Search or add a expenses type"
+                  :options="expensesType"
+                  :multiple="false"
+                  :taggable="true"
+                  @tag="addExpensesType"
                   required
-                >
-                  <option
-                    v-for="(option, idx) in expensesType"
-                    :key="idx"
-                    :value="expensesType[option]"
-                  >
-                    {{ expensesType[option] }}
-                  </option>
-                </b-form-select>
+                ></multiselect>
               </b-form-group>
             </b-col>
           </template>
           <b-col md="4">
-            <b-form-group label="Date" label-for="sum">
+            <b-form-group label="Sum" label-for="sum">
               <b-form-input
                 id="sum"
                 v-model="formData.sum"
@@ -122,7 +119,7 @@
             <b-form-group label="Payment method:" label-for="payment-method">
               <multiselect
                 v-model="formData.payment_method"
-                tag-placeholder="Add this as new tag"
+                tag-placeholder="Add this as new payment method"
                 placeholder="Search or add a payment method"
                 label="name"
                 track-by="code"
@@ -150,7 +147,7 @@
             <b-form-group label="Comment:" label-for="comment">
               <b-form-textarea
                 id="comment"
-                v-model="formData.comment"
+                v-model="formData.comments"
                 placeholder="Enter something..."
                 rows="3"
                 max-rows="6"
@@ -179,7 +176,7 @@ import TopNavbar from '@/sharedComponents/top-navbar.vue';
 
 export default {
   name: 'key-in',
-  computed: {
+  components: {
     TopNavbar
   },
   data() {
@@ -192,14 +189,10 @@ export default {
       currencyOptions: Object.keys(CURRENCIES),
       countryOptions: COUNTRIES,
       expensesType: EXPENSES_TYPE,
+      brandList: [],
       formData: {
         key_in_type: KEY_IN_TYPE.INCOME,
-        supermaster: null,
-        master: null,
-        agent: null,
-        api: '',
-        white_label: '',
-        other: '',
+        brand_id: null,
         date: null,
         sum: 0,
         payment_method: [],
@@ -212,6 +205,22 @@ export default {
       }
     };
   },
+  created() {
+    const loader = this.$loading.show();
+
+    axios
+      .get('/api/brand/all')
+      .then(res => {
+        loader.hide();
+        if (res && res.data) {
+          this.brandList = res.data;
+        }
+      })
+      .catch(err => {
+        loader.hide();
+        this.brandList = [];
+      });
+  },
   methods: {
     addPaymentMethod(newPayment) {
       const payment = {
@@ -221,7 +230,70 @@ export default {
       this.paymentOptions.push(payment);
       this.formData.payment_method.push(payment);
     },
-    async onSubmit(event) {}
+    addExpensesType(newType) {
+      this.expensesType.push(newType);
+      this.formData.expenses_type = newType;
+    },
+    async onSubmit(event) {
+      event.preventDefault();
+      const loader = this.$loading.show();
+      let keyInFormData = {
+        type: this.formData.key_in_type,
+        brand_id: this.formData.brand_id,
+        date: this.formData.date,
+        sum: this.formData.sum,
+        payment_method: this.formData.payment_method,
+        comments: this.formData.comments
+      };
+
+      if (this.formData.key_in_type === KEY_IN_TYPE.INCOME) {
+        keyInFormData.received = this.formData.received;
+      } else if (this.formData.key_in_type === KEY_IN_TYPE.EXPENSES) {
+        keyInFormData.currency = this.formData.currency;
+        keyInFormData.country = this.formData.country;
+        keyInFormData.expenses_type = this.formData.expenses_type;
+      }
+      try {
+        let res = await axios.post('/api/keyin', keyInFormData, {
+          headers: {
+            'Content-Type': 'application/json'
+          }
+        });
+        if (res && res.data) {
+          if (res.status === 201) {
+            Swal.fire({
+              title: 'KeyIn Created.',
+              icon: 'success'
+            }).then(result => {
+              this.formData = {
+                key_in_type: KEY_IN_TYPE.INCOME,
+                brand_id: null,
+                date: null,
+                sum: 0,
+                payment_method: [],
+                received: RECEIVED_STATUS.YES,
+                comments: '',
+                currency: '',
+                country: '',
+                expenses_type: ''
+              };
+            });
+          } else {
+            Swal.fire({
+              title: 'Create KeyIn Failed.',
+              icon: 'warning'
+            });
+          }
+        }
+      } catch (err) {
+        Swal.fire({
+          title: 'Create KeyIn Failed.',
+          icon: 'error'
+        });
+      }
+
+      loader.hide();
+    }
   }
 };
 </script>

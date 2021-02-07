@@ -33,18 +33,31 @@ export const RECEIVED_STATUS = {
   PENDING: 'Pending'
 };
 
-export const EXPENSES_TYPE = {
-  CHIPS_OUT: 'Chips-out',
-  HOSTING: 'Hosting',
-  DOMAIN_RENEWAL: 'Domain renewal',
-  MOBILE_EXPENSES: 'Mobile expenses',
-  OFFICE_SUPPLY: 'Office supply',
-  SALARY: 'Salary',
-  SET_UP_FEE: 'Set up fee',
-  TRANSPORTATION: 'Transportation',
-  TRAVEL: 'Travel',
-  OTHER: 'Other'
-};
+export const EXPENSES_TYPE = [
+  'Chips-out',
+  'Hosting',
+  'Domain renewal',
+  'Mobile expenses',
+  'Office supply',
+  'Salary',
+  'Set up fee',
+  'Transportation',
+  'Travel',
+  'Other'
+];
+
+// export const EXPENSES_TYPE = {
+//   CHIPS_OUT: 'Chips-out',
+//   HOSTING: 'Hosting',
+//   DOMAIN_RENEWAL: 'Domain renewal',
+//   MOBILE_EXPENSES: 'Mobile expenses',
+//   OFFICE_SUPPLY: 'Office supply',
+//   SALARY: 'Salary',
+//   SET_UP_FEE: 'Set up fee',
+//   TRANSPORTATION: 'Transportation',
+//   TRAVEL: 'Travel',
+//   OTHER: 'Other'
+// };
 
 export const COUNTRIES = [
   {

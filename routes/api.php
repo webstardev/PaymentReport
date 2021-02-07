@@ -3,6 +3,8 @@
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
+
+use App\Models\Brand;
 /*
 |--------------------------------------------------------------------------
 | API Routes
@@ -21,4 +23,7 @@ Route::group(['middleware' => 'guest:api'], function () {
 
 Route::group(['middleware' => 'auth:api'], function () {
     Route::post('brand', 'BrandController@create');
+    Route::get('brand/{id}', 'BrandController@get');
+    Route::post('keyin', 'KeyInController@store');
+    Route::get('keyin/{id}', 'KeyInController@get');
 });

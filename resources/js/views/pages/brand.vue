@@ -1,7 +1,7 @@
 <template>
   <b-container fluid class="root-container">
     <top-navbar></top-navbar>
-    <b-container fluid="xl" class="ml-auto mr-auto main-container py-4">
+    <b-container fluid="xl" class="main-container  ml-auto mr-auto py-4">
       <b-form @submit="onSubmit">
         <b-row class="mb-4">
           <b-col md="6">
@@ -209,11 +209,23 @@ export default {
           Swal.fire({
             title: `Brand ${this.formData.brand_name} Created`,
             icon: 'success'
+          }).then(result => {
+            this.formData = {
+              brand_name: '',
+              category: {
+                type: CATEGORY.AGENT_SYSTEM,
+                content: { supermaster: '', master: '', agent: '' }
+              },
+              country: '',
+              currency: '',
+              selling: 0,
+              comment: ''
+            };
           });
         }
       } catch (err) {
         Swal.fire({
-          title: 'Create Brand Failed',
+          title: 'Create Brand Failed.',
           icon: 'error'
         });
       }

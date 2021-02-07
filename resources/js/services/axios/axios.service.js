@@ -28,6 +28,7 @@ axios.interceptors.response.use(
     if (status >= 500) {
       Swal.fire({
         title: 'Error',
+        icon: 'error',
         text: JSON.stringify(error.response.data.message),
         reverseButtons: true,
         confirmButtonText: 'ok',

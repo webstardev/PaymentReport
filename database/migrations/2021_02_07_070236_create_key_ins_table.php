@@ -21,11 +21,11 @@ class CreateKeyInsTable extends Migration
             $table->timestamp('date');
             $table->float('sum');
             $table->string('payment_method');
-            $table->string('received');
+            $table->string('received')->nullable();
             $table->string('comments');
-            $table->string('currency');
-            $table->string('country');
-            $table->string('expenses_type');
+            $table->string('currency')->nullable();
+            $table->string('country')->nullable();
+            $table->string('expenses_type')->nullable();
             $table->timestamps();
         });
     }

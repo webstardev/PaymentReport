@@ -28,4 +28,17 @@ class BrandController extends Controller
             return response()->json(['error' => 'Internal server error'], 500);
         }
     }
+
+    public function get($id)
+	{
+		try {
+			if ($id == 'all')
+				return Brand::where('user_id', Auth::user()->id)->get();
+			else return Brand::where('user_id', Auth::user()->id)->where('id', $id)->first();
+		} catch (\Throwable $e) {
+			Log::error('Get Brand (' . $id . ') : ' . $e->getMessage());
+			return 'Brand not found';
+		}
+	}
+
 }

@@ -14,6 +14,9 @@
       <b-navbar-nav class="ml-4">
         <b-nav-item href="/brand">Brand</b-nav-item>
       </b-navbar-nav>
+      <b-navbar-nav>
+        <b-nav-item href="/key-in">Key In</b-nav-item>
+      </b-navbar-nav>
 
       <b-navbar-nav class="ml-auto">
         <template v-if="check">

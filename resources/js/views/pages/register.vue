@@ -111,7 +111,6 @@ export default {
       this.$validator.validateAll().then(async valid => {
         if (valid) {
           const loader = this.$loading.show();
-          debugger;
           try {
             let res = await axios.post('/api/register', this.formData);
             if (res && res.data) {
