@@ -16,12 +16,7 @@ class BrandController extends Controller
             $brand = new Brand();
             $brand->user_id = Auth::user()->id;
             $brand->name = $request->brand_name;
-            $brand->supermaster = $request->supermaster;
-            $brand->master = $request->master;
-            $brand->agent = $request->agent;
-            $brand->api = $request->api;
-            $brand->white_label = $request->white_label;
-            $brand->other = $request->other;
+            $brand->category = $request->category;
             $brand->country = $request->country;
             $brand->currency = $request->currency;
             $brand->selling = $request->selling;

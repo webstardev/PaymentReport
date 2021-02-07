@@ -20,7 +20,11 @@
           <b-nav-item-dropdown right>
             <!-- Using 'button-content' slot -->
             <template #button-content>
-              <em>{{ currentUser.username }}</em>
+              <em>{{ currentUser.username }}</em
+              ><br />
+              <span style="fontSize:0.8rem; opacity: 0.8;">
+                {{ currentUser.user_type }}
+              </span>
             </template>
             <b-dropdown-item @click="handleClickSignOut"
               >Sign Out</b-dropdown-item
@@ -65,6 +69,13 @@ export default {
   .navbar-nav {
     .nav-link {
       color: white;
+      &.dropdown-toggle {
+        padding-right: 20px;
+        &:after {
+          position: absolute;
+          right: 0;
+        }
+      }
     }
   }
   .nav-link {

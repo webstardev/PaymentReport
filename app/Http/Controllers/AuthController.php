@@ -62,7 +62,8 @@ class AuthController extends Controller
 			$user = new User();
 			$user->username = $request->username;
 			$user->password = bcrypt($request->password);
-			$user->email = $request->email;
+            $user->email = $request->email;
+            $user->user_type = $request->user_type;
 			$user->save();
 
 			$credentials = request(['email', 'password']);

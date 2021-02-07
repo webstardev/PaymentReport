@@ -13,7 +13,7 @@ const state = {
     'undefined' === typeof userc
       ? null
       : JSON.parse(localStorage.getItem('paymentReportUser')),
-  token: Cookies.get('token')
+  token: Cookies.get('paymentReportToken')
 };
 
 const getters = {

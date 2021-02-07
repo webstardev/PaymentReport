@@ -11,6 +11,9 @@ export const REGISTER_USER = {
       },
       password: {
         required: requiredStr
+      },
+      user_type: {
+        required: requiredStr
       }
     }
   }

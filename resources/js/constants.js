@@ -1,21 +1,19 @@
-export const CATEGORY_OPTIONS = [
-  {
-    value: 'Agent System',
-    text: 'Agent System'
-  },
-  {
-    value: 'Api',
-    text: 'Api'
-  },
-  {
-    value: 'White label',
-    text: 'White label'
-  },
-  {
-    value: 'Other',
-    text: 'Other'
-  }
-];
+export const USER_TYPE = {
+  INSERT: 'Insert',
+  VIEW: 'View'
+};
+export const CATEGORY = {
+  AGENT_SYSTEM: 'Agent system',
+  API: 'Api',
+  WHITELABEL: 'White label',
+  OTHER: 'Other'
+};
+
+export const AGENT_SYSTEM = {
+  SUPERMASTER: 'Super master',
+  MASTER: 'Master',
+  AGENT: 'Agent'
+};
 
 export const KEY_IN_TYPE = {
   INCOME: 'Income',

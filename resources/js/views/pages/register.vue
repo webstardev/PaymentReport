@@ -14,7 +14,7 @@
         <b-form-input
           id="input-email"
           name="email"
-          v-model="form.email"
+          v-model="formData.email"
           v-validate="`required`"
           placeholder="Enter email"
           type="email"
@@ -30,13 +30,13 @@
         <b-form-input
           id="input-username"
           name="username"
-          v-model="form.username"
+          v-model="formData.username"
           v-validate="`required`"
           placeholder="Enter username"
         ></b-form-input>
       </b-form-group>
       <b-form-group
-        id="login-password"
+        id="register-password"
         label="Password"
         label-for="input-password"
         :invalid-feedback="errors.first('password')"
@@ -45,11 +45,27 @@
         <b-form-input
           id="input-password"
           name="password"
-          v-model="form.password"
+          v-model="formData.password"
           v-validate="`required|min:8|verify_password`"
           placeholder="Enter password"
           type="password"
         ></b-form-input>
+      </b-form-group>
+
+      <b-form-group
+        label="User role"
+        label-for="user-type"
+        :invalid-feedback="errors.first('user_type')"
+        :state="!(submitted && errors.has('user_type'))"
+      >
+        <b-form-select id="user-type" v-model="formData.user_type" required>
+          <option
+            v-for="(option, idx) in Object.keys(userType)"
+            :key="idx"
+            :value="userType[option]"
+            >{{ userType[option] }}
+          </option>
+        </b-form-select>
       </b-form-group>
       <div class="d-flex justify-content-end mt-4">
         <b-button variant="outline-primary" @click="handleClickLogin"
@@ -66,6 +82,7 @@
 <script>
 import Swal from 'sweetalert2';
 import { LOGIN } from '@/services/store/auth.module';
+import { USER_TYPE } from '@/constants';
 import { REGISTER_USER } from '@/utils/validators';
 
 export default {
@@ -76,10 +93,12 @@ export default {
   data() {
     return {
       submitted: false,
-      form: {
+      userType: USER_TYPE,
+      formData: {
         email: '',
         username: '',
-        password: ''
+        password: '',
+        user_type: USER_TYPE.INSERT
       }
     };
   },
@@ -92,8 +111,9 @@ export default {
       this.$validator.validateAll().then(async valid => {
         if (valid) {
           const loader = this.$loading.show();
+          debugger;
           try {
-            let res = await axios.post('/api/register', this.form);
+            let res = await axios.post('/api/register', this.formData);
             if (res && res.data) {
               Swal.fire({
                 title: 'Register Successed',

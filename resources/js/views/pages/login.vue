@@ -14,7 +14,7 @@
         <b-form-input
           id="input-username"
           name="username"
-          v-model="form.username"
+          v-model="formData.username"
           v-validate="`required`"
           placeholder="Enter usrename or email"
         ></b-form-input>
@@ -29,7 +29,7 @@
         <b-form-input
           id="input-password"
           name="password"
-          v-model="form.password"
+          v-model="formData.password"
           placeholder="Enter password"
           v-validate="`required|min:8|verify_password`"
           type="password"
@@ -57,7 +57,7 @@ export default {
   data() {
     return {
       submitted: false,
-      form: {
+      formData: {
         username: '',
         password: ''
       }
@@ -74,7 +74,7 @@ export default {
         if (valid) {
           const loader = this.$loading.show();
           try {
-            let res = await axios.post('/api/login', this.form);
+            let res = await axios.post('/api/login', this.formData);
             if (res && res.data) {
               this.$store.dispatch(LOGIN, res.data);
               this.$router.push('/');

@@ -11,6 +11,8 @@ import App from './App.vue';
 import router from './router';
 import store from '@/services/store';
 
+Vue.config.productionTip = false;
+
 import '@/plugins/vue-bootstrap.js';
 import '@/plugins/sweetalert.js';
 import '@/plugins/axios.js';

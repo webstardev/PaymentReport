@@ -119,7 +119,7 @@
             </b-form-group>
           </b-col>
           <b-col md="4">
-            <b-form-group label="Date" label-for="payment-method">
+            <b-form-group label="Payment method:" label-for="payment-method">
               <multiselect
                 v-model="formData.payment_method"
                 tag-placeholder="Add this as new tag"

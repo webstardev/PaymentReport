@@ -1,5 +1,8 @@
 .root-container {
   min-height: 100vh;
   overflow-x: hidden;
-  padding-top: var(--navbarHeight);
+}
+
+.main-container {
+  margin-top: var(--navbarHeight);
 }
