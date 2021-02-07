@@ -31,6 +31,12 @@ const routes = [
     component: () => import('@/views/pages/income-report/index')
   },
   {
+    path: '/expenses-report',
+    name: 'expenses-report',
+    beforeEnter: auth,
+    component: () => import('@/views/pages/expenses-report/index')
+  },
+  {
     path: '/login',
     name: 'login',
     beforeEnter: guest,

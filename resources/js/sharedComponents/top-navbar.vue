@@ -27,8 +27,12 @@
           href="/income-report"
           >Income Report</b-nav-item
         >
-      </b-navbar-nav>
-      <b-navbar-nav :class="`${checkActiveMenu('key-in') && 'active'}  ml-4`">
+        <b-nav-item
+          :class="`${checkActiveMenu('expenses-report') && 'active'} mx-3`"
+          href="/expenses-report"
+        >
+          Expenses Report
+        </b-nav-item>
       </b-navbar-nav>
 
       <b-navbar-nav class="ml-auto">

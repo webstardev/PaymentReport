@@ -124,6 +124,7 @@ export default {
         api: 'all',
         whitelabel: 'all',
         other: 'all',
+        expenses_type: 'all',
         payment_method: 'all',
         status: 'all'
       },

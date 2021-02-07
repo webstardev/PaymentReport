@@ -74,6 +74,7 @@ class KeyInController extends Controller
         // $agent = $request->$date_range['agent'];
         // $api = $request->$date_range['api'];
         // $whitelabel = $request->$date_range['whitelabel'];
+        $expenses_type = $request->filter['expenses_type'];
         $status = $request->filter['status'];
 
         try {
@@ -116,6 +117,9 @@ class KeyInController extends Controller
             // })
             ->when($status && $status !='all', function ($query) use ($status) {
                 $query->where('received', $status);
+            })
+            ->when($expenses_type && $expenses_type != 'all', function ($query) use ($expenses_type) {
+                $query->where('expenses_type', $expenses_type);
             })
             ->when(($startDate && $endDate), function ($query) use ($startDate, $endDate) {
                 $query->where('date', '>=', $startDate)
