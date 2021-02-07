@@ -12,10 +12,23 @@
 
     <b-collapse id="nav-collapse" is-nav>
       <b-navbar-nav class="ml-4">
-        <b-nav-item href="/brand">Brand</b-nav-item>
+        <b-nav-item
+          :class="`${checkActiveMenu('brand') && 'active'} mx-3`"
+          href="/brand"
+          >Brand</b-nav-item
+        >
+        <b-nav-item
+          :class="`${checkActiveMenu('key-in') && 'active'} mx-3`"
+          href="/key-in"
+          >Key In</b-nav-item
+        >
+        <b-nav-item
+          :class="`${checkActiveMenu('income-report') && 'active'} mx-3`"
+          href="/income-report"
+          >Income Report</b-nav-item
+        >
       </b-navbar-nav>
-      <b-navbar-nav>
-        <b-nav-item href="/key-in">Key In</b-nav-item>
+      <b-navbar-nav :class="`${checkActiveMenu('key-in') && 'active'}  ml-4`">
       </b-navbar-nav>
 
       <b-navbar-nav class="ml-auto">
@@ -62,6 +75,11 @@ export default {
     handleClickSignOut() {
       this.$store.dispatch(LOGOUT);
       this.$router.push({ name: 'login' });
+    },
+    checkActiveMenu(name) {
+      const routerName = this.$route.name;
+      if (routerName === name) return true;
+      else return false;
     }
   }
 };
@@ -77,6 +95,14 @@ export default {
         &:after {
           position: absolute;
           right: 0;
+        }
+      }
+    }
+
+    .nav-item {
+      &.active {
+        a {
+          border-bottom: 3px solid white;
         }
       }
     }

@@ -19,6 +19,9 @@ import '@/plugins/axios.js';
 import '@/plugins/loading-overlay.js';
 import '@/plugins/vee-validate.js';
 import '@/plugins/vue-multiselect.js';
+import '@/plugins/moment.js';
+
+import 'vue2-daterange-picker/dist/vue2-daterange-picker.css';
 
 new Vue({
   router,

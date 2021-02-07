@@ -10,35 +10,41 @@ const routes = [
     path: '/',
     name: 'brand',
     beforeEnter: auth,
-    component: () => import('@/views/pages/brand')
+    component: () => import('@/views/pages/brand/index')
   },
   {
     path: '/brand',
     name: 'brand',
     beforeEnter: auth,
-    component: () => import('@/views/pages/brand')
+    component: () => import('@/views/pages/brand/index')
   },
   {
     path: '/key-in',
     name: 'key-in',
     beforeEnter: auth,
-    component: () => import('@/views/pages/key-in')
+    component: () => import('@/views/pages/key-in/index')
+  },
+  {
+    path: '/income-report',
+    name: 'income-report',
+    beforeEnter: auth,
+    component: () => import('@/views/pages/income-report/index')
   },
   {
     path: '/login',
     name: 'login',
     beforeEnter: guest,
-    component: () => import('@/views/pages/login')
+    component: () => import('@/views/pages/login/index')
   },
   {
     path: '/register',
     name: 'register',
     beforeEnter: guest,
-    component: () => import('@/views/pages/register')
+    component: () => import('@/views/pages/register/index')
   },
   {
     path: '*',
-    component: () => import('@/views/pages/error')
+    component: () => import('@/views/pages/error/index')
   }
 ];
 
