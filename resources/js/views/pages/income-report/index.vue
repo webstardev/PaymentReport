@@ -2,92 +2,120 @@
   <b-container fluid class="root-container">
     <top-navbar></top-navbar>
     <b-container fluid class="main-container ml-auto mr-auto py-4">
-      <income-report-date-range-selector
+      <date-ranger-selector
         :date="dateRange"
         @onChange="changeDateRange"
-      ></income-report-date-range-selector>
+      ></date-ranger-selector>
       <income-report-data-filter
         :filter="filter"
         @onChange="changeFilter"
       ></income-report-data-filter>
-      <b-col md="12">
-        <table class="income-report-table">
-          <thead>
-            <tr>
-              <th>Date/Time</th>
-              <th>User</th>
-              <th>Brand</th>
-              <th>Super Master</th>
-              <th>Master</th>
-              <th>Agent</th>
-              <th>API</th>
-              <th>White Label</th>
-              <th>Other</th>
-              <th>Description</th>
-              <th>Payment method</th>
-              <th>Sum(in Original currency)</th>
-              <th>In Europe</th>
-              <th>Status</th>
-            </tr>
-          </thead>
-          <tbody>
-            <tr v-for="income in incomeReportList" :key="income.id">
-              <td>{{ income.date | moment('MM-DD-YYYY') }}</td>
-              <td>{{ income.user.username }}</td>
-              <td>{{ income.brand.name }}</td>
-              <td>
-                {{
-                  income.brand.category.type === category.AGENT_SYSTEM
-                    ? income.brand.category.content.supermaster
-                    : ''
-                }}
-              </td>
-              <td>
-                {{
-                  income.brand.category.type === category.AGENT_SYSTEM
-                    ? income.brand.category.content.master
-                    : ''
-                }}
-              </td>
-              <td>
-                {{
-                  income.brand.category.type === category.AGENT_SYSTEM
-                    ? income.brand.category.content.agent
-                    : ''
-                }}
-              </td>
-              <td>
-                {{
-                  income.brand.category.type === category.API
-                    ? income.brand.category.content.name
-                    : ''
-                }}
-              </td>
-              <td>
-                {{
-                  income.brand.category.type === category.WHITELABEL
-                    ? income.brand.category.content.name
-                    : ''
-                }}
-              </td>
-              <td>
-                {{
-                  income.brand.category.type === category.OTHER
-                    ? income.brand.category.content.name
-                    : ''
-                }}
-              </td>
-              <td>{{ income.comments }}</td>
-              <td>
-                {{ income.payment_method.map(item => item.name).join(', ') }}
-              </td>
-              <td>{{ income.sum }}</td>
-              <td>{{ income.sum }}</td>
-              <td>{{ income.received === 'Yes' ? 'Approved' : 'Pending' }}</td>
-            </tr>
-          </tbody>
-        </table>
-      </b-col>
+      <b-row class="mt-4">
+        <b-col md="12">
+          <table class="income-report-table">
+            <thead>
+              <tr>
+                <th>Date/Time</th>
+                <th>User</th>
+                <th>Brand</th>
+                <th>Super Master</th>
+                <th>Master</th>
+                <th>Agent</th>
+                <th>API</th>
+                <th>White Label</th>
+                <th>Other</th>
+                <th>Description</th>
+                <th>Payment method</th>
+                <th>Sum(in Original currency)</th>
+                <th>In Euro</th>
+                <th>Status</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr v-for="income in incomeReportList" :key="income.id">
+                <td>{{ income.date | moment('MM-DD-YYYY') }}</td>
+                <td>{{ income.user.username }}</td>
+                <td>{{ income.brand.name }}</td>
+                <td>
+                  {{
+                    income.brand.category.type === category.AGENT_SYSTEM
+                      ? income.brand.category.content.supermaster
+                      : ''
+                  }}
+                </td>
+                <td>
+                  {{
+                    income.brand.category.type === category.AGENT_SYSTEM
+                      ? income.brand.category.content.master
+                      : ''
+                  }}
+                </td>
+                <td>
+                  {{
+                    income.brand.category.type === category.AGENT_SYSTEM
+                      ? income.brand.category.content.agent
+                      : ''
+                  }}
+                </td>
+                <td>
+                  {{
+                    income.brand.category.type === category.API
+                      ? income.brand.category.content.name
+                      : ''
+                  }}
+                </td>
+                <td>
+                  {{
+                    income.brand.category.type === category.WHITELABEL
+                      ? income.brand.category.content.name
+                      : ''
+                  }}
+                </td>
+                <td>
+                  {{
+                    income.brand.category.type === category.OTHER
+                      ? income.brand.category.content.name
+                      : ''
+                  }}
+                </td>
+                <td>{{ income.comments }}</td>
+                <td>
+                  {{ income.payment_method.map(item => item.name).join(', ') }}
+                </td>
+                <td>{{ income.sum }}</td>
+                <td>{{ income.sum }}</td>
+                <td>
+                  {{ income.received === 'Yes' ? 'Approved' : 'Pending' }}
+                </td>
+              </tr>
+              <tr v-if="incomeReportList.length > 0">
+                <td class="border-none"></td>
+                <td class="border-none"></td>
+                <td class="border-none"></td>
+                <td class="border-none"></td>
+                <td class="border-none"></td>
+                <td class="border-none"></td>
+                <td class="border-none"></td>
+                <td class="border-none"></td>
+                <td class="border-none"></td>
+                <td class="border-none"></td>
+                <td class="border-none"></td>
+                <td align="right">
+                  Total:
+                </td>
+                <td>
+                  {{
+                    incomeReportList.reduce((sum, current) => {
+                      return sum + current.sum;
+                    }, 0)
+                  }}
+                </td>
+                <td class="border-none"></td>
+              </tr>
+            </tbody>
+          </table>
+        </b-col>
+      </b-row>
     </b-container>
   </b-container>
 </template>
@@ -96,13 +124,13 @@
 import { CATEGORY, KEY_IN_TYPE } from '@/constants';
 import { getDateRange } from '@/utils/date';
 import TopNavbar from '@/sharedComponents/top-navbar.vue';
-import IncomeReportDateRangeSelector from './date-range-selector.vue';
+import DateRangerSelector from '@/sharedComponents/date-range-selector.vue';
 import IncomeReportDataFilter from './data-filter.vue';
 export default {
   name: 'income-report',
   components: {
     TopNavbar,
-    IncomeReportDateRangeSelector,
+    DateRangerSelector,
     IncomeReportDataFilter
   },
   data() {
@@ -197,5 +225,8 @@ export default {
 <style scoped lang="scss">
 .income-report-table {
   width: 100%;
+  td {
+    border: 1px solid grey;
+  }
 }
 </style>

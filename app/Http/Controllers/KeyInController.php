@@ -65,17 +65,19 @@ class KeyInController extends Controller
     public function filter(Request $request)
     {
         $type = $request->filter['type'];
-        $brand_id = $request->filter['brand_id'];
-        $date_range = $request->date_range;
-        $startDate = $date_range['startDate'];
-        $endDate = $date_range['endDate'];
+        $brand_id = isset($request->filter['brand_id']) ? $request->filter['brand_id'] : null;
         // $super_master = $request->$date_range['supermaster'];
         // $master = $request->$date_range['master'];
         // $agent = $request->$date_range['agent'];
         // $api = $request->$date_range['api'];
         // $whitelabel = $request->$date_range['whitelabel'];
-        $expenses_type = $request->filter['expenses_type'];
-        $status = $request->filter['status'];
+        $expenses_type = isset($request->filter['expenses_type']) ?  $request->filter['expenses_type'] : null;
+        $country = isset($request->filter['country']) ? $request->filter['country'] : null;
+        $status = isset($request->filter['status']) ? $request->filter['status'] : null;
+
+        $date_range = $request->date_range;
+        $startDate = $date_range['startDate'];
+        $endDate = $date_range['endDate'];
 
         try {
             $keyIn = KeyIn::with(['brand', 'user'])
@@ -115,6 +117,9 @@ class KeyInController extends Controller
             // ->when($payment_method, function ($query) use ($date_range) {
             //     $query->where('date', 'between', [$date_range->startDate, $date_range->endDate]);
             // })
+            ->when($country && $country !='all', function ($query) use ($country) {
+                $query->where('country', $country);
+            })
             ->when($status && $status !='all', function ($query) use ($status) {
                 $query->where('received', $status);
             })

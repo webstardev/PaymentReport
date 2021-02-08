@@ -33,6 +33,20 @@
         >
           Expenses Report
         </b-nav-item>
+        <b-nav-item
+          :class="
+            `${checkActiveMenu('expenses-india-report') && 'active'} mx-3`
+          "
+          href="/expenses-india-report"
+        >
+          Expenses Report India
+        </b-nav-item>
+        <b-nav-item
+          :class="`${checkActiveMenu('cashflow-report') && 'active'} mx-3`"
+          href="/cashflow-report"
+        >
+          CashFlow Report
+        </b-nav-item>
       </b-navbar-nav>
 
       <b-navbar-nav class="ml-auto">

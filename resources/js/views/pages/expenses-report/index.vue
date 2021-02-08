@@ -2,94 +2,122 @@
   <b-container fluid class="root-container">
     <top-navbar></top-navbar>
     <b-container fluid class="main-container ml-auto mr-auto py-4">
-      <expenses-report-date-range-selector
+      <date-ranger-selector
         :date="dateRange"
         @onChange="changeDateRange"
-      ></expenses-report-date-range-selector>
+      ></date-ranger-selector>
       <expenses-report-data-filter
         :filter="filter"
         @onChange="changeFilter"
       ></expenses-report-data-filter>
-      <b-col md="12">
-        <table class="report-table">
-          <thead>
-            <tr>
-              <th>Date/Time</th>
-              <th>User</th>
-              <th>Brand</th>
-              <th>Super Master</th>
-              <th>Master</th>
-              <th>Agent</th>
-              <th>API</th>
-              <th>White Label</th>
-              <th>Other</th>
-              <th>Expenses Type</th>
-              <th>Payment method</th>
-              <th>Sum(in Original currency)</th>
-              <th>In Europe</th>
-              <th>Status</th>
-            </tr>
-          </thead>
-          <tbody>
-            <tr v-for="expenses in expensesReportList" :key="expenses.id">
-              <td>{{ expenses.date | moment('MM-DD-YYYY') }}</td>
-              <td>{{ expenses.user.username }}</td>
-              <td>{{ expenses.brand.name }}</td>
-              <td>
-                {{
-                  expenses.brand.category.type === category.AGENT_SYSTEM
-                    ? expenses.brand.category.content.supermaster
-                    : ''
-                }}
-              </td>
-              <td>
-                {{
-                  expenses.brand.category.type === category.AGENT_SYSTEM
-                    ? expenses.brand.category.content.master
-                    : ''
-                }}
-              </td>
-              <td>
-                {{
-                  expenses.brand.category.type === category.AGENT_SYSTEM
-                    ? expenses.brand.category.content.agent
-                    : ''
-                }}
-              </td>
-              <td>
-                {{
-                  expenses.brand.category.type === category.API
-                    ? expenses.brand.category.content.name
-                    : ''
-                }}
-              </td>
-              <td>
-                {{
-                  expenses.brand.category.type === category.WHITELABEL
-                    ? expenses.brand.category.content.name
-                    : ''
-                }}
-              </td>
-              <td>
-                {{
-                  expenses.brand.category.type === category.OTHER
-                    ? expenses.brand.category.content.name
-                    : ''
-                }}
-              </td>
-              <td>{{ expenses.expenses_type }}</td>
-              <td>
-                {{ expenses.payment_method.map(item => item.name).join(', ') }}
-              </td>
-              <td>{{ expenses.sum }}</td>
-              <td>{{ expenses.sum }}</td>
-              <td>
-                {{ expenses.received === 'Yes' ? 'Approved' : 'Pending' }}
-              </td>
-            </tr>
-          </tbody>
-        </table>
-      </b-col>
+      <b-row class="mt-4">
+        <b-col md="12">
+          <table class="report-table">
+            <thead>
+              <tr>
+                <th>Date/Time</th>
+                <th>User</th>
+                <th>Brand</th>
+                <th>Super Master</th>
+                <th>Master</th>
+                <th>Agent</th>
+                <th>API</th>
+                <th>White Label</th>
+                <th>Other</th>
+                <th>Expenses Type</th>
+                <th>Payment method</th>
+                <th>Sum(in Original currency)</th>
+                <th>In Euro</th>
+                <th>Status</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr v-for="expenses in expensesReportList" :key="expenses.id">
+                <td>{{ expenses.date | moment('MM-DD-YYYY') }}</td>
+                <td>{{ expenses.user.username }}</td>
+                <td>{{ expenses.brand.name }}</td>
+                <td>
+                  {{
+                    expenses.brand.category.type === category.AGENT_SYSTEM
+                      ? expenses.brand.category.content.supermaster
+                      : ''
+                  }}
+                </td>
+                <td>
+                  {{
+                    expenses.brand.category.type === category.AGENT_SYSTEM
+                      ? expenses.brand.category.content.master
+                      : ''
+                  }}
+                </td>
+                <td>
+                  {{
+                    expenses.brand.category.type === category.AGENT_SYSTEM
+                      ? expenses.brand.category.content.agent
+                      : ''
+                  }}
+                </td>
+                <td>
+                  {{
+                    expenses.brand.category.type === category.API
+                      ? expenses.brand.category.content.name
+                      : ''
+                  }}
+                </td>
+                <td>
+                  {{
+                    expenses.brand.category.type === category.WHITELABEL
+                      ? expenses.brand.category.content.name
+                      : ''
+                  }}
+                </td>
+                <td>
+                  {{
+                    expenses.brand.category.type === category.OTHER
+                      ? expenses.brand.category.content.name
+                      : ''
+                  }}
+                </td>
+                <td>{{ expenses.expenses_type }}</td>
+                <td>
+                  {{
+                    expenses.payment_method.map(item => item.name).join(', ')
+                  }}
+                </td>
+                <td>{{ expenses.sum }}</td>
+                <td>{{ expenses.sum }}</td>
+                <td>
+                  {{ expenses.received === 'Yes' ? 'Approved' : 'Pending' }}
+                </td>
+              </tr>
+              <tr v-if="expensesReportList.length > 0">
+                <td class="border-none"></td>
+                <td class="border-none"></td>
+                <td class="border-none"></td>
+                <td class="border-none"></td>
+                <td class="border-none"></td>
+                <td class="border-none"></td>
+                <td class="border-none"></td>
+                <td class="border-none"></td>
+                <td class="border-none"></td>
+                <td class="border-none"></td>
+                <td class="border-none"></td>
+                <td align="right">
+                  Total:
+                </td>
+                <td>
+                  {{
+                    expensesReportList.reduce((sum, current) => {
+                      return sum + current.sum;
+                    }, 0)
+                  }}
+                </td>
+                <td class="border-none"></td>
+              </tr>
+            </tbody>
+          </table>
+        </b-col>
+      </b-row>
     </b-container>
   </b-container>
 </template>
@@ -98,13 +126,13 @@
 import { CATEGORY, KEY_IN_TYPE } from '@/constants';
 import { getDateRange } from '@/utils/date';
 import TopNavbar from '@/sharedComponents/top-navbar.vue';
-import ExpensesReportDateRangeSelector from './date-range-selector.vue';
+import DateRangerSelector from '@/sharedComponents/date-range-selector.vue';
 import ExpensesReportDataFilter from './data-filter.vue';
 export default {
   name: 'Expenses-report',
   components: {
     TopNavbar,
-    ExpensesReportDateRangeSelector,
+    DateRangerSelector,
     ExpensesReportDataFilter
   },
   data() {
@@ -200,5 +228,8 @@ export default {
 <style scoped lang="scss">
 .report-table {
   width: 100%;
+  td {
+    border: 1px solid grey;
+  }
 }
 </style>
