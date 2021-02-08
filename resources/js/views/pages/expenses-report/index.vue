@@ -123,7 +123,8 @@
 </template>
 
 <script>
-import { CATEGORY, KEY_IN_TYPE } from '@/constants';
+import { mapGetters } from 'vuex';
+import { CATEGORY, KEY_IN_TYPE, USER_TYPE } from '@/constants';
 import { getDateRange } from '@/utils/date';
 import TopNavbar from '@/sharedComponents/top-navbar.vue';
 import DateRangerSelector from '@/sharedComponents/date-range-selector.vue';
@@ -134,6 +135,9 @@ export default {
     TopNavbar,
     DateRangerSelector,
     ExpensesReportDataFilter
+  },
+  computed: {
+    ...mapGetters(['currentUser', 'check'])
   },
   data() {
     return {
@@ -160,6 +164,8 @@ export default {
     };
   },
   async created() {
+    if (this.currentUser.user_type !== USER_TYPE.VIEW) this.$router.push('/');
+
     //   get brand
     const loader = this.$loading.show();
     try {
@@ -170,10 +176,9 @@ export default {
     } catch (err) {
       this.brandList = [];
     }
-    loader.hide();
-  },
-  created() {
     this.filterReport();
+
+    loader.hide();
   },
   methods: {
     changeDateRange(newValue) {
@@ -181,7 +186,6 @@ export default {
       this.filterReport();
     },
     changeFilter(newValue) {
-      debugger;
       this.filter[newValue.keyName] = newValue.value;
       this.filterReport();
     },

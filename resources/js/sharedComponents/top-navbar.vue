@@ -22,31 +22,33 @@
           href="/key-in"
           >Key In</b-nav-item
         >
-        <b-nav-item
-          :class="`${checkActiveMenu('income-report') && 'active'} mx-3`"
-          href="/income-report"
-          >Income Report</b-nav-item
-        >
-        <b-nav-item
-          :class="`${checkActiveMenu('expenses-report') && 'active'} mx-3`"
-          href="/expenses-report"
-        >
-          Expenses Report
-        </b-nav-item>
-        <b-nav-item
-          :class="
-            `${checkActiveMenu('expenses-india-report') && 'active'} mx-3`
-          "
-          href="/expenses-india-report"
-        >
-          Expenses Report India
-        </b-nav-item>
-        <b-nav-item
-          :class="`${checkActiveMenu('cashflow-report') && 'active'} mx-3`"
-          href="/cashflow-report"
-        >
-          CashFlow Report
-        </b-nav-item>
+        <template v-if="currentUser.user_type === userType.VIEW">
+          <b-nav-item
+            :class="`${checkActiveMenu('income-report') && 'active'} mx-3`"
+            href="/income-report"
+            >Income Report</b-nav-item
+          >
+          <b-nav-item
+            :class="`${checkActiveMenu('expenses-report') && 'active'} mx-3`"
+            href="/expenses-report"
+          >
+            Expenses Report
+          </b-nav-item>
+          <b-nav-item
+            :class="
+              `${checkActiveMenu('expenses-india-report') && 'active'} mx-3`
+            "
+            href="/expenses-india-report"
+          >
+            Expenses Report India
+          </b-nav-item>
+          <b-nav-item
+            :class="`${checkActiveMenu('cashflow-report') && 'active'} mx-3`"
+            href="/cashflow-report"
+          >
+            CashFlow Report
+          </b-nav-item>
+        </template>
       </b-navbar-nav>
 
       <b-navbar-nav class="ml-auto">
@@ -77,9 +79,15 @@
 <script>
 import { mapGetters } from 'vuex';
 import { LOGOUT } from '@/services/store/auth.module';
+import { USER_TYPE } from '@/constants';
 
 export default {
   name: 'top-navbar',
+  data() {
+    return {
+      userType: USER_TYPE
+    };
+  },
   computed: {
     ...mapGetters(['currentUser', 'check'])
   },
