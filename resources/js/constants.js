@@ -2,6 +2,15 @@ export const USER_TYPE = {
   INSERT: 'Insert',
   VIEW: 'View'
 };
+
+export const BRAND_STPES = {
+  CREATE_BRAND: 'Create Brand',
+  BRAND_NAME: 'Insert Brand Name',
+  CATEGORY_SELECT: 'Category Select',
+  CATEGORY_INFO: 'Category Info',
+  BRAND_DETAILS: 'Brand Details'
+};
+
 export const CATEGORY = {
   AGENT_SYSTEM: 'Agent system',
   API: 'API',
