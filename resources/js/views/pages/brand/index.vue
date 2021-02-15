@@ -36,11 +36,36 @@
             @gotoNext="
               $event => {
                 formData = { ...formData, category: { ...$event } };
-                curStep = brandSteps.CATEGORY_INFO;
+                if ($event.type === categoryOptions.AGENT_SYSTEM.value) {
+                  curStep = brandSteps.AGENT_SYSTEM_SELECT;
+                } else {
+                  curStep = brandSteps.CATEGORY_INFO;
+                }
               }
             "
           >
           </category-select>
+        </template>
+
+        <template v-if="curStep === brandSteps.AGENT_SYSTEM_SELECT">
+          <agent-system-selector
+            :curAgentySystem="formData.category.agent_system"
+            @gotoPrev="
+              $event => {
+                curStep = brandSteps.CATEGORY_SELECT;
+              }
+            "
+            @gotoNext="
+              $event => {
+                curStep = brandSteps.COUNTRY;
+                formData = {
+                  ...formData,
+                  category: { ...formData.category, ...$event }
+                };
+              }
+            "
+          >
+          </agent-system-selector>
         </template>
 
         <template v-if="curStep === brandSteps.CATEGORY_INFO">
@@ -48,75 +73,32 @@
             :curCategory="formData.category"
             @gotoPrev="
               $event => {
-                curStep = brandSteps.CATEGORY_SELECT;
+                curStep = brandSteps.COUNTRY;
               }
             "
             @setValue="
               $event => {
                 formData = { ...formData, category: { ...$event } };
-                curStep = brandSteps.BRAND_DETAILS;
               }
             "
           ></category-info>
         </template>
 
         <template v-if="curStep === brandSteps.BRAND_DETAILS">
-          <b-row>
-            <b-col md="4">
-              <b-form-group label="Counry:" label-for="country">
-                <b-form-select id="country" v-model="formData.country" required>
-                  <option
-                    v-for="(option, idx) in countryOptions"
-                    :key="idx"
-                    :value="option.name"
-                  >
-                    {{ option.name }}
-                  </option>
-                </b-form-select>
-              </b-form-group>
-            </b-col>
-            <b-col md="4">
-              <b-form-group label="Currency:" label-for="currency">
-                <b-form-select
-                  id="country"
-                  v-model="formData.currency"
-                  required
-                >
-                  <option
-                    v-for="(option, idx) in Object.keys(currencyOptions)"
-                    :key="idx"
-                    :value="currencyOptions[option].code"
-                  >
-                    {{ currencyOptions[option].code }}
-                  </option>
-                </b-form-select>
-              </b-form-group>
-            </b-col>
-            <b-col md="4">
-              <b-form-group label="Selling:" label-for="selling">
-                <b-input-group append="%" label="Selling">
-                  <b-form-input
-                    id="selling"
-                    v-model="formData.selling"
-                    type="number"
-                    required
-                  ></b-form-input>
-                </b-input-group>
-              </b-form-group>
-            </b-col>
-            <b-col md="12">
-              <b-form-group label="Comment:" label-for="comment">
-                <b-form-textarea
-                  id="comment"
-                  v-model="formData.comment"
-                  placeholder="Enter something..."
-                  rows="3"
-                  max-rows="6"
-                  required
-                ></b-form-textarea>
-              </b-form-group>
-            </b-col>
-          </b-row>
+          <brand-details
+            :curBrandDeatils="{
+              country: formData.country,
+              currency: formData.currency,
+              selling: formData.selling,
+              comment: formData.comment
+            }"
+            @gotoPrev="
+              $event => {
+                curStep = brandSteps.CATEGORY_INFO;
+              }
+            "
+          >
+          </brand-details>
         </template>
         <!-- <b-row class="mt-2" v-if="curStep !== brandSteps.CREATE_BRAND">
           <b-col>
@@ -144,9 +126,16 @@ import TopNavbar from '@/sharedComponents/top-navbar.vue';
 import BrandName from './brand-name.vue';
 import CategorySelect from './category-select.vue';
 import CategoryInfo from './category-info.vue';
+import AgentSystemSelector from './agent-system-selector.vue';
 
 export default {
-  components: { TopNavbar, BrandName, CategorySelect, CategoryInfo },
+  components: {
+    TopNavbar,
+    BrandName,
+    CategorySelect,
+    CategoryInfo,
+    AgentSystemSelector
+  },
   name: 'brand',
   data() {
     return {
@@ -159,8 +148,9 @@ export default {
       formData: {
         brand_name: '',
         category: {
-          type: CATEGORY.AGENT_SYSTEM,
-          content: { supermaster: '', master: '', agent: '' }
+          type: '',
+          agent_system: '',
+          name: ''
         },
         country: '',
         currency: '',

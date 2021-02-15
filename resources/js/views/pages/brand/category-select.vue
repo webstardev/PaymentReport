@@ -8,13 +8,21 @@
     <b-row class="pt-4">
       <b-col md="4">
         <b-form-group label="Category:" label-for="category">
-          <b-form-select id="category" v-model="category.type" required>
+          <b-form-select
+            id="category"
+            v-model="category.type"
+            placeholder="Select category"
+            required
+          >
+            <option disabled value="" :selected="!category.type"
+              >Select Category</option
+            >
             <option
               v-for="option in Object.keys(categoryOptions)"
               :key="option"
-              :value="categoryOptions[option]"
+              :value="categoryOptions[option].value"
             >
-              {{ categoryOptions[option] }}
+              {{ categoryOptions[option].title }}
             </option>
           </b-form-select>
         </b-form-group>
@@ -45,7 +53,7 @@ export default {
       defautl: function() {
         return {
           type: CATEGORY.AGENT_SYSTEM,
-          content: { supermaster: '', master: '', agent: '' }
+          name: ''
         };
       }
     }
@@ -57,23 +65,11 @@ export default {
     onSubmit(event) {
       event.preventDefault();
       if (this.category.type !== this.curCategory.type) {
-        if (this.category.type === CATEGORY.AGENT_SYSTEM) {
-          this.$emit('gotoNext', {
-            type: this.category.type,
-            content: {
-              supermaster: '',
-              master: '',
-              agent: ''
-            }
-          });
-        } else {
-          this.$emit('gotoNext', {
-            type: this.category.type,
-            content: {
-              name: ''
-            }
-          });
-        }
+        this.$emit('gotoNext', {
+          type: this.category.type,
+          agent_system: '',
+          name: ''
+        });
       } else {
         this.$emit('gotoNext', this.category);
       }

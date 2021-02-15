@@ -7,21 +7,46 @@ export const BRAND_STPES = {
   CREATE_BRAND: 'Create Brand',
   BRAND_NAME: 'Insert Brand Name',
   CATEGORY_SELECT: 'Category Select',
+  AGENT_SYSTEM_SELECT: 'Agent System Select',
   CATEGORY_INFO: 'Category Info',
-  BRAND_DETAILS: 'Brand Details'
+  COUNTRY: 'Country',
+  CURRENCY: 'Currency',
+  SELLING: 'Selling',
+  COMMENTS: 'Comments'
 };
 
 export const CATEGORY = {
-  AGENT_SYSTEM: 'Agent system',
-  API: 'API',
-  WHITELABEL: 'White label',
-  OTHER: 'Other'
+  AGENT_SYSTEM: {
+    title: 'Agent system',
+    value: 'AGENT_SYSTEM'
+  },
+  API: {
+    title: 'Api',
+    value: 'API'
+  },
+  WHITE_LABEL: {
+    title: 'White Label',
+    value: 'WHITE_LABEL'
+  },
+  OTHER: {
+    title: 'Other',
+    value: 'OTHER'
+  }
 };
 
 export const AGENT_SYSTEM = {
-  SUPERMASTER: 'Super master',
-  MASTER: 'Master',
-  AGENT: 'Agent'
+  SUPERMASTER: {
+    title: 'Super Master',
+    value: 'SUPERMASTER'
+  },
+  MASTER: {
+    title: 'Master',
+    value: 'MASTER'
+  },
+  AGENT: {
+    title: 'Agent',
+    value: 'AGENT'
+  }
 };
 
 export const KEY_IN_TYPE = {
