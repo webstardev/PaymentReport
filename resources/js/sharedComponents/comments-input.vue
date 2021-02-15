@@ -21,7 +21,7 @@
     </b-row>
     <b-row>
       <b-col md="4">
-        <b-button type="submit" variant="primary">Next</b-button>
+        <b-button type="submit" variant="primary">{{ actionButton }}</b-button>
       </b-col>
     </b-row>
   </b-form>
@@ -34,6 +34,10 @@ export default {
     curComments: {
       type: String,
       default: ''
+    },
+    actionButton: {
+      type: String,
+      default: 'Next'
     }
   },
   data() {

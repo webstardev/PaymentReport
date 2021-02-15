@@ -9,6 +9,9 @@
       <b-col md="4">
         <b-form-group label="Counry:" label-for="country">
           <b-form-select id="country" v-model="country" required>
+            <option value="" disabled :selected="!country"
+              >Select a country</option
+            >
             <option
               v-for="(option, idx) in countryOptions"
               :key="idx"
@@ -46,7 +49,7 @@ export default {
   },
   methods: {
     gotoPrev() {
-      this.$$emit('gotoPrev');
+      this.$emit('gotoPrev');
     },
     onSubmit(event) {
       event.preventDefault();

@@ -6,7 +6,7 @@
       </b-col>
     </b-row>
 
-    <b-row>
+    <b-row class="mt-4">
       <b-col md="4">
         <b-form-group label="Selling:" label-for="selling">
           <b-input-group append="%" label="Selling">
@@ -44,7 +44,7 @@ export default {
   },
   methods: {
     gotoPrev() {
-      this.$$emit('gotoPrev');
+      this.$emit('gotoPrev');
     },
     onSubmit(event) {
       event.preventDefault();

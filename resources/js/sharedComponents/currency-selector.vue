@@ -8,7 +8,10 @@
     <b-row class="mt-4">
       <b-col md="4">
         <b-form-group label="Currency:" label-for="currency">
-          <b-form-select id="country" v-model="currency" required>
+          <b-form-select id="currency" v-model="currency" required>
+            <option disabled value="" :selected="!currency"
+              >Select a currency</option
+            >
             <option
               v-for="(option, idx) in Object.keys(currencyOptions)"
               :key="idx"
