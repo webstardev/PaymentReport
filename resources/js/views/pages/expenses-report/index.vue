@@ -38,43 +38,52 @@
                 <td>{{ expenses.brand.name }}</td>
                 <td>
                   {{
-                    expenses.brand.category.type === category.AGENT_SYSTEM
-                      ? expenses.brand.category.content.supermaster
+                    expenses.brand.category.type ===
+                      category.AGENT_SYSTEM.value &&
+                    expenses.brand.category.agent_system ===
+                      agentySystem.SUPERMASTER.value
+                      ? expenses.brand.category.name
                       : ''
                   }}
                 </td>
                 <td>
                   {{
-                    expenses.brand.category.type === category.AGENT_SYSTEM
-                      ? expenses.brand.category.content.master
+                    expenses.brand.category.type ===
+                      category.AGENT_SYSTEM.value &&
+                    expenses.brand.category.agent_system ===
+                      agentySystem.MASTER.value
+                      ? expenses.brand.category.name
                       : ''
                   }}
                 </td>
                 <td>
                   {{
-                    expenses.brand.category.type === category.AGENT_SYSTEM
-                      ? expenses.brand.category.content.agent
+                    expenses.brand.category.type ===
+                      category.AGENT_SYSTEM.value &&
+                    expenses.brand.category.agent_system ===
+                      agentySystem.AGENT.value
+                      ? expenses.brand.category.name
                       : ''
                   }}
                 </td>
                 <td>
                   {{
-                    expenses.brand.category.type === category.API
-                      ? expenses.brand.category.content.name
+                    expenses.brand.category.type === category.API.value
+                      ? expenses.brand.category.name
                       : ''
                   }}
                 </td>
                 <td>
                   {{
-                    expenses.brand.category.type === category.WHITELABEL
-                      ? expenses.brand.category.content.name
+                    expenses.brand.category.type === category.WHITELABEL.value
+                      ? expenses.brand.category.name
                       : ''
                   }}
                 </td>
                 <td>
                   {{
-                    expenses.brand.category.type === category.OTHER
-                      ? expenses.brand.category.content.name
+                    expenses.brand.category.type === category.OTHER.value
+                      ? expenses.brand.category.name
                       : ''
                   }}
                 </td>
@@ -124,7 +133,7 @@
 
 <script>
 import { mapGetters } from 'vuex';
-import { CATEGORY, KEY_IN_TYPE, USER_TYPE } from '@/constants';
+import { CATEGORY, KEY_IN_TYPE, USER_TYPE, AGENT_SYSTEM } from '@/constants';
 import { getDateRange } from '@/utils/date';
 import TopNavbar from '@/sharedComponents/top-navbar.vue';
 import DateRangerSelector from '@/sharedComponents/date-range-selector.vue';
@@ -142,6 +151,7 @@ export default {
   data() {
     return {
       category: CATEGORY,
+      agentySystem: AGENT_SYSTEM,
       dateRange: {
         type: 'custom',
         value: 'Today',

@@ -38,43 +38,52 @@
                 <td>{{ income.brand.name }}</td>
                 <td>
                   {{
-                    income.brand.category.type === category.AGENT_SYSTEM
-                      ? income.brand.category.content.supermaster
+                    income.brand.category.type ===
+                      category.AGENT_SYSTEM.value &&
+                    income.brand.category.agent_system ===
+                      agentySystem.SUPERMASTER.value
+                      ? income.brand.category.name
                       : ''
                   }}
                 </td>
                 <td>
                   {{
-                    income.brand.category.type === category.AGENT_SYSTEM
-                      ? income.brand.category.content.master
+                    income.brand.category.type ===
+                      category.AGENT_SYSTEM.value &&
+                    income.brand.category.agent_system ===
+                      agentySystem.MASTER.value
+                      ? income.brand.category.name
                       : ''
                   }}
                 </td>
                 <td>
                   {{
-                    income.brand.category.type === category.AGENT_SYSTEM
-                      ? income.brand.category.content.agent
+                    income.brand.category.type ===
+                      category.AGENT_SYSTEM.value &&
+                    income.brand.category.agent_system ===
+                      agentySystem.AGENT.value
+                      ? income.brand.category.name
                       : ''
                   }}
                 </td>
                 <td>
                   {{
-                    income.brand.category.type === category.API
-                      ? income.brand.category.content.name
+                    income.brand.category.type === category.API.value
+                      ? income.brand.category.name
                       : ''
                   }}
                 </td>
                 <td>
                   {{
-                    income.brand.category.type === category.WHITELABEL
-                      ? income.brand.category.content.name
+                    income.brand.category.type === category.WHITELABEL.value
+                      ? income.brand.category.name
                       : ''
                   }}
                 </td>
                 <td>
                   {{
-                    income.brand.category.type === category.OTHER
-                      ? income.brand.category.content.name
+                    income.brand.category.type === category.OTHER.value
+                      ? income.brand.category.name
                       : ''
                   }}
                 </td>
@@ -122,7 +131,7 @@
 
 <script>
 import { mapGetters } from 'vuex';
-import { CATEGORY, KEY_IN_TYPE, USER_TYPE } from '@/constants';
+import { CATEGORY, KEY_IN_TYPE, USER_TYPE, AGENT_SYSTEM } from '@/constants';
 import { getDateRange } from '@/utils/date';
 import TopNavbar from '@/sharedComponents/top-navbar.vue';
 import DateRangerSelector from '@/sharedComponents/date-range-selector.vue';
@@ -141,6 +150,7 @@ export default {
   data() {
     return {
       category: CATEGORY,
+      agentySystem: AGENT_SYSTEM,
       dateRange: {
         type: 'custom',
         value: 'Today',

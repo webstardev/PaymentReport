@@ -20,7 +20,7 @@ class BrandController extends Controller
             $brand->country = $request->country;
             $brand->currency = $request->currency;
             $brand->selling = $request->selling;
-            $brand->comment = $request->comment;
+            $brand->comments = $request->comments;
             $brand->save();
             return $brand;
         } catch (\Throwable $e) {
