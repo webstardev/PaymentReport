@@ -21,7 +21,7 @@ class CreateBrandsTable extends Migration
             $table->string('country');
             $table->string('currency');
             $table->float('selling');
-            $table->string('comment');
+            $table->string('comments');
             $table->timestamps();
         });
     }

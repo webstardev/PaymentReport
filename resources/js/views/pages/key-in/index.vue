@@ -144,9 +144,9 @@
             </b-form-group>
           </b-col>
           <b-col md="12">
-            <b-form-group label="Comment:" label-for="comment">
+            <b-form-group label="Comments:" label-for="comments">
               <b-form-textarea
-                id="comment"
+                id="comments"
                 v-model="formData.comments"
                 placeholder="Enter something..."
                 rows="3"

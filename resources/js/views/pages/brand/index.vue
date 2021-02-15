@@ -57,7 +57,7 @@
             "
             @gotoNext="
               $event => {
-                curStep = brandSteps.COUNTRY;
+                curStep = brandSteps.CATEGORY_INFO;
                 formData = {
                   ...formData,
                   category: { ...formData.category, ...$event }
@@ -69,22 +69,91 @@
         </template>
 
         <template v-if="curStep === brandSteps.CATEGORY_INFO">
-          <category-info
-            :curCategory="formData.category"
+          <category-name
+            :curCategory="formData.category.name"
+            @gotoPrev="
+              $event => {
+                if (
+                  formData.category.type === categoryOptions.AGENT_SYSTEM.value
+                )
+                  curStep = brandSteps.AGENT_SYSTEM;
+                else curStep = brandSteps.CATEGORY_SELECT;
+              }
+            "
+            @setValue="
+              $event => {
+                formData = {
+                  ...formData,
+                  category: { ...formData.category, name: $event }
+                };
+                curStep = brandSteps.COUNTRY;
+              }
+            "
+          ></category-name>
+        </template>
+
+        <template v-if="curStep === brandSteps.COUNTRY">
+          <country-selector
+            :curCountry="formData.country"
+            @gotoPrev="
+              $event => {
+                curStep = brandSteps.CATEGORY_INFO;
+              }
+            "
+            @gotoNext="
+              $event => {
+                curStep = brandSteps.CURRENCY;
+                formData = { ...formData, country: $event };
+              }
+            "
+          ></country-selector>
+        </template>
+
+        <template v-if="curStep === brandSteps.CURRENCY">
+          <currency-selector
+            @curCurrency="formData.currency"
             @gotoPrev="
               $event => {
                 curStep = brandSteps.COUNTRY;
               }
             "
-            @setValue="
+            @gotoNext="
               $event => {
-                formData = { ...formData, category: { ...$event } };
+                curStep = brandSteps.SELLING;
+                formData = { ...formData, currency: $event };
               }
             "
-          ></category-info>
+          ></currency-selector>
         </template>
 
-        <template v-if="curStep === brandSteps.BRAND_DETAILS">
+        <template v-if="curStep === brandSteps.SELLING">
+          <selling-input
+            :curSelling="formData.selling"
+            @gotoPrev="
+              $event => {
+                curStep = brandSteps.CURRENCY;
+              }
+            "
+            @gotoNext="
+              $event => {
+                curStep = brandSteps.COMMENTS;
+                formData.selling = $event;
+              }
+            "
+          ></selling-input>
+        </template>
+
+        <template v-if="curStep === brandSteps.COMMENTS">
+          <comments-input
+            @curComments="formData.comments"
+            @gotoPrev="
+              $event => {
+                curStep = brandSteps.SELLING;
+              }
+            "
+          ></comments-input>
+        </template>
+        <!-- <template v-if="curStep === brandSteps.BRAND_DETAILS">
           <brand-details
             :curBrandDeatils="{
               country: formData.country,
@@ -99,7 +168,7 @@
             "
           >
           </brand-details>
-        </template>
+        </template> -->
         <!-- <b-row class="mt-2" v-if="curStep !== brandSteps.CREATE_BRAND">
           <b-col>
             <b-button variant="primary" @click="nextStep">
@@ -125,16 +194,24 @@ import {
 import TopNavbar from '@/sharedComponents/top-navbar.vue';
 import BrandName from './brand-name.vue';
 import CategorySelect from './category-select.vue';
-import CategoryInfo from './category-info.vue';
+import CategoryName from './category-name.vue';
 import AgentSystemSelector from './agent-system-selector.vue';
+import CountrySelector from '@/sharedComponents/country-selector.vue';
+import CurrencySelector from '@/sharedComponents/currency-selector.vue';
+import SellingInput from '@/sharedComponents/selling-input.vue';
+import CommentsInput from '@/sharedComponents/comments-input.vue';
 
 export default {
   components: {
     TopNavbar,
     BrandName,
     CategorySelect,
-    CategoryInfo,
-    AgentSystemSelector
+    CategoryName,
+    AgentSystemSelector,
+    CountrySelector,
+    CurrencySelector,
+    SellingInput,
+    CommentsInput
   },
   name: 'brand',
   data() {
@@ -155,7 +232,7 @@ export default {
         country: '',
         currency: '',
         selling: 0,
-        comment: ''
+        comments: ''
       }
     };
   },
@@ -186,7 +263,7 @@ export default {
               country: '',
               currency: '',
               selling: 0,
-              comment: ''
+              comments: ''
             };
           });
         }
