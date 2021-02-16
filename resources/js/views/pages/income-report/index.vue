@@ -75,7 +75,7 @@
                 </td>
                 <td>
                   {{
-                    income.brand.category.type === category.WHITELABEL.value
+                    income.brand.category.type === category.WHITE_LABEL.value
                       ? income.brand.category.name
                       : ''
                   }}
