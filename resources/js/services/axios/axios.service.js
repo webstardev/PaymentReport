@@ -35,9 +35,7 @@ axios.interceptors.response.use(
         cancelButtonText: 'cancel'
       });
       return Promise.reject(error);
-    }
-
-    if (status === 401) {
+    } else if (status === 401) {
       Swal.fire({
         title: 'Token expired',
         icon: 'warning',
@@ -46,6 +44,8 @@ axios.interceptors.response.use(
         store.commit(PURGE_AUTH);
         router.push('/login');
       });
+    } else {
+      return Promise.reject(error);
     }
   }
 );

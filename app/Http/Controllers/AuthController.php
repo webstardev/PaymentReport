@@ -27,7 +27,7 @@ class AuthController extends Controller
 
 			$token = Auth::attempt($credentials);
 			if (!$token) {
-				return response()->json(['error' => 'credential wrong'], 401);
+				return response()->json(['error' => 'credential wrong'], 404);
 			}
 		} catch (JWTException $e) {
 			return response()->json(['error' => 'something_went_wrong'], 500);
