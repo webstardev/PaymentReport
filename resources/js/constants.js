@@ -49,6 +49,20 @@ export const AGENT_SYSTEM = {
   }
 };
 
+export const KEY_IN_STEPS = {
+  CREATE_KEY_IN: 'Create Key',
+  SELECT_KEY_IN_TYPE: 'Select key in type',
+  SELECT_BRAND: 'Select brand',
+  SELECT_DATE: 'Select date',
+  SELECT_CURRENCY: 'Select currency',
+  SELECT_COUNTRY: 'Select country',
+  SELECT_EXPENSES_TYPE: 'Select expenses type',
+  SELECT_SUM: 'Select sum',
+  SELECT_PAYMENT_METHOD: 'Select payment method',
+  SELECT_RECEIVED: 'Select received',
+  SELECT_COMMENTS: 'Select comments'
+};
+
 export const KEY_IN_TYPE = {
   INCOME: 'Income',
   EXPENSES: 'Expenses'
