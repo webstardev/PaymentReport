@@ -6,48 +6,49 @@
     variant="info"
     fixed="top"
   >
-    <b-navbar-brand href="/">Payment Report</b-navbar-brand>
+    <b-navbar-brand>
+      <router-link to="/">Payment Report</router-link>
+    </b-navbar-brand>
 
     <b-navbar-toggle target="nav-collapse"></b-navbar-toggle>
 
     <b-collapse id="nav-collapse" is-nav>
       <b-navbar-nav class="ml-4">
-        <b-nav-item
+        <router-link
           :class="`${checkActiveMenu('brand') && 'active'} mx-3`"
-          href="/brand"
-          >Brand</b-nav-item
+          to="/brand"
+          >Brand</router-link
         >
-        <b-nav-item
-          :class="`${checkActiveMenu('key-in') && 'active'} mx-3`"
-          href="/key-in"
-          >Key In</b-nav-item
+        <router-link :class="`${checkActiveMenu('key-in') && 'active'} mx-3`"
+          >Key In</router-link
         >
         <template v-if="currentUser.user_type === userType.VIEW">
-          <b-nav-item
+          <router-link
             :class="`${checkActiveMenu('income-report') && 'active'} mx-3`"
-            href="/income-report"
-            >Income Report</b-nav-item
+            to="/income-report"
+            >Income Report</router-link
           >
-          <b-nav-item
+
+          <router-link
             :class="`${checkActiveMenu('expenses-report') && 'active'} mx-3`"
-            href="/expenses-report"
+            to="/expenses-report"
           >
             Expenses Report
-          </b-nav-item>
-          <b-nav-item
+          </router-link>
+          <router-link
             :class="
               `${checkActiveMenu('expenses-india-report') && 'active'} mx-3`
             "
-            href="/expenses-india-report"
+            to="/expenses-india-report"
           >
             Expenses Report India
-          </b-nav-item>
-          <b-nav-item
+          </router-link>
+          <router-link
             :class="`${checkActiveMenu('cashflow-report') && 'active'} mx-3`"
-            href="/cashflow-report"
+            to="/cashflow-report"
           >
             CashFlow Report
-          </b-nav-item>
+          </router-link>
         </template>
       </b-navbar-nav>
 
@@ -113,9 +114,17 @@ export default {
 
 <style lang="scss">
 #pr-navbar {
-  .navbar-nav {
-    .nav-link {
+  .navbar-brand {
+    a {
       color: white;
+      font-size: 1.5rem;
+      text-decoration: none;
+    }
+  }
+  .navbar-nav {
+    a {
+      color: white;
+      text-decoration: none;
       &.dropdown-toggle {
         padding-right: 20px;
         &:after {
@@ -123,18 +132,18 @@ export default {
           right: 0;
         }
       }
-    }
-
-    .nav-item {
       &.active {
-        a {
-          border-bottom: 3px solid white;
-        }
+        border-bottom: 3px solid white;
       }
     }
   }
-  .nav-link {
-    color: white;
+
+  .b-nav-dropdown {
+    .dropdown-menu {
+      a {
+        color: rgb(33, 37, 41);
+      }
+    }
   }
 }
 </style>
