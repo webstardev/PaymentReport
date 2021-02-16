@@ -10,6 +10,7 @@
         </b-row>
 
         <b-row
+          class="mb-2"
           v-if="
             curStep !== keySteps.CREATE_KEY_IN &&
               curStep !== keySteps.SELECT_KEY_IN_TYPE
@@ -26,7 +27,8 @@
               <b-form-select
                 id="key-in-type"
                 v-model="formData.key_in_type"
-                rqeuired
+                @change="changeKeyInType"
+                required
               >
                 <option
                   v-for="(option, idx) in Object.keys(keyInType)"
@@ -43,7 +45,10 @@
         <b-row v-if="curStep === keySteps.SELECT_BRAND">
           <b-col md="4">
             <b-form-group label="Brand:" label-for="brand">
-              <b-form-select id="brand" v-model="formData.brand_id" rqeuired>
+              <b-form-select id="brand" v-model="formData.brand_id" required>
+                <option disabled :select="!formData.brand_id" value=""
+                  >Select a brand</option
+                >
                 <option
                   v-for="(brand, idx) in brandList"
                   :key="idx"
@@ -71,6 +76,9 @@
           <b-col md="4">
             <b-form-group label="Currency:" label-for="currency">
               <b-form-select id="country" v-model="formData.currency" required>
+                <option disabled :selected="!formData.currency" value=""
+                  >Select a currency</option
+                >
                 <option
                   v-for="(option, idx) in currencyOptions"
                   :key="idx"
@@ -86,6 +94,9 @@
           <b-col md="4">
             <b-form-group label="Counry:" label-for="country">
               <b-form-select id="country" v-model="formData.country" required>
+                <option disabled :selected="!formData.country" value=""
+                  >Select a country</option
+                >
                 <option
                   v-for="(option, idx) in countryOptions"
                   :key="idx"
@@ -126,6 +137,7 @@
             </b-form-group>
           </b-col>
         </b-row>
+
         <b-row v-if="curStep === keySteps.SELECT_PAYMENT_METHOD">
           <b-col md="4">
             <b-form-group label="Payment method:" label-for="payment-method">
@@ -147,7 +159,7 @@
         <b-row v-if="curStep === keySteps.SELECT_RECEIVED">
           <b-col md="4">
             <b-form-group label="Received" label-for="received">
-              <b-form-select id="received" v-model="formData.received" rqeuired>
+              <b-form-select id="received" v-model="formData.received" required>
                 <option
                   v-for="(option, idx) in Object.keys(receivedStatus)"
                   :key="idx"
@@ -253,6 +265,21 @@ export default {
     }
   },
   methods: {
+    changeKeyInType() {
+      this.formData = {
+        ...this.formData,
+        brand_id: null,
+        date: null,
+        sum: 0,
+        payment_method: [],
+        received: RECEIVED_STATUS.YES,
+        comments: '',
+        // for expenses
+        currency: '',
+        country: '',
+        expenses_type: ''
+      };
+    },
     addPaymentMethod(newPayment) {
       const payment = {
         name: newPayment,
@@ -284,7 +311,7 @@ export default {
           break;
         case KEY_IN_STEPS.SELECT_SUM:
           {
-            if (this.formData.key_in_type === KEY_IN_STEPS.INCOME)
+            if (this.formData.key_in_type === KEY_IN_TYPE.INCOME)
               this.curStep = KEY_IN_STEPS.SELECT_DATE;
             else if (this.formData.key_in_type === KEY_IN_TYPE.EXPENSES)
               this.curStep = KEY_IN_STEPS.SELECT_COUNTRY;
@@ -294,11 +321,11 @@ export default {
           this.curStep = KEY_IN_STEPS.SELECT_SUM;
           break;
         case KEY_IN_STEPS.SELECT_RECEIVED:
-          this.curStep = KEY_IN_STEPS.PAYMENT_METHOD;
+          this.curStep = KEY_IN_STEPS.SELECT_PAYMENT_METHOD;
           break;
         case KEY_IN_STEPS.SELECT_COMMENTS:
           {
-            if (this.formData.key_in_type === KEY_IN_STEPS.INCOME)
+            if (this.formData.key_in_type === KEY_IN_TYPE.INCOME)
               this.curStep = KEY_IN_STEPS.SELECT_RECEIVED;
             else if (this.formData.key_in_type === KEY_IN_TYPE.EXPENSES)
               this.curStep = KEY_IN_STEPS.SELECT_PAYMENT_METHOD;
@@ -311,111 +338,113 @@ export default {
     },
     async onSubmit(event) {
       event.preventDefault();
-      switch (this.curStep) {
-        case KEY_IN_STEPS.CREATE_KEY_IN:
-          this.curStep = KEY_IN_STEPS.SELECT_KEY_IN_TYPE;
-          break;
-        case KEY_IN_STEPS.SELECT_KEY_IN_TYPE:
-          this.curStep = KEY_IN_STEPS.SELECT_BRAND;
-          break;
-        case KEY_IN_STEPS.SELECT_BRAND:
-          this.curStep = KEY_IN_STEPS.SELECT_DATE;
-          break;
-        case KEY_IN_STEPS.SELECT_DATE:
-          {
-            if (this.formData.key_in_type === KEY_IN_TYPE.INCOME)
-              this.curStep = KEY_IN_STEPS.SELECT_SUM;
-            else if (this.formData.key_in_type === KEY_IN_TYPE.EXPENSES)
-              this.curStep = KEY_IN_STEPS.SELECT_CURRENCY;
-          }
-          break;
-        case KEY_IN_STEPS.SELECT_SUM:
-          this.curStep = KEY_IN_TYPE.SELECT_PAYMENT_METHOD;
-          break;
-        case KEY_IN_STEPS.SELECT_PAYMENT_METHOD:
-          {
-            if (this.formData.key_in_type === KEY_IN_TYPE.INCOME)
-              this.curStep = KEY_IN_STEPS.SELECT_RECEIVED;
-            else if (this.formData.key_in_type === KEY_IN_TYPE.EXPENSES)
-              this.curStep = KEY_IN_STEPS.SELECT_COMMENTS;
-          }
-          break;
-        case KEY_IN_STEPS.KEY_IN_STEPS.SELECT_RECEIVED:
-          this.curStep = KEY_IN_STEPS.SELECT_COMMENTS;
-          break;
-        case KEY_IN_STEPS.SELECT_CURRENCY:
-          this.curStep = KEY_IN_STEPS.SELECT_COUNTRY;
-          break;
-        case KEY_IN_STEPS.SELECT_COUNTRY:
-          this.curStep = KEY_IN_STEPS.SELECT_EXPENSES_TYPE;
-          break;
-        case KEY_IN_STEPS.SELECT_EXPENSES_TYPE:
-          this.curStep = KEY_IN_STEPS.SELECT_SUM;
-          break;
-        default:
-          this.curStep = KEY_IN_STEPS.CREATE_KEY_IN;
-          break;
-      }
 
-      if (this.curStep !== KEY_IN_STEPS.SELECT_COMMENTS) return;
+      if (this.curStep === KEY_IN_STEPS.SELECT_COMMENTS) {
+        const loader = this.$loading.show();
+        let keyInFormData = {
+          type: this.formData.key_in_type,
+          brand_id: this.formData.brand_id,
+          date: this.formData.date,
+          sum: this.formData.sum,
+          payment_method: this.formData.payment_method,
+          comments: this.formData.comments
+        };
 
-      const loader = this.$loading.show();
-      let keyInFormData = {
-        type: this.formData.key_in_type,
-        brand_id: this.formData.brand_id,
-        date: this.formData.date,
-        sum: this.formData.sum,
-        payment_method: this.formData.payment_method,
-        comments: this.formData.comments
-      };
-
-      if (this.formData.key_in_type === KEY_IN_TYPE.INCOME) {
-        keyInFormData.received = this.formData.received;
-      } else if (this.formData.key_in_type === KEY_IN_TYPE.EXPENSES) {
-        keyInFormData.currency = this.formData.currency;
-        keyInFormData.country = this.formData.country;
-        keyInFormData.expenses_type = this.formData.expenses_type;
-      }
-      try {
-        let res = await axios.post('/api/keyin', keyInFormData, {
-          headers: {
-            'Content-Type': 'application/json'
-          }
-        });
-        if (res && res.data) {
-          if (res.status === 201) {
-            Swal.fire({
-              title: 'KeyIn Created.',
-              icon: 'success'
-            }).then(result => {
-              this.formData = {
-                key_in_type: KEY_IN_TYPE.INCOME,
-                brand_id: null,
-                date: null,
-                sum: 0,
-                payment_method: [],
-                received: RECEIVED_STATUS.YES,
-                comments: '',
-                currency: '',
-                country: '',
-                expenses_type: ''
-              };
-            });
-          } else {
-            Swal.fire({
-              title: 'Create KeyIn Failed.',
-              icon: 'warning'
-            });
-          }
+        if (this.formData.key_in_type === KEY_IN_TYPE.INCOME) {
+          keyInFormData.received = this.formData.received;
+        } else if (this.formData.key_in_type === KEY_IN_TYPE.EXPENSES) {
+          keyInFormData.currency = this.formData.currency;
+          keyInFormData.country = this.formData.country;
+          keyInFormData.expenses_type = this.formData.expenses_type;
         }
-      } catch (err) {
-        Swal.fire({
-          title: 'Create KeyIn Failed.',
-          icon: 'error'
-        });
-      }
+        try {
+          let res = await axios.post('/api/keyin', keyInFormData, {
+            headers: {
+              'Content-Type': 'application/json'
+            }
+          });
+          if (res && res.data) {
+            if (res.status === 201) {
+              Swal.fire({
+                title: 'KeyIn Created.',
+                icon: 'success'
+              }).then(result => {
+                this.formData = {
+                  key_in_type: KEY_IN_TYPE.INCOME,
+                  brand_id: null,
+                  date: null,
+                  sum: 0,
+                  payment_method: [],
+                  received: RECEIVED_STATUS.YES,
+                  comments: '',
+                  currency: '',
+                  country: '',
+                  expenses_type: ''
+                };
+              });
+              this.curStep = KEY_IN_STEPS.CREATE_KEY_IN;
+            } else {
+              Swal.fire({
+                title: 'Create KeyIn Failed.',
+                icon: 'warning'
+              });
+            }
+          }
+        } catch (err) {
+          Swal.fire({
+            title: 'Create KeyIn Failed.',
+            icon: 'error'
+          });
+        }
 
-      loader.hide();
+        loader.hide();
+      } else {
+        switch (this.curStep) {
+          case KEY_IN_STEPS.CREATE_KEY_IN:
+            this.curStep = KEY_IN_STEPS.SELECT_KEY_IN_TYPE;
+            break;
+          case KEY_IN_STEPS.SELECT_KEY_IN_TYPE:
+            this.curStep = KEY_IN_STEPS.SELECT_BRAND;
+            break;
+          case KEY_IN_STEPS.SELECT_BRAND:
+            this.curStep = KEY_IN_STEPS.SELECT_DATE;
+            break;
+          case KEY_IN_STEPS.SELECT_DATE:
+            {
+              if (this.formData.key_in_type === KEY_IN_TYPE.INCOME)
+                this.curStep = KEY_IN_STEPS.SELECT_SUM;
+              else if (this.formData.key_in_type === KEY_IN_TYPE.EXPENSES)
+                this.curStep = KEY_IN_STEPS.SELECT_CURRENCY;
+            }
+            break;
+          case KEY_IN_STEPS.SELECT_SUM:
+            this.curStep = KEY_IN_STEPS.SELECT_PAYMENT_METHOD;
+            break;
+          case KEY_IN_STEPS.SELECT_PAYMENT_METHOD:
+            {
+              if (this.formData.key_in_type === KEY_IN_TYPE.INCOME)
+                this.curStep = KEY_IN_STEPS.SELECT_RECEIVED;
+              else if (this.formData.key_in_type === KEY_IN_TYPE.EXPENSES)
+                this.curStep = KEY_IN_STEPS.SELECT_COMMENTS;
+            }
+            break;
+          case KEY_IN_STEPS.SELECT_RECEIVED:
+            this.curStep = KEY_IN_STEPS.SELECT_COMMENTS;
+            break;
+          case KEY_IN_STEPS.SELECT_CURRENCY:
+            this.curStep = KEY_IN_STEPS.SELECT_COUNTRY;
+            break;
+          case KEY_IN_STEPS.SELECT_COUNTRY:
+            this.curStep = KEY_IN_STEPS.SELECT_EXPENSES_TYPE;
+            break;
+          case KEY_IN_STEPS.SELECT_EXPENSES_TYPE:
+            this.curStep = KEY_IN_STEPS.SELECT_SUM;
+            break;
+          default:
+            this.curStep = KEY_IN_STEPS.CREATE_KEY_IN;
+            break;
+        }
+      }
     }
   }
 };
