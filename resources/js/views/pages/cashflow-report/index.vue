@@ -27,9 +27,9 @@
       </b-row>
       <b-row class="mt-4">
         <b-col md="12">
-          <h3 class="mb-3">Cashflow Report</h3>
-          <h4>In Euro</h4>
-          <table class="report-table cashflow-table">
+          <h5 class="mb-3">Cashflow Report</h5>
+          <h6 class="in-euro-title">In Euro</h6>
+          <table class="cashflow-table">
             <thead>
               <tr>
                 <th>Total Income</th>
@@ -84,18 +84,15 @@ export default {
 </script>
 
 <style scoped lang="scss">
-.report-table {
-  width: 100%;
-  td {
-    border: 1px solid grey;
-  }
+.in-euro-title {
+  text-decoration: underline;
 }
 
 .cashflow-table {
-  max-width: 400px;
-
+  max-width: 480px;
+  width: 100%;
   td {
-    min-height: 50px;
+    border: 1px solid grey;
   }
 }
 </style>
