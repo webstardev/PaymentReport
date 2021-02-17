@@ -6,7 +6,7 @@
       </b-col>
     </b-row>
     <b-row class="pt-4">
-      <b-col md="4">
+      <b-col md="6">
         <b-form-group label="Comments:" label-for="comments">
           <b-form-textarea
             id="comments"
