@@ -15,35 +15,38 @@
     <b-collapse id="nav-collapse" is-nav>
       <b-navbar-nav class="ml-4">
         <router-link
-          :class="`${checkActiveMenu('brand') && 'active'} mx-3`"
-          to="/brand"
-          >Brand
-        </router-link>
-        <router-link
-          to="/key-in"
-          :class="`${checkActiveMenu('key-in') && 'active'} mx-3`"
-          >Key In</router-link
+          to="/income-key-in"
+          :class="`${checkActiveMenu('income-key-in') && 'active'} mx-3`"
+          >Income-Key in</router-link
         >
+        <router-link
+          to="/expenses-key-in"
+          :class="`${checkActiveMenu('expenses-key-in') && 'active'} mx-3`"
+          >Expenses Key in</router-link
+        >
+        <router-link
+          :class="`${checkActiveMenu('create-new-item') && 'active'} mx-3`"
+          to="/create-new-item"
+          >Create New Item
+        </router-link>
         <template v-if="currentUser.user_type === userType.VIEW">
           <router-link
             :class="`${checkActiveMenu('income-report') && 'active'} mx-3`"
             to="/income-report"
-            >Income Report</router-link
+            >Income Reports</router-link
           >
 
           <router-link
             :class="`${checkActiveMenu('expenses-report') && 'active'} mx-3`"
             to="/expenses-report"
           >
-            Expenses Report
+            Expenses Reports
           </router-link>
           <router-link
-            :class="
-              `${checkActiveMenu('expenses-india-report') && 'active'} mx-3`
-            "
-            to="/expenses-india-report"
+            :class="`${checkActiveMenu('expenses-india') && 'active'} mx-3`"
+            to="/expenses-india"
           >
-            Expenses Report India
+            Expenses India
           </router-link>
           <router-link
             :class="`${checkActiveMenu('cashflow-report') && 'active'} mx-3`"

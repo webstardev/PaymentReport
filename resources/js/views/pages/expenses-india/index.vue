@@ -56,7 +56,7 @@ import { getDateRange } from '@/utils/date';
 import TopNavbar from '@/sharedComponents/top-navbar.vue';
 import DateRangerSelector from '@/sharedComponents/date-range-selector.vue';
 export default {
-  name: 'expenses-india-report',
+  name: 'expenses-india',
   components: {
     TopNavbar,
     DateRangerSelector

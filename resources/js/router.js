@@ -8,21 +8,27 @@ Vue.use(Router);
 const routes = [
   {
     path: '/',
-    name: 'brand',
+    name: 'income-key-in',
     beforeEnter: auth,
-    component: () => import('@/views/pages/brand/index')
+    component: () => import('@/views/pages/income-key-in/index')
   },
   {
-    path: '/brand',
-    name: 'brand',
+    path: '/income-key-in',
+    name: 'income-key-in',
     beforeEnter: auth,
-    component: () => import('@/views/pages/brand/index')
+    component: () => import('@/views/pages/income-key-in/index')
   },
   {
-    path: '/key-in',
-    name: 'key-in',
+    path: '/expenses-key-in',
+    name: 'expenses-key-in',
     beforeEnter: auth,
-    component: () => import('@/views/pages/key-in/index')
+    component: () => import('@/views/pages/expenses-key-in/index')
+  },
+  {
+    path: '/create-new-item',
+    name: 'create-new-item',
+    beforeEnter: auth,
+    component: () => import('@/views/pages/brand/index')
   },
   {
     path: '/income-report',
@@ -37,10 +43,10 @@ const routes = [
     component: () => import('@/views/pages/expenses-report/index')
   },
   {
-    path: '/expenses-india-report',
-    name: 'expenses-india-report',
+    path: '/expenses-india',
+    name: 'expenses-india',
     beforeEnter: auth,
-    component: () => import('@/views/pages/expenses-india-report/index')
+    component: () => import('@/views/pages/expenses-india/index')
   },
   {
     path: '/cashflow-report',

@@ -3,10 +3,15 @@
     <top-navbar></top-navbar>
     <b-container fluid="xl" class="main-container  ml-auto mr-auto py-4">
       <template v-if="curStep === brandSteps.CREATE_BRAND">
+        <b-row class="pt-4">
+          <b-col md="6">
+            <h3>Create Income-Key In</h3>
+          </b-col>
+        </b-row>
         <b-row>
           <b-col md="6" class="d-flex">
             <b-button variant="primary" type="button" @click="createBrand">
-              Create Button
+              Create New Item
             </b-button>
           </b-col>
         </b-row>

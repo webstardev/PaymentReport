@@ -5,7 +5,7 @@
       <b-form @submit="onSubmit" class="pt-4">
         <b-row v-if="curStep === keySteps.CREATE_KEY_IN">
           <b-col md="6">
-            <h3>Create Key In</h3>
+            <h3>Create Expenses Key in</h3>
           </b-col>
         </b-row>
 
@@ -13,32 +13,11 @@
           class="mb-2"
           v-if="
             curStep !== keySteps.CREATE_KEY_IN &&
-              curStep !== keySteps.SELECT_KEY_IN_TYPE
+              curStep !== keySteps.SELECT_BRAND
           "
         >
           <b-col md="4">
             <a class="btn-prev" @click="gotoPrev">{{ `< Prev` }}</a>
-          </b-col>
-        </b-row>
-
-        <b-row v-if="curStep === keySteps.SELECT_KEY_IN_TYPE">
-          <b-col md="4">
-            <b-form-group label="Key in type:" label-for="keyin-type">
-              <b-form-select
-                id="key-in-type"
-                v-model="formData.key_in_type"
-                @change="changeKeyInType"
-                required
-              >
-                <option
-                  v-for="(option, idx) in Object.keys(keyInType)"
-                  :key="idx"
-                  :value="keyInType[option]"
-                >
-                  {{ keyInType[option] }}
-                </option>
-              </b-form-select>
-            </b-form-group>
           </b-col>
         </b-row>
 
@@ -156,22 +135,8 @@
             </b-form-group>
           </b-col>
         </b-row>
-        <b-row v-if="curStep === keySteps.SELECT_RECEIVED">
-          <b-col md="4">
-            <b-form-group label="Received" label-for="received">
-              <b-form-select id="received" v-model="formData.received" required>
-                <option
-                  v-for="(option, idx) in Object.keys(receivedStatus)"
-                  :key="idx"
-                  :value="receivedStatus[option]"
-                  >{{ receivedStatus[option] }}
-                </option>
-              </b-form-select>
-            </b-form-group>
-          </b-col>
-        </b-row>
         <b-row v-if="curStep === keySteps.SELECT_COMMENTS">
-          <b-col md="12">
+          <b-col md="6">
             <b-form-group label="Comments:" label-for="comments">
               <b-form-textarea
                 id="comments"
@@ -201,7 +166,6 @@ import {
   KEY_IN_STEPS,
   KEY_IN_TYPE,
   PAYMENT_METHOD,
-  RECEIVED_STATUS,
   CURRENCIES,
   COUNTRIES,
   EXPENSES_TYPE
@@ -209,32 +173,27 @@ import {
 import TopNavbar from '@/sharedComponents/top-navbar.vue';
 
 export default {
-  name: 'key-in',
+  name: 'expenses-key-in',
   components: {
     TopNavbar
   },
   data() {
     return {
       keySteps: KEY_IN_STEPS,
-      keyInType: KEY_IN_TYPE,
       curStep: KEY_IN_STEPS.CREATE_KEY_IN,
       paymentOptions: PAYMENT_METHOD.map(item => {
         return { name: item, code: item };
       }),
-      receivedStatus: RECEIVED_STATUS,
       currencyOptions: Object.keys(CURRENCIES),
       countryOptions: COUNTRIES,
       expensesType: EXPENSES_TYPE,
       brandList: [],
       formData: {
-        key_in_type: KEY_IN_TYPE.INCOME,
         brand_id: null,
         date: null,
         sum: 0,
         payment_method: [],
-        received: RECEIVED_STATUS.YES,
         comments: '',
-        // for expenses
         currency: '',
         country: '',
         expenses_type: ''
@@ -259,27 +218,13 @@ export default {
   },
   computed: {
     buttonStr: function() {
-      if (this.curStep === KEY_IN_STEPS.CREATE_KEY_IN) return 'Create Key In';
+      if (this.curStep === KEY_IN_STEPS.CREATE_KEY_IN)
+        return 'Create Expenses Key in';
       else if (this.curStep === KEY_IN_STEPS.SELECT_COMMENTS) return 'Submit';
       return 'Next';
     }
   },
   methods: {
-    changeKeyInType() {
-      this.formData = {
-        ...this.formData,
-        brand_id: null,
-        date: null,
-        sum: 0,
-        payment_method: [],
-        received: RECEIVED_STATUS.YES,
-        comments: '',
-        // for expenses
-        currency: '',
-        country: '',
-        expenses_type: ''
-      };
-    },
     addPaymentMethod(newPayment) {
       const payment = {
         name: newPayment,
@@ -295,7 +240,7 @@ export default {
     gotoPrev() {
       switch (this.curStep) {
         case KEY_IN_STEPS.SELECT_BRAND:
-          this.curStep = KEY_IN_STEPS.SELECT_KEY_IN_TYPE;
+          this.curStep = KEY_IN_STEPS.CREATE_KEY_IN;
           break;
         case KEY_IN_STEPS.SELECT_DATE:
           this.curStep = KEY_IN_STEPS.SELECT_BRAND;
@@ -310,26 +255,13 @@ export default {
           this.curStep = KEY_IN_STEPS.SELECT_COUNTRY;
           break;
         case KEY_IN_STEPS.SELECT_SUM:
-          {
-            if (this.formData.key_in_type === KEY_IN_TYPE.INCOME)
-              this.curStep = KEY_IN_STEPS.SELECT_DATE;
-            else if (this.formData.key_in_type === KEY_IN_TYPE.EXPENSES)
-              this.curStep = KEY_IN_STEPS.SELECT_COUNTRY;
-          }
+          this.curStep = KEY_IN_STEPS.SELECT_COUNTRY;
           break;
         case KEY_IN_STEPS.SELECT_PAYMENT_METHOD:
           this.curStep = KEY_IN_STEPS.SELECT_SUM;
           break;
-        case KEY_IN_STEPS.SELECT_RECEIVED:
-          this.curStep = KEY_IN_STEPS.SELECT_PAYMENT_METHOD;
-          break;
         case KEY_IN_STEPS.SELECT_COMMENTS:
-          {
-            if (this.formData.key_in_type === KEY_IN_TYPE.INCOME)
-              this.curStep = KEY_IN_STEPS.SELECT_RECEIVED;
-            else if (this.formData.key_in_type === KEY_IN_TYPE.EXPENSES)
-              this.curStep = KEY_IN_STEPS.SELECT_PAYMENT_METHOD;
-          }
+          this.curStep = KEY_IN_STEPS.SELECT_PAYMENT_METHOD;
           break;
         default:
           this.curStep = KEY_IN_STEPS.CREATE_KEY_IN;
@@ -342,21 +274,17 @@ export default {
       if (this.curStep === KEY_IN_STEPS.SELECT_COMMENTS) {
         const loader = this.$loading.show();
         let keyInFormData = {
-          type: this.formData.key_in_type,
+          type: KEY_IN_TYPE.EXPENSES,
           brand_id: this.formData.brand_id,
           date: this.formData.date,
+          currency: this.formData.currency,
+          country: this.formData.country,
+          expenses_type: this.formData.expenses_type,
           sum: this.formData.sum,
           payment_method: this.formData.payment_method,
           comments: this.formData.comments
         };
 
-        if (this.formData.key_in_type === KEY_IN_TYPE.INCOME) {
-          keyInFormData.received = this.formData.received;
-        } else if (this.formData.key_in_type === KEY_IN_TYPE.EXPENSES) {
-          keyInFormData.currency = this.formData.currency;
-          keyInFormData.country = this.formData.country;
-          keyInFormData.expenses_type = this.formData.expenses_type;
-        }
         try {
           let res = await axios.post('/api/keyin', keyInFormData, {
             headers: {
@@ -370,12 +298,10 @@ export default {
                 icon: 'success'
               }).then(result => {
                 this.formData = {
-                  key_in_type: KEY_IN_TYPE.INCOME,
                   brand_id: null,
                   date: null,
                   sum: 0,
                   payment_method: [],
-                  received: RECEIVED_STATUS.YES,
                   comments: '',
                   currency: '',
                   country: '',
@@ -401,34 +327,18 @@ export default {
       } else {
         switch (this.curStep) {
           case KEY_IN_STEPS.CREATE_KEY_IN:
-            this.curStep = KEY_IN_STEPS.SELECT_KEY_IN_TYPE;
-            break;
-          case KEY_IN_STEPS.SELECT_KEY_IN_TYPE:
             this.curStep = KEY_IN_STEPS.SELECT_BRAND;
             break;
           case KEY_IN_STEPS.SELECT_BRAND:
             this.curStep = KEY_IN_STEPS.SELECT_DATE;
             break;
           case KEY_IN_STEPS.SELECT_DATE:
-            {
-              if (this.formData.key_in_type === KEY_IN_TYPE.INCOME)
-                this.curStep = KEY_IN_STEPS.SELECT_SUM;
-              else if (this.formData.key_in_type === KEY_IN_TYPE.EXPENSES)
-                this.curStep = KEY_IN_STEPS.SELECT_CURRENCY;
-            }
+            this.curStep = KEY_IN_STEPS.SELECT_CURRENCY;
             break;
           case KEY_IN_STEPS.SELECT_SUM:
             this.curStep = KEY_IN_STEPS.SELECT_PAYMENT_METHOD;
             break;
           case KEY_IN_STEPS.SELECT_PAYMENT_METHOD:
-            {
-              if (this.formData.key_in_type === KEY_IN_TYPE.INCOME)
-                this.curStep = KEY_IN_STEPS.SELECT_RECEIVED;
-              else if (this.formData.key_in_type === KEY_IN_TYPE.EXPENSES)
-                this.curStep = KEY_IN_STEPS.SELECT_COMMENTS;
-            }
-            break;
-          case KEY_IN_STEPS.SELECT_RECEIVED:
             this.curStep = KEY_IN_STEPS.SELECT_COMMENTS;
             break;
           case KEY_IN_STEPS.SELECT_CURRENCY:
