@@ -26,7 +26,26 @@
         </b-col>
       </b-row>
       <b-row class="mt-4">
-        <b-col md="12"></b-col>
+        <b-col md="12">
+          <h3 class="mb-3">Cashflow Report</h3>
+          <h4>In Euro</h4>
+          <table class="report-table cashflow-table">
+            <thead>
+              <tr>
+                <th>Total Income</th>
+                <th>Total Expenses</th>
+                <th>Total Balance</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td>&nbsp;</td>
+                <td>&nbsp;</td>
+                <td>&nbsp;</td>
+              </tr>
+            </tbody>
+          </table>
+        </b-col>
       </b-row>
     </b-container>
   </b-container>
@@ -69,6 +88,14 @@ export default {
   width: 100%;
   td {
     border: 1px solid grey;
+  }
+}
+
+.cashflow-table {
+  max-width: 400px;
+
+  td {
+    min-height: 50px;
   }
 }
 </style>
