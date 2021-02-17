@@ -17,9 +17,11 @@
         <router-link
           :class="`${checkActiveMenu('brand') && 'active'} mx-3`"
           to="/brand"
-          >Brand</router-link
-        >
-        <router-link :class="`${checkActiveMenu('key-in') && 'active'} mx-3`"
+          >Brand
+        </router-link>
+        <router-link
+          to="/key-in"
+          :class="`${checkActiveMenu('key-in') && 'active'} mx-3`"
           >Key In</router-link
         >
         <template v-if="currentUser.user_type === userType.VIEW">
