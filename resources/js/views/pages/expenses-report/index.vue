@@ -192,15 +192,6 @@ export default {
       this.currencyData = {};
     }
 
-    //   get brand
-    try {
-      let resBrand = await axios.get('/api/brand/all');
-      if (resBrand && resBrand.status === 200 && resBrand.data) {
-        this.brandList = resBrand.data;
-      }
-    } catch (err) {
-      this.brandList = [];
-    }
     this.filterReport();
 
     loader.hide();

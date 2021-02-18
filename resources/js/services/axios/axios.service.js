@@ -36,14 +36,8 @@ axios.interceptors.response.use(
       });
       return Promise.reject(error);
     } else if (status === 401) {
-      Swal.fire({
-        title: 'Token expired',
-        icon: 'warning',
-        text: 'Token expired, need to login again.'
-      }).then(result => {
-        store.commit(PURGE_AUTH);
-        router.push('/login');
-      });
+      store.commit(PURGE_AUTH);
+      router.push('/login');
     } else {
       return Promise.reject(error);
     }

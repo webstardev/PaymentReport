@@ -81,18 +81,18 @@ export const RECEIVED_STATUS = {
   PENDING: 'Pending'
 };
 
-export const EXPENSES_TYPE = [
-  'Chips-out',
-  'Hosting',
-  'Domain renewal',
-  'Mobile expenses',
-  'Office supply',
-  'Salary',
-  'Set up fee',
-  'Transportation',
-  'Travel',
-  'Other'
-];
+// export const EXPENSES_TYPE = [
+//   'Chips-out',
+//   'Hosting',
+//   'Domain renewal',
+//   'Mobile expenses',
+//   'Office supply',
+//   'Salary',
+//   'Set up fee',
+//   'Transportation',
+//   'Travel',
+//   'Other'
+// ];
 
 // export const EXPENSES_TYPE = {
 //   CHIPS_OUT: 'Chips-out',

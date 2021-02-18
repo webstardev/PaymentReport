@@ -54,6 +54,7 @@
 <script>
 import { mapGetters } from 'vuex';
 import { CATEGORY, KEY_IN_TYPE, USER_TYPE } from '@/constants';
+import { getBrand } from '@/services/apis';
 import { getDateRange } from '@/utils/date';
 import { calculateCurrency } from '@/utils/currency';
 import TopNavbar from '@/sharedComponents/top-navbar.vue';
@@ -94,12 +95,9 @@ export default {
       this.currencyData = {};
     }
 
-    //   get brand
+    // get brand
     try {
-      let resBrand = await axios.get('/api/brand/all');
-      if (resBrand && resBrand.status === 200 && resBrand.data) {
-        this.brandList = resBrand.data;
-      }
+      this.brandList = await getBrand();
     } catch (err) {
       this.brandList = [];
     }

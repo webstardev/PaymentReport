@@ -61,10 +61,10 @@ const routes = [
     component: () => import('@/views/pages/login/index')
   },
   {
-    path: '/register',
-    name: 'register',
-    beforeEnter: guest,
-    component: () => import('@/views/pages/register/index')
+    path: '/create-user',
+    name: 'create-user',
+    beforeEnter: auth,
+    component: () => import('@/views/pages/create-user/index')
   },
   {
     path: '*',

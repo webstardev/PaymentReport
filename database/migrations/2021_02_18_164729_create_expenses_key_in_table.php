@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class CreateKeyInsTable extends Migration
+class CreateExpensesKeyInTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,19 +13,16 @@ class CreateKeyInsTable extends Migration
      */
     public function up()
     {
-        Schema::create('key_ins', function (Blueprint $table) {
+        Schema::create('expenses_key_ins', function (Blueprint $table) {
             $table->id();
-            $table->string('type');
             $table->foreignId('user_id')->constraind('users');
-            $table->foreignId('brand_id')->constraind('brains');
+            $table->foreignId('brand_id')->constraind('brands');
             $table->timestamp('date');
-            $table->float('sum');
-            $table->string('payment_method');
-            $table->string('received')->nullable();
-            $table->string('comments');
             $table->string('currency')->nullable();
             $table->string('country')->nullable();
-            $table->string('expenses_type')->nullable();
+            $table->foreignId('expenses_type_id')->constraind('expenses_types')->nullable();
+            $table->float('sum');
+            $table->string('comments');
             $table->timestamps();
         });
     }
@@ -37,6 +34,6 @@ class CreateKeyInsTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('key_ins');
+        Schema::dropIfExists('expenses_key_ins');
     }
 }

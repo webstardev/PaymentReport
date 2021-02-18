@@ -135,7 +135,7 @@
 </template>
 
 <script>
-import { PAYMENT_METHOD } from '@/constants';
+import { getBrand } from '@/services/apis';
 
 export default {
   name: 'income-report-data-filter',
@@ -174,10 +174,7 @@ export default {
     //   get brand
     const loader = this.$loading.show();
     try {
-      let resBrand = await axios.get('/api/brand/all');
-      if (resBrand && resBrand.status === 200 && resBrand.data) {
-        this.brandList = resBrand.data;
-      }
+      this.brandList = await getBrand();
     } catch (err) {
       this.brandList = [];
     }

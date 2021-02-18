@@ -36,9 +36,6 @@
         ></b-form-input>
       </b-form-group>
       <div class="d-flex justify-content-end mt-4">
-        <b-button variant="outline-primary" @click="handleClickRegister"
-          >Register</b-button
-        >
         <b-button variant="primary" class="ml-3" type="submit"
           >Sign In</b-button
         >
@@ -89,9 +86,6 @@ export default {
           loader.hide();
         }
       });
-    },
-    handleClickRegister() {
-      this.$router.push({ name: 'register' });
     }
   }
 };

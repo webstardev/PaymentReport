@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\AuthController;
 use App\Http\Controllers\BrandController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
@@ -29,4 +30,9 @@ Route::group(['middleware' => 'auth:api'], function () {
     Route::get('keyin/{id}', 'KeyInController@get');
     Route::post('keyin/filter', 'KeyInController@filter');
     Route::get('currency', 'CurrencyController@get');
+    Route::get('expenses-type/{id}', "ExpensesTypeController@get");
+    Route::post('expenses-type', "ExpensesTypeController@create");
+    Route::get('payment-method/{id}', "PaymentMethodController@get");
+    Route::post('payment-method', "PaymentMethodController@create");
+    Route::post('create-user', "UserController@createUser");
 });

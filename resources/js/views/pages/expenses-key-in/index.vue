@@ -91,16 +91,18 @@
         <b-row v-if="curStep === keySteps.SELECT_EXPENSES_TYPE">
           <b-col md="4">
             <b-form-group label="Expenses type:" label-for="expenses-type">
-              <multiselect
-                v-model="formData.expenses_type"
-                tag-placeholder="Add this as new expenses type"
-                placeholder="Search or add a expenses type"
-                :options="expensesType"
-                :multiple="false"
-                :taggable="true"
-                @tag="addExpensesType"
-                required
-              ></multiselect>
+              <b-form-select v-model="formData.expenses_type" required>
+                <option disabled :selected="!formData.expenses_type" value=""
+                  >Select a expenses type</option
+                >
+                <option
+                  v-for="expensesType in expensesTypeList"
+                  :value="expensesType.id"
+                  :key="expensesType.id"
+                >
+                  {{ expensesType.name }}
+                </option>
+              </b-form-select>
             </b-form-group>
           </b-col>
         </b-row>
@@ -127,11 +129,9 @@
                 tag-placeholder="Add this as new payment method"
                 placeholder="Search or add a payment method"
                 label="name"
-                track-by="code"
-                :options="paymentOptions"
+                track-by="id"
+                :options="paymentMethodList"
                 :multiple="true"
-                :taggable="true"
-                @tag="addPaymentMethod"
                 required
               ></multiselect>
             </b-form-group>
@@ -163,16 +163,9 @@
 
 <script>
 import Swal from 'sweetalert2';
-
-import {
-  KEY_IN_STEPS,
-  KEY_IN_TYPE,
-  PAYMENT_METHOD,
-  CURRENCIES,
-  COUNTRIES,
-  EXPENSES_TYPE
-} from '@/constants';
+import { KEY_IN_STEPS, KEY_IN_TYPE, CURRENCIES, COUNTRIES } from '@/constants';
 import TopNavbar from '@/sharedComponents/top-navbar.vue';
+import { getBrand, getPaymentMethod, getExpensesType } from '@/services/apis';
 
 export default {
   name: 'expenses-key-in',
@@ -183,13 +176,11 @@ export default {
     return {
       keySteps: KEY_IN_STEPS,
       curStep: KEY_IN_STEPS.CREATE_KEY_IN,
-      paymentOptions: PAYMENT_METHOD.map(item => {
-        return { name: item, code: item };
-      }),
       currencyOptions: Object.keys(CURRENCIES),
       countryOptions: COUNTRIES,
-      expensesType: EXPENSES_TYPE,
       brandList: [],
+      paymentMethodList: [],
+      expensesTypeList: [],
       formData: {
         brand_id: null,
         date: null,
@@ -202,21 +193,12 @@ export default {
       }
     };
   },
-  created() {
+  async created() {
     const loader = this.$loading.show();
-
-    axios
-      .get('/api/brand/all')
-      .then(res => {
-        loader.hide();
-        if (res && res.data) {
-          this.brandList = res.data;
-        }
-      })
-      .catch(err => {
-        loader.hide();
-        this.brandList = [];
-      });
+    this.brandList = await getBrand();
+    this.paymentMethodList = await getPaymentMethod();
+    this.expensesTypeList = await getExpensesType();
+    loader.hide();
   },
   computed: {
     buttonStr: function() {
@@ -227,18 +209,6 @@ export default {
     }
   },
   methods: {
-    addPaymentMethod(newPayment) {
-      const payment = {
-        name: newPayment,
-        code: newPayment
-      };
-      this.paymentOptions.push(payment);
-      this.formData.payment_method.push(payment);
-    },
-    addExpensesType(newType) {
-      this.expensesType.push(newType);
-      this.formData.expenses_type = newType;
-    },
     gotoPrev() {
       switch (this.curStep) {
         case KEY_IN_STEPS.SELECT_BRAND:
@@ -283,7 +253,7 @@ export default {
           country: this.formData.country,
           expenses_type: this.formData.expenses_type,
           sum: this.formData.sum,
-          payment_method: this.formData.payment_method,
+          payment_method: this.formData.payment_method.map(item => item.id),
           comments: this.formData.comments
         };
 

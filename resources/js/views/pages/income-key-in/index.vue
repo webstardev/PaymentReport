@@ -74,11 +74,11 @@
                 tag-placeholder="Add this as new payment method"
                 placeholder="Search or add a payment method"
                 label="name"
-                track-by="code"
-                :options="paymentOptions"
+                track-by="id"
+                :options="paymentMethodList"
                 :multiple="true"
                 :taggable="true"
-                @tag="addPaymentMethod"
+                :creatable="false"
                 required
               ></multiselect>
             </b-form-group>
@@ -124,13 +124,8 @@
 
 <script>
 import Swal from 'sweetalert2';
-
-import {
-  KEY_IN_STEPS,
-  KEY_IN_TYPE,
-  PAYMENT_METHOD,
-  RECEIVED_STATUS
-} from '@/constants';
+import { getBrand, getPaymentMethod } from '@/services/apis';
+import { KEY_IN_STEPS, KEY_IN_TYPE, RECEIVED_STATUS } from '@/constants';
 import TopNavbar from '@/sharedComponents/top-navbar.vue';
 
 export default {
@@ -142,11 +137,9 @@ export default {
     return {
       keySteps: KEY_IN_STEPS,
       curStep: KEY_IN_STEPS.CREATE_KEY_IN,
-      paymentOptions: PAYMENT_METHOD.map(item => {
-        return { name: item, code: item };
-      }),
       receivedStatus: RECEIVED_STATUS,
       brandList: [],
+      paymentMethodList: [],
       formData: {
         brand_id: null,
         date: null,
@@ -157,21 +150,11 @@ export default {
       }
     };
   },
-  created() {
+  async created() {
     const loader = this.$loading.show();
-
-    axios
-      .get('/api/brand/all')
-      .then(res => {
-        loader.hide();
-        if (res && res.data) {
-          this.brandList = res.data;
-        }
-      })
-      .catch(err => {
-        loader.hide();
-        this.brandList = [];
-      });
+    this.brandList = await getBrand();
+    this.paymentMethodList = await getPaymentMethod();
+    loader.hide();
   },
   computed: {
     buttonStr: function() {
@@ -182,25 +165,6 @@ export default {
     }
   },
   methods: {
-    changeKeyInType() {
-      this.formData = {
-        ...this.formData,
-        brand_id: null,
-        date: null,
-        sum: 0,
-        payment_method: [],
-        received: RECEIVED_STATUS.YES,
-        comments: ''
-      };
-    },
-    addPaymentMethod(newPayment) {
-      const payment = {
-        name: newPayment,
-        code: newPayment
-      };
-      this.paymentOptions.push(payment);
-      this.formData.payment_method.push(payment);
-    },
     gotoPrev() {
       switch (this.curStep) {
         case KEY_IN_STEPS.SELECT_BRAND:

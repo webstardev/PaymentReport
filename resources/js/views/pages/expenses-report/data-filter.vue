@@ -107,11 +107,11 @@
         >
           <option value="all" key="all">All</option>
           <option
-            v-for="option in expensesOptions"
-            :key="option"
-            :value="option"
+            v-for="option in expensesList"
+            :key="option.id"
+            :value="option.id"
           >
-            {{ option }}
+            {{ option.name }}
           </option>
         </b-form-select>
       </b-form-group>
@@ -128,9 +128,9 @@
         >
           <option value="all" key="all">All</option>
           <option
-            v-for="payment_method in paymentOptions"
-            :key="payment_method.code"
-            :value="payment_method.code"
+            v-for="payment_method in paymentMethodList"
+            :key="payment_method.id"
+            :value="payment_method.id"
           >
             {{ payment_method.name }}
           </option>
@@ -156,14 +156,7 @@
 </template>
 
 <script>
-import {
-  KEY_IN_TYPE,
-  PAYMENT_METHOD,
-  RECEIVED_STATUS,
-  CURRENCIES,
-  COUNTRIES,
-  EXPENSES_TYPE
-} from '@/constants';
+import { getBrand, getPaymentMethod, getExpensesType } from '@/services/apis';
 
 export default {
   name: 'expenses-report-data-filter',
@@ -187,11 +180,9 @@ export default {
   },
   data() {
     return {
-      paymentOptions: PAYMENT_METHOD.map(item => {
-        return { name: item, code: item };
-      }),
-      expensesOptions: EXPENSES_TYPE,
-      brandList: []
+      brandList: [],
+      paymentMethodList: [],
+      expensesList: []
     };
   },
   methods: {
@@ -200,17 +191,9 @@ export default {
     }
   },
   async created() {
-    //   get brand
-    const loader = this.$loading.show();
-    try {
-      let resBrand = await axios.get('/api/brand/all');
-      if (resBrand && resBrand.status === 200 && resBrand.data) {
-        this.brandList = resBrand.data;
-      }
-    } catch (err) {
-      this.brandList = [];
-    }
-    loader.hide();
+    this.brandList = await getBrand();
+    this.paymentMethodList = await getPaymentMethod();
+    this.expensesList = await getExpensesType();
   }
 };
 </script>

@@ -55,6 +55,12 @@
             CashFlow Report
           </router-link>
         </template>
+
+        <router-link
+          :class="`${checkActiveMenu('create-user') && 'active'} mx-3`"
+          to="/create-user"
+          >Create User</router-link
+        >
       </b-navbar-nav>
 
       <b-navbar-nav class="ml-auto">

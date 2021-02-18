@@ -4,7 +4,7 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
 
-class KeyIn extends Model
+class IncomeKeyIn extends Model
 {
     public function brand()
 	{
@@ -15,4 +15,8 @@ class KeyIn extends Model
 	{
 		return $this->belongsTo('App\User');
 	}
+
+    public function paymentMethod() {
+        return $this->belongsToMany('App\PaymentMethod');
+    }
 }
