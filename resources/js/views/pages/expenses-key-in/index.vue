@@ -111,6 +111,8 @@
                 id="sum"
                 v-model="formData.sum"
                 type="number"
+                step="0.0001"
+                min="0"
                 required
               ></b-form-input>
             </b-form-group>

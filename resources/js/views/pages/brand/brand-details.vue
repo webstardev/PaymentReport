@@ -40,6 +40,8 @@
               id="selling"
               v-model="formData.selling"
               type="number"
+              step="0.0001"
+              min="0"
               required
             ></b-form-input>
           </b-input-group>

@@ -14,6 +14,8 @@
               id="selling"
               v-model="selling"
               type="number"
+              step="0.0001"
+              min="0"
               required
             ></b-form-input>
           </b-input-group>
