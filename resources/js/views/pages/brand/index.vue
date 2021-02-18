@@ -5,13 +5,13 @@
       <template v-if="curStep === brandSteps.CREATE_BRAND">
         <b-row class="pt-4">
           <b-col md="6">
-            <h3>Create Income-Key In</h3>
+            <h3>Create Brand</h3>
           </b-col>
         </b-row>
         <b-row>
           <b-col md="6" class="d-flex">
             <b-button variant="primary" type="button" @click="createBrand">
-              Create New Item
+              Create Brand
             </b-button>
           </b-col>
         </b-row>
