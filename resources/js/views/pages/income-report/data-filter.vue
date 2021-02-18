@@ -135,14 +135,7 @@
 </template>
 
 <script>
-import {
-  KEY_IN_TYPE,
-  PAYMENT_METHOD,
-  RECEIVED_STATUS,
-  CURRENCIES,
-  COUNTRIES,
-  EXPENSES_TYPE
-} from '@/constants';
+import { PAYMENT_METHOD } from '@/constants';
 
 export default {
   name: 'income-report-data-filter',

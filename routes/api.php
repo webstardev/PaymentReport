@@ -28,4 +28,5 @@ Route::group(['middleware' => 'auth:api'], function () {
     Route::post('keyin', 'KeyInController@store');
     Route::get('keyin/{id}', 'KeyInController@get');
     Route::post('keyin/filter', 'KeyInController@filter');
+    Route::get('currency', 'CurrencyController@get');
 });

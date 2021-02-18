@@ -91,8 +91,8 @@
                 <td>
                   {{ income.payment_method.map(item => item.name).join(', ') }}
                 </td>
-                <td>{{ income.sum }}</td>
-                <td>{{ income.sum }}</td>
+                <td>{{ `${income.brand.currency} ${income.sum}` }}</td>
+                <td>{{ Number(income.sum_euro).toFixed(2) }}</td>
                 <td>
                   {{ income.received === 'Yes' ? 'Approved' : 'Pending' }}
                 </td>
@@ -114,9 +114,11 @@
                 </td>
                 <td>
                   {{
-                    incomeReportList.reduce((sum, current) => {
-                      return sum + current.sum;
-                    }, 0)
+                    Number(
+                      incomeReportList.reduce((sum_euro, current) => {
+                        return sum_euro + current.sum_euro;
+                      }, 0)
+                    ).toFixed(2)
                   }}
                 </td>
                 <td class="border-none"></td>
@@ -133,6 +135,7 @@
 import { mapGetters } from 'vuex';
 import { CATEGORY, KEY_IN_TYPE, USER_TYPE, AGENT_SYSTEM } from '@/constants';
 import { getDateRange } from '@/utils/date';
+import { calculateCurrency } from '@/utils/currency';
 import TopNavbar from '@/sharedComponents/top-navbar.vue';
 import DateRangerSelector from '@/sharedComponents/date-range-selector.vue';
 import IncomeReportDataFilter from './data-filter.vue';
@@ -149,6 +152,7 @@ export default {
 
   data() {
     return {
+      currencyData: {},
       category: CATEGORY,
       agentySystem: AGENT_SYSTEM,
       dateRange: {
@@ -173,8 +177,19 @@ export default {
   },
   async created() {
     if (this.currentUser.user_type !== USER_TYPE.VIEW) this.$router.push('/');
-    //   get brand
     const loader = this.$loading.show();
+
+    // get currency
+    try {
+      const resCurrency = await axios.get('/api/currency');
+      if (resCurrency) {
+        this.currencyData = JSON.parse(resCurrency.data.currency);
+      }
+    } catch (err) {
+      this.currencyData = {};
+    }
+
+    //   get brand
     try {
       let resBrand = await axios.get('/api/brand/all');
       if (resBrand && resBrand.status === 200 && resBrand.data) {
@@ -222,7 +237,11 @@ export default {
             ...resList.data.map(item => {
               return {
                 ...item,
-                payment_method: JSON.parse(item.payment_method)
+                payment_method: JSON.parse(item.payment_method),
+                sum_euro: calculateCurrency(
+                  { sum: item.sum, currency: item.brand.currency },
+                  this.currencyData
+                )
               };
             })
           ];
