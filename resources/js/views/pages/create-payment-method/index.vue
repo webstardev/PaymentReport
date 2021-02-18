@@ -78,7 +78,6 @@ export default {
           loader.hide();
         })
         .catch(err => {
-          debugger;
           Swal.fire({
             title: 'Create Payment Method Failed.',
             icon: 'error'
