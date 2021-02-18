@@ -29,7 +29,7 @@
           to="/create-new-item"
           >Create New Item
         </router-link>
-        <template v-if="currentUser.user_type === userType.VIEW">
+        <template v-if="currentUser.user_type !== userType.VIEW">
           <router-link
             :class="`${checkActiveMenu('income-report') && 'active'} mx-3`"
             to="/income-report"
@@ -55,12 +55,6 @@
             CashFlow Report
           </router-link>
         </template>
-
-        <router-link
-          :class="`${checkActiveMenu('create-user') && 'active'} mx-3`"
-          to="/create-user"
-          >Create User</router-link
-        >
       </b-navbar-nav>
 
       <b-navbar-nav class="ml-auto">
@@ -74,8 +68,16 @@
                 {{ currentUser.user_type }}
               </span>
             </template>
-            <b-dropdown-item @click="handleClickSignOut"
-              >Sign Out</b-dropdown-item
+            <b-dropdown-item @click="$router.push({ name: 'create-user' })"
+              >Create User</b-dropdown-item
+            >
+            <b-dropdown-item
+              @click="$router.push({ name: 'create-payment-method' })"
+              >Create Payment Method</b-dropdown-item
+            >
+            <b-dropdown-item
+              @click="$router.push({ name: 'create-expenses-type' })"
+              >Create Expenses Type</b-dropdown-item
             >
           </b-nav-item-dropdown>
         </template>

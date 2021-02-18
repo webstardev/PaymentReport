@@ -61,6 +61,18 @@ const routes = [
     component: () => import('@/views/pages/login/index')
   },
   {
+    path: '/create-payment-method',
+    name: 'create-payment-method',
+    beforeEnter: auth,
+    component: () => import('@/views/pages/create-payment-method/index')
+  },
+  {
+    path: '/create-expenses-type',
+    name: 'create-expenses-type',
+    beforeEnter: auth,
+    component: () => import('@/views/pages/create-expenses-type/index')
+  },
+  {
     path: '/create-user',
     name: 'create-user',
     beforeEnter: auth,
