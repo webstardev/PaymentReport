@@ -1,6 +1,7 @@
 export const USER_TYPE = {
   INSERT: 'Insert',
-  VIEW: 'View'
+  VIEW: 'View',
+  ADMIN: 'Admin'
 };
 
 export const BRAND_STPES = {

@@ -52,21 +52,6 @@
         ></b-form-input>
       </b-form-group>
 
-      <b-form-group
-        label="User role"
-        label-for="user-type"
-        :invalid-feedback="errors.first('user_type')"
-        :state="!(submitted && errors.has('user_type'))"
-      >
-        <b-form-select id="user-type" v-model="formData.user_type" required>
-          <option
-            v-for="(option, idx) in Object.keys(userType)"
-            :key="idx"
-            :value="userType[option]"
-            >{{ userType[option] }}
-          </option>
-        </b-form-select>
-      </b-form-group>
       <div class="d-flex justify-content-end mt-4">
         <b-button variant="outline-primary" @click="handleClickLogin"
           >Login</b-button
@@ -93,12 +78,11 @@ export default {
   data() {
     return {
       submitted: false,
-      userType: USER_TYPE,
       formData: {
         email: '',
         username: '',
         password: '',
-        user_type: USER_TYPE.INSERT
+        user_type: USER_TYPE.ADMIN
       }
     };
   },
