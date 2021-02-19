@@ -37,6 +37,7 @@ axios.interceptors.response.use(
       return Promise.reject(error);
     } else if (status === 401) {
       store.commit(PURGE_AUTH);
+      return Promise.reject(error);
       router.push('/login');
     } else {
       return Promise.reject(error);

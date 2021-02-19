@@ -195,10 +195,13 @@ export default {
   },
   async created() {
     const loader = this.$loading.show();
-    this.brandList = await getBrand();
-    this.paymentMethodList = await getPaymentMethod();
-    this.expensesTypeList = await getExpensesType();
-    loader.hide();
+    try {
+      this.brandList = await getBrand();
+      this.paymentMethodList = await getPaymentMethod();
+      this.expensesTypeList = await getExpensesType();
+    } catch (err) {
+      loader.hide();
+    }
   },
   computed: {
     buttonStr: function() {

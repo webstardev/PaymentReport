@@ -178,7 +178,7 @@ export default {
     };
   },
   async created() {
-    if (this.currentUser.user_type !== USER_TYPE.VIEW) this.$router.push('/');
+    if (this.currentUser.user_type === USER_TYPE.INSERT) this.$router.push('/');
 
     const loader = this.$loading.show();
 

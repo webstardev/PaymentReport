@@ -152,8 +152,12 @@ export default {
   },
   async created() {
     const loader = this.$loading.show();
-    this.brandList = await getBrand();
-    this.paymentMethodList = await getPaymentMethod();
+    try {
+      this.brandList = await getBrand();
+      this.paymentMethodList = await getPaymentMethod();
+    } catch (err) {
+      loader.hide();
+    }
     loader.hide();
   },
   computed: {
@@ -200,12 +204,12 @@ export default {
           brand_id: this.formData.brand_id,
           date: this.formData.date,
           sum: this.formData.sum,
-          payment_method: this.formData.payment_method,
+          payment_method: this.formData.payment_method.map(x => x.id),
           received: this.formData.received,
           comments: this.formData.comments
         };
         try {
-          let res = await axios.post('/api/keyin', keyInFormData, {
+          let res = await axios.post('/api/income-key-in', keyInFormData, {
             headers: {
               'Content-Type': 'application/json'
             }

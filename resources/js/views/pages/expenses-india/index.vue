@@ -100,10 +100,10 @@ export default {
       this.brandList = await getBrand();
     } catch (err) {
       this.brandList = [];
+      loader.hide();
     }
-    this.filterReport();
-
     loader.hide();
+    this.filterReport();
   },
 
   methods: {

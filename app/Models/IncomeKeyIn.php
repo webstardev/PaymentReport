@@ -16,7 +16,7 @@ class IncomeKeyIn extends Model
 		return $this->belongsTo('App\User');
 	}
 
-    public function paymentMethod() {
-        return $this->belongsToMany('App\PaymentMethod');
+    public function paymentMethods() {
+        return $this->belongsToMany(PaymentMethod::class)->withPivot(['id'])->orderBy('pivot_id');
     }
 }

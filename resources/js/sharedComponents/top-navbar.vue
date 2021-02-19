@@ -68,16 +68,21 @@
                 {{ currentUser.user_type }}
               </span>
             </template>
-            <b-dropdown-item @click="$router.push({ name: 'create-user' })"
-              >Create User</b-dropdown-item
-            >
-            <b-dropdown-item
-              @click="$router.push({ name: 'create-payment-method' })"
-              >Create Payment Method</b-dropdown-item
-            >
-            <b-dropdown-item
-              @click="$router.push({ name: 'create-expenses-type' })"
-              >Create Expenses Type</b-dropdown-item
+            <template v-if="currentUser.user_type === userType.ADMIN">
+              <b-dropdown-item @click="$router.push({ name: 'create-user' })"
+                >Create User</b-dropdown-item
+              >
+              <b-dropdown-item
+                @click="$router.push({ name: 'create-payment-method' })"
+                >Create Payment Method</b-dropdown-item
+              >
+              <b-dropdown-item
+                @click="$router.push({ name: 'create-expenses-type' })"
+                >Create Expenses Type</b-dropdown-item
+              >
+            </template>
+            <b-dropdown-item @click="handleClickSignOut"
+              >Sign out</b-dropdown-item
             >
           </b-nav-item-dropdown>
         </template>

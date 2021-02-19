@@ -17,6 +17,7 @@ use App\Models\Brand;
 | is assigned the "api" middleware group. Enjoy building your API!
 |
 */
+Route::get('income-key-in/{id}', 'IncomeKeyInController@get');
 
 Route::group(['middleware' => 'guest:api'], function () {
     Route::post('login', 'AuthController@login');
@@ -26,9 +27,12 @@ Route::group(['middleware' => 'guest:api'], function () {
 Route::group(['middleware' => 'auth:api'], function () {
     Route::post('brand', 'BrandController@create');
     Route::get('brand/{id}', 'BrandController@get');
-    Route::post('keyin', 'KeyInController@store');
-    Route::get('keyin/{id}', 'KeyInController@get');
-    Route::post('keyin/filter', 'KeyInController@filter');
+    Route::post('income-key-in', 'IncomeKeyInController@create');
+
+    Route::post('income-key-in/filter', 'IncomeKeyInController@filter');
+    Route::post('expenses-key-in', 'ExpensesKeyInController@store');
+    Route::get('expenses-key-in/{id}', 'ExpensesKeyInController@get');
+    Route::post('expenses-key-in/filter', 'ExpensesKeyInController@filter');
     Route::get('currency', 'CurrencyController@get');
     Route::get('expenses-type/{id}', "ExpensesTypeController@get");
     Route::post('expenses-type', "ExpensesTypeController@create");

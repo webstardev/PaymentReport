@@ -23,6 +23,6 @@ class ExpensesKeyIn extends Model
     }
 
     public function paymentMethods() {
-        return $this->belongsToMany(PaymentMethod::class)->withPivot(['id']);
+        return $this->belongsToMany(PaymentMethod::class)->withPivot(['id'])->orderBy('pivot_id');
     }
 }

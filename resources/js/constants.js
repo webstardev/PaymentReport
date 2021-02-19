@@ -68,14 +68,6 @@ export const KEY_IN_TYPE = {
   EXPENSES: 'Expenses'
 };
 
-export const PAYMENT_METHOD = [
-  'BTC payment',
-  'Wire',
-  'Netseller',
-  'Skrill',
-  'Other'
-];
-
 export const RECEIVED_STATUS = {
   YES: 'Yes',
   PENDING: 'Pending'

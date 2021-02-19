@@ -107,9 +107,9 @@
         >
           <option value="all" key="all">All</option>
           <option
-            v-for="payment_method in paymentOptions"
-            :key="payment_method.code"
-            :value="payment_method.code"
+            v-for="payment_method in paymentList"
+            :key="payment_method.id"
+            :value="payment_method.id"
           >
             {{ payment_method.name }}
           </option>
@@ -135,7 +135,7 @@
 </template>
 
 <script>
-import { getBrand } from '@/services/apis';
+import { getBrand, getPaymentMethod } from '@/services/apis';
 
 export default {
   name: 'income-report-data-filter',
@@ -159,10 +159,8 @@ export default {
   },
   data() {
     return {
-      paymentOptions: PAYMENT_METHOD.map(item => {
-        return { name: item, code: item };
-      }),
-      brandList: []
+      brandList: [],
+      paymentList: []
     };
   },
   methods: {
@@ -171,12 +169,12 @@ export default {
     }
   },
   async created() {
-    //   get brand
     const loader = this.$loading.show();
     try {
       this.brandList = await getBrand();
+      this.paymentList = await getPaymentMethod();
     } catch (err) {
-      this.brandList = [];
+      loader.hide();
     }
     loader.hide();
   }

@@ -89,7 +89,7 @@
                 </td>
                 <td>{{ income.comments }}</td>
                 <td>
-                  {{ income.payment_method.map(item => item.name).join(', ') }}
+                  {{ income.payment_methods.map(item => item.name).join(', ') }}
                 </td>
                 <td>{{ `${income.brand.currency} ${income.sum}` }}</td>
                 <td>{{ Number(income.sum_euro).toFixed(2) }}</td>
@@ -133,8 +133,7 @@
 
 <script>
 import { mapGetters } from 'vuex';
-import { CATEGORY, KEY_IN_TYPE, USER_TYPE, AGENT_SYSTEM } from '@/constants';
-import { getBrand } from '@/services/apis';
+import { CATEGORY, USER_TYPE, AGENT_SYSTEM } from '@/constants';
 import { getDateRange } from '@/utils/date';
 import { calculateCurrency } from '@/utils/currency';
 import TopNavbar from '@/sharedComponents/top-navbar.vue';
@@ -177,7 +176,7 @@ export default {
     };
   },
   async created() {
-    if (this.currentUser.user_type !== USER_TYPE.VIEW) this.$router.push('/');
+    if (this.currentUser.user_type === USER_TYPE.INSERT) this.$router.push('/');
     const loader = this.$loading.show();
 
     // get currency
@@ -190,14 +189,7 @@ export default {
       this.currencyData = {};
     }
 
-    //   get brand
-    try {
-      this.brandList = await getBrand();
-    } catch (err) {
-      this.brandList = [];
-    }
     this.filterIncomeReport();
-
     loader.hide();
   },
   methods: {
@@ -213,14 +205,13 @@ export default {
       const loader = this.$loading.show();
       try {
         let resList = await axios.post(
-          '/api/keyin/filter',
+          '/api/income-key-in/filter',
           {
             date_range: {
               startDate: new Date(this.dateRange.startDate),
               endDate: new Date(this.dateRange.endDate)
             },
             filter: {
-              type: KEY_IN_TYPE.INCOME,
               ...this.filter
             }
           },
@@ -235,7 +226,6 @@ export default {
             ...resList.data.map(item => {
               return {
                 ...item,
-                payment_method: JSON.parse(item.payment_method),
                 sum_euro: calculateCurrency(
                   { sum: item.sum, currency: item.brand.currency },
                   this.currencyData

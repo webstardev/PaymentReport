@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class CreateExpensesPaymentPivotTable extends Migration
+class CreateIncomePaymentPivotTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,9 +13,9 @@ class CreateExpensesPaymentPivotTable extends Migration
      */
     public function up()
     {
-        Schema::create('expenses_key_in_payment_method', function (Blueprint $table) {
+        Schema::create('income_key_in_payment_method', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('expenses_key_in_id')->constrained('expenses_key_ins');
+            $table->foreignId('income_key_in_id')->constrained('income_key_ins');
             $table->foreignId('payment_method_id')->constrained('payment_methods');
             $table->timestamps();
         });
@@ -28,6 +28,6 @@ class CreateExpensesPaymentPivotTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('expenses_key_ins_payment_methods');
+        Schema::dropIfExists('income_key_ins_payment_methods');
     }
 }
