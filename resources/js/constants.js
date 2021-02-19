@@ -70,7 +70,7 @@ export const KEY_IN_TYPE = {
 
 export const RECEIVED_STATUS = {
   YES: 'Yes',
-  PENDING: 'Pending'
+  PENDING: 'No'
 };
 
 // export const EXPENSES_TYPE = [

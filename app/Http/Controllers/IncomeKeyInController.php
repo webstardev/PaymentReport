@@ -52,15 +52,26 @@ class IncomeKeyInController extends Controller
             ->when($status && $status !='all', function ($query) use ($status) {
                 $query->where('received', $status);
             })
-            ->when($payment_method && $payment_method != 'all', function ($query) use ($payment_method) {
-                $query->wherePivot('paymentMethods', $payment_method);
-            })
             ->when(($startDate && $endDate), function ($query) use ($startDate, $endDate) {
                 $query->where('date', '>=', $startDate)
                 ->where('date', '<=', $endDate);
             })
             ->get();
-            return $incomeKeyIn;
+
+            if ($payment_method && $payment_method != 'all') {
+                $newIncomeKeyIn = [];
+                foreach($incomeKeyIn as $key=>$value) {
+                    $paymentIds = array_map(
+                        function($o) { return $o->id;},
+                        json_decode($value)->payment_methods
+                    );
+                    if (in_array($payment_method, $paymentIds)) {
+                        $newIncomeKeyIn[$key] = $value;
+                    }
+                }
+                return $newIncomeKeyIn;
+            } else
+                return $incomeKeyIn;
         } catch (\Throwable $e) {
             Log::error('Filter IncomeKeyIn : ' . $e->getMessage());
             return response()->json(['error' => 'Internal server error'], 500);
