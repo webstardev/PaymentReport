@@ -213,10 +213,7 @@ export default {
               startDate: new Date(this.dateRange.startDate),
               endDate: new Date(this.dateRange.endDate)
             },
-            filter: {
-              type: KEY_IN_TYPE.EXPENSES,
-              ...this.filter
-            }
+            filter: this.filter
           },
           {
             headers: {
