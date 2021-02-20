@@ -91,8 +91,8 @@
         <b-row v-if="curStep === keySteps.SELECT_EXPENSES_TYPE">
           <b-col md="4">
             <b-form-group label="Expenses type:" label-for="expenses-type">
-              <b-form-select v-model="formData.expenses_type" required>
-                <option disabled :selected="!formData.expenses_type" value=""
+              <b-form-select v-model="formData.expenses_type_id" required>
+                <option disabled :selected="!formData.expenses_type_id" value=""
                   >Select a expenses type</option
                 >
                 <option
@@ -163,7 +163,7 @@
 
 <script>
 import Swal from 'sweetalert2';
-import { KEY_IN_STEPS, KEY_IN_TYPE, CURRENCIES, COUNTRIES } from '@/constants';
+import { KEY_IN_STEPS, CURRENCIES, COUNTRIES } from '@/constants';
 import TopNavbar from '@/sharedComponents/top-navbar.vue';
 import { getBrand, getPaymentMethod, getExpensesType } from '@/services/apis';
 
@@ -189,7 +189,7 @@ export default {
         comments: '',
         currency: '',
         country: '',
-        expenses_type: ''
+        expenses_type_id: ''
       }
     };
   },
@@ -202,6 +202,7 @@ export default {
     } catch (err) {
       loader.hide();
     }
+    loader.hide();
   },
   computed: {
     buttonStr: function() {
@@ -249,19 +250,18 @@ export default {
       if (this.curStep === KEY_IN_STEPS.SELECT_COMMENTS) {
         const loader = this.$loading.show();
         let keyInFormData = {
-          type: KEY_IN_TYPE.EXPENSES,
           brand_id: this.formData.brand_id,
           date: this.formData.date,
           currency: this.formData.currency,
           country: this.formData.country,
-          expenses_type: this.formData.expenses_type,
+          expenses_type_id: this.formData.expenses_type_id,
           sum: this.formData.sum,
-          payment_method: this.formData.payment_method.map(item => item.id),
+          payment_method: this.formData.payment_method.map(x => x.id),
           comments: this.formData.comments
         };
 
         try {
-          let res = await axios.post('/api/keyin', keyInFormData, {
+          let res = await axios.post('/api/expenses-key-in', keyInFormData, {
             headers: {
               'Content-Type': 'application/json'
             }
@@ -280,7 +280,7 @@ export default {
                   comments: '',
                   currency: '',
                   country: '',
-                  expenses_type: ''
+                  expenses_type_id: ''
                 };
               });
               this.curStep = KEY_IN_STEPS.CREATE_KEY_IN;

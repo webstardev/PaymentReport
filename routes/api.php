@@ -27,16 +27,21 @@ Route::group(['middleware' => 'guest:api'], function () {
 Route::group(['middleware' => 'auth:api'], function () {
     Route::post('brand', 'BrandController@create');
     Route::get('brand/{id}', 'BrandController@get');
-    Route::post('income-key-in', 'IncomeKeyInController@create');
 
+    Route::get('income-key-in/{id}', 'IncomeKeyInController@get');
+    Route::post('income-key-in', 'IncomeKeyInController@create');
     Route::post('income-key-in/filter', 'IncomeKeyInController@filter');
-    Route::post('expenses-key-in', 'ExpensesKeyInController@store');
+
     Route::get('expenses-key-in/{id}', 'ExpensesKeyInController@get');
+    Route::post('expenses-key-in', 'ExpensesKeyInController@create');
     Route::post('expenses-key-in/filter', 'ExpensesKeyInController@filter');
+
     Route::get('currency', 'CurrencyController@get');
     Route::get('expenses-type/{id}', "ExpensesTypeController@get");
     Route::post('expenses-type', "ExpensesTypeController@create");
+
     Route::get('payment-method/{id}', "PaymentMethodController@get");
     Route::post('payment-method', "PaymentMethodController@create");
+
     Route::post('create-user', "UserController@createUser");
 });

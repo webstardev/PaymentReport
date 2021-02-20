@@ -9,27 +9,19 @@ use Illuminate\Support\Facades\Auth;
 
 class ExpensesKeyInController extends Controller
 {
-    /**
-     * Store a newly created resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
-     */
-    public function store(Request $request)
+    public function create(Request $request)
     {
         //
         try {
             $expensesKeyIn = new ExpensesKeyIn();
             $expensesKeyIn->user_id = Auth::user()->id;
-            $expensesKeyIn->type = $request->type;
             $expensesKeyIn->brand_id = $request->brand_id;
             $expensesKeyIn->date = $request->date;
             $expensesKeyIn->sum = $request->sum;
-            $expensesKeyIn->payment_method = $request->payment_method;
             $expensesKeyIn->comments = $request->comments;
             $expensesKeyIn->currency = $request->currency;
             $expensesKeyIn->country = $request->country;
-            $expensesKeyIn->expenses_type = $request->expenses_type;
+            $expensesKeyIn->expenses_type_id = $request->expenses_type_id;
             $expensesKeyIn->save();
             return $expensesKeyIn;
         } catch (\Throwable $e) {
@@ -52,7 +44,7 @@ class ExpensesKeyInController extends Controller
         $endDate = $date_range['endDate'];
 
         try {
-            $expensesKeyIn = ExpensesKeyIn::with(['brand', 'user', 'expenses_type', 'payment_method'])
+            $expensesKeyIn = ExpensesKeyIn::with(['brand', 'user', 'expensesType', 'paymentMethods'])
             ->when($type && $type !== 'all', function ($query) use ($type) {
                 $query->where('type', $type);
             })
@@ -72,20 +64,50 @@ class ExpensesKeyInController extends Controller
                     $query->where('id', $expenses_type);
                 });
             })
-            // ->when($payment_method && $payment_method != 'all', function ($query) use ($payment_method) {
-            //     $query->whereHas('payment_method', function($query) use ($payment_method) {
-            //         $query->whereIn('id', $payment_method);
-            //     });
-            // })
             ->when(($startDate && $endDate), function ($query) use ($startDate, $endDate) {
                 $query->where('date', '>=', $startDate)
                 ->where('date', '<=', $endDate);
             })
             ->get();
+
+            if ($payment_method && $payment_method != 'all') {
+                $newExpensesKeyIn = [];
+                foreach($expensesKeyIn as $key=>$value) {
+                    $paymentIds = array_map(
+                        function($o) { return $o->id;},
+                        json_decode($value)->payment_methods
+                    );
+                    if (in_array($payment_method, $paymentIds)) {
+                        $newExpensesKeyIn[$key] = $value;
+                    }
+                }
+                return $newExpensesKeyIn;
+            } else
+                return $expensesKeyIn;
+
             return $expensesKeyIn;
         } catch (\Throwable $e) {
             Log::error('Filter KeyIn : ' . $e->getMessage());
             return response()->json(['error' => 'Internal server error'], 500);
         }
     }
+
+    public function get(Request $request, $id)
+    {
+        try {
+            if ($id ==='all') {
+                if (Auth::user()->user_type === 'Admin')
+                    $expenses = ExpensesKeyIn::where('user_id', Auth::user()->id)->with(['paymentMethods', 'user', 'brand', 'expensesType'])->get();
+                else
+                    $expenses = ExpensesKeyIn::with(['paymentMethods', 'user', 'brand', 'expensesType'])->get();
+            } else{
+                $expenses = ExpensesKeyIn::where('id', $id)->with(['paymentMethods', 'user', 'brand', 'expensesType'])->get();
+            }
+            return $expenses;
+        } catch(\Throwable $e) {
+            Log::error('Get Expenses KeyIn : ' . $e->getMessage());
+            return response()->json(['error' => 'Internal server error'], 500);
+        }
+    }
+
 }

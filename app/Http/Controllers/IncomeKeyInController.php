@@ -19,7 +19,6 @@ class IncomeKeyInController extends Controller
             $incomeKeyIn->brand_id = $request->brand_id;
             $incomeKeyIn->date = $request->date;
             $incomeKeyIn->sum = $request->sum;
-            // $incomeKeyIn->payment_method = $request->payment_method;
             $incomeKeyIn->received = $request->received;
             $incomeKeyIn->comments = $request->comments;
             $incomeKeyIn->save();
@@ -81,13 +80,17 @@ class IncomeKeyInController extends Controller
     public function get(Request $request, $id)
     {
         try {
-            if ($id ==='all')
+            if ($id ==='all'){
+                if (Auth::user()->user_type === 'Admin')
+                    $income = IncomeKeyIn::with(['paymentMethods', 'user', 'brand'])->get();
+                else
+                    $income = IncomeKeyIn::where('user_id', Auth::user()->id)->with(['paymentMethods', 'user', 'brand'])->get();
+            } else
                 $income = IncomeKeyIn::where('id', $id)->with(['paymentMethods', 'user', 'brand'])->get();
-            else
-                $income = IncomeKeyIn::where('user_id', Auth::user()->id)->with(['paymentMethods', 'user', 'brand'])->get();
             return $income;
         } catch(\Throwable $e) {
-
+            Log::error('Get Income KeyIn : ' . $e->getMessage());
+            return response()->json(['error' => 'Internal server error'], 500);
         }
     }
 

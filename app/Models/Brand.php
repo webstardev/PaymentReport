@@ -10,9 +10,7 @@ class Brand extends Model
     //
     public function setCategoryAttribute($value)
     {
-
         $this->attributes['category'] = json_encode($value);
-
     }
 
     public function getCategoryAttribute($value)

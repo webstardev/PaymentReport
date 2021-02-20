@@ -22,7 +22,6 @@ class CreateExpensesKeyInTable extends Migration
             $table->string('country');
             $table->foreignId('expenses_type_id')->constraind('expenses_types');
             $table->float('sum');
-            $table->foreignId('payment_method_id')->constraind('payment_methods');
             $table->string('comments');
             $table->timestamps();
         });
