@@ -23,6 +23,8 @@ class ExpensesKeyInController extends Controller
             $expensesKeyIn->country = $request->country;
             $expensesKeyIn->expenses_type_id = $request->expenses_type_id;
             $expensesKeyIn->save();
+
+            $expensesKeyIn->paymentMethods()->sync($request->payment_method);
             return $expensesKeyIn;
         } catch (\Throwable $e) {
             Log::error('Creating ExpensesKeyIn : ' . $e->getMessage());
@@ -32,12 +34,10 @@ class ExpensesKeyInController extends Controller
 
     public function filter(Request $request)
     {
-        $type = $request->filter['type'];
         $brand_id = isset($request->filter['brand_id']) ? $request->filter['brand_id'] : null;
         $payment_method = isset($request->filter['payment_method']) ?  $request->filter['payment_method'] : null;
         $expenses_type = isset($request->filter['expenses_type']) ?  $request->filter['expenses_type'] : null;
         $country = isset($request->filter['country']) ? $request->filter['country'] : null;
-        $status = isset($request->filter['status']) ? $request->filter['status'] : null;
 
         $date_range = $request->date_range;
         $startDate = $date_range['startDate'];
@@ -45,9 +45,6 @@ class ExpensesKeyInController extends Controller
 
         try {
             $expensesKeyIn = ExpensesKeyIn::with(['brand', 'user', 'expensesType', 'paymentMethods'])
-            ->when($type && $type !== 'all', function ($query) use ($type) {
-                $query->where('type', $type);
-            })
             ->when($brand_id && $brand_id != 'all', function ($query) use ($brand_id) {
                 $query->whereHas('brand', function($query) use ($brand_id) {
                     $query->where('id', $brand_id);
@@ -55,9 +52,6 @@ class ExpensesKeyInController extends Controller
             })
             ->when($country && $country !='all', function ($query) use ($country) {
                 $query->where('country', $country);
-            })
-            ->when($status && $status !='all', function ($query) use ($status) {
-                $query->where('received', $status);
             })
             ->when($expenses_type && $expenses_type != 'all', function ($query) use ($expenses_type) {
                 $query->whereHas('expenses_type', function($query) use ($expenses_type) {

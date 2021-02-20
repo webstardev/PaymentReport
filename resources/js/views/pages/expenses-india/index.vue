@@ -53,7 +53,7 @@
 
 <script>
 import { mapGetters } from 'vuex';
-import { CATEGORY, KEY_IN_TYPE, USER_TYPE } from '@/constants';
+import { CATEGORY, USER_TYPE } from '@/constants';
 import { getBrand } from '@/services/apis';
 import { getDateRange } from '@/utils/date';
 import { calculateCurrency } from '@/utils/currency';
@@ -82,7 +82,7 @@ export default {
     };
   },
   async created() {
-    if (this.currentUser.user_type !== USER_TYPE.VIEW) this.$router.push('/');
+    if (this.currentUser.user_type === USER_TYPE.INSERT) this.$router.push('/');
 
     const loader = this.$loading.show();
     // get currency
@@ -100,7 +100,6 @@ export default {
       this.brandList = await getBrand();
     } catch (err) {
       this.brandList = [];
-      loader.hide();
     }
     loader.hide();
     this.filterReport();
@@ -115,14 +114,13 @@ export default {
       const loader = this.$loading.show();
       try {
         let resList = await axios.post(
-          '/api/keyin/filter',
+          '/api/expenses-key-in/filter',
           {
             date_range: {
               startDate: new Date(this.dateRange.startDate),
               endDate: new Date(this.dateRange.endDate)
             },
             filter: {
-              type: KEY_IN_TYPE.EXPENSES,
               country: 'India'
             }
           },
@@ -137,7 +135,6 @@ export default {
             ...resList.data.map(item => {
               return {
                 ...item,
-                payment_method: JSON.parse(item.payment_method),
                 sum_euro: calculateCurrency(
                   { sum: item.sum, currency: item.currency },
                   this.currencyData

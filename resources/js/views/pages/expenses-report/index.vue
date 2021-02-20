@@ -28,7 +28,6 @@
                 <th>Payment method</th>
                 <th>Sum(in Original currency)</th>
                 <th>In Euro</th>
-                <th>Status</th>
               </tr>
             </thead>
             <tbody>
@@ -87,10 +86,10 @@
                       : ''
                   }}
                 </td>
-                <td>{{ expenses.expenses_type }}</td>
+                <td>{{ expenses.expenses_type.name }}</td>
                 <td>
                   {{
-                    expenses.payment_method.map(item => item.name).join(', ')
+                    expenses.payment_methods.map(item => item.name).join(', ')
                   }}
                 </td>
                 <td>{{ `${expenses.currency} ${expenses.sum}` }}</td>
@@ -171,8 +170,7 @@ export default {
         whitelabel: 'all',
         other: 'all',
         expenses_type: 'all',
-        payment_method: 'all',
-        status: 'all'
+        payment_method: 'all'
       },
       expensesReportList: []
     };
@@ -209,7 +207,7 @@ export default {
       const loader = this.$loading.show();
       try {
         let resList = await axios.post(
-          '/api/keyin/filter',
+          '/api/expenses-key-in/filter',
           {
             date_range: {
               startDate: new Date(this.dateRange.startDate),
@@ -231,7 +229,6 @@ export default {
             ...resList.data.map(item => {
               return {
                 ...item,
-                payment_method: JSON.parse(item.payment_method),
                 sum_euro: calculateCurrency(
                   { sum: item.sum, currency: item.currency },
                   this.currencyData

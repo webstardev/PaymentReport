@@ -136,21 +136,6 @@
           </option>
         </b-form-select>
       </b-form-group>
-      <b-form-group
-        class="dropdown-container"
-        label="Status:"
-        labe-for="filter-status"
-      >
-        <b-form-select
-          id="filter-status"
-          :value="filter.status"
-          @change="$event => changeFilter('status', $event)"
-        >
-          <option value="all" key="all">All</option>
-          <option value="Yes">Approved</option>
-          <option value="No">Pending</option>
-        </b-form-select>
-      </b-form-group>
     </b-col>
   </b-row>
 </template>
@@ -172,8 +157,7 @@ export default {
           api: 'all',
           whitelabel: 'all',
           other: 'all',
-          payment_method: 'all',
-          status: 'all'
+          payment_method: 'all'
         };
       }
     }
@@ -191,9 +175,15 @@ export default {
     }
   },
   async created() {
-    this.brandList = await getBrand();
-    this.paymentMethodList = await getPaymentMethod();
-    this.expensesList = await getExpensesType();
+    const loader = this.$loading.show();
+    try {
+      this.brandList = await getBrand();
+      this.paymentMethodList = await getPaymentMethod();
+      this.expensesList = await getExpensesType();
+    } catch (err) {
+      loader.hide();
+    }
+    loader.hide();
   }
 };
 </script>

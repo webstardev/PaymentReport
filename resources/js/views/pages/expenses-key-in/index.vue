@@ -259,7 +259,6 @@ export default {
           payment_method: this.formData.payment_method.map(x => x.id),
           comments: this.formData.comments
         };
-
         try {
           let res = await axios.post('/api/expenses-key-in', keyInFormData, {
             headers: {

@@ -19,7 +19,7 @@ class ExpensesKeyIn extends Model
 
     public function expensesType()
     {
-        return $this->belongsTo('App\ExpensesType');
+        return $this->belongsTo('App\Models\ExpensesType');
     }
 
     public function paymentMethods() {
