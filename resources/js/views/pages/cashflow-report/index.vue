@@ -97,7 +97,6 @@ export default {
   },
   computed: {
     totalIncome: function() {
-      debugger;
       return this.incomeReportList.reduce(
         (total, obj) => obj.sum_euro + total,
         0
