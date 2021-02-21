@@ -19,35 +19,35 @@ class PaymentMethodSeeder extends Seeder
                 'name'=> 'BTC payment',
                 'created_at' => Carbon::now()->format('Y-m-d H:i:s'),
                 'updated_at' => Carbon::now()->format('Y-m-d H:i:s')
-            ],
+            ]
         );
         PaymentMethod::insert(
             [
                 'name'=> 'Wire',
                 'created_at' => Carbon::now()->format('Y-m-d H:i:s'),
                 'updated_at' => Carbon::now()->format('Y-m-d H:i:s')
-            ],
+            ]
         );
         PaymentMethod::insert(
             [
                 'name'=> 'Netseller',
                 'created_at' => Carbon::now()->format('Y-m-d H:i:s'),
                 'updated_at' => Carbon::now()->format('Y-m-d H:i:s')
-            ],
+            ]
         );
         PaymentMethod::insert(
             [
                 'name'=> 'Skrill',
                 'created_at' => Carbon::now()->format('Y-m-d H:i:s'),
                 'updated_at' => Carbon::now()->format('Y-m-d H:i:s')
-            ],
+            ]
         );
         PaymentMethod::insert(
             [
                 'name'=> 'Other',
                 'created_at' => Carbon::now()->format('Y-m-d H:i:s'),
                 'updated_at' => Carbon::now()->format('Y-m-d H:i:s')
-            ],
+            ]
         );
     }
 }

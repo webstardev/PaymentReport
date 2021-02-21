@@ -21,7 +21,7 @@ class BackOfficeAdminSeeder extends Seeder
                 'user_type' => 'Admin',
                 'created_at' => Carbon::now()->format('Y-m-d H:i:s'),
                 'updated_at' => Carbon::now()->format('Y-m-d H:i:s')
-            ],
+            ]
         );
 
     }
