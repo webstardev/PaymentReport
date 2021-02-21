@@ -72,7 +72,7 @@ class ExpensesKeyInController extends Controller
                         json_decode($value)->payment_methods
                     );
                     if (in_array($payment_method, $paymentIds)) {
-                        $newExpensesKeyIn[$key] = $value;
+                        array_push($newExpensesKeyIn, $value);
                     }
                 }
                 return $newExpensesKeyIn;

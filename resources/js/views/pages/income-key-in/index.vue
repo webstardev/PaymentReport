@@ -200,7 +200,7 @@ export default {
           if (res && res.data) {
             if (res.status === 201) {
               Swal.fire({
-                title: 'KeyIn Created.',
+                title: 'Income Add Success.',
                 icon: 'success'
               }).then(result => {
                 this.formData = {
@@ -215,14 +215,14 @@ export default {
               this.curStep = KEY_IN_STEPS.SELECT_BRAND;
             } else {
               Swal.fire({
-                title: 'Create KeyIn Failed.',
+                title: 'Income Add Failed.',
                 icon: 'warning'
               });
             }
           }
         } catch (err) {
           Swal.fire({
-            title: 'Create KeyIn Failed.',
+            title: 'Income Add Failed.',
             icon: 'error'
           });
         }

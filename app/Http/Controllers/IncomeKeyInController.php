@@ -64,8 +64,9 @@ class IncomeKeyInController extends Controller
                         function($o) { return $o->id;},
                         json_decode($value)->payment_methods
                     );
+                    Log::error($paymentIds);
                     if (in_array($payment_method, $paymentIds)) {
-                        $newIncomeKeyIn[$key] = $value;
+                        array_push($newIncomeKeyIn, $value);
                     }
                 }
                 return $newIncomeKeyIn;
