@@ -29,7 +29,7 @@
           to="/create-new-item"
           >Create New Item
         </router-link> -->
-        <template v-if="currentUser.user_type !== userType.VIEW">
+        <template v-if="currentUser.user_type !== userType.INSERT">
           <router-link
             :class="`${checkActiveMenu('income-report') && 'active'} mx-3`"
             to="/income-report"

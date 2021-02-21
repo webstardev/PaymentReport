@@ -1,6 +1,6 @@
 export const USER_TYPE = {
+  VIEW: 'Insert/View',
   INSERT: 'Insert',
-  VIEW: 'View',
   ADMIN: 'Admin'
 };
 

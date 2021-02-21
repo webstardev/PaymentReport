@@ -61,11 +61,11 @@
           <option disabled :selected="!formData.user_type" value=""
             >Select a user type</option
           >
-          <option :value="userType.INSERT" :key="userType.INSERT">{{
-            userType.INSERT
-          }}</option>
           <option :value="userType.VIEW" :key="userType.VIEW">{{
             userType.VIEW
+          }}</option>
+          <option :value="userType.INSERT" :key="userType.INSERT">{{
+            userType.INSERT
           }}</option>
         </b-form-select>
       </b-form-group>
@@ -82,6 +82,7 @@
 <script>
 import Swal from 'sweetalert2';
 import { USER_TYPE } from '@/constants';
+import { mapGetters } from 'vuex';
 import TopNavbar from '@/sharedComponents/top-navbar.vue';
 import { REGISTER_USER } from '@/utils/validators';
 
@@ -103,7 +104,12 @@ export default {
       }
     };
   },
+  computed: {
+    ...mapGetters(['currentUser', 'check'])
+  },
+
   created() {
+    if (this.currentUser.user_type !== USER_TYPE.ADMIN) this.$router.push('/');
     this.$validator.localize('en', REGISTER_USER.en);
   },
   methods: {
