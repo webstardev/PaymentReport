@@ -8,7 +8,13 @@ Vue.use(Router);
 const routes = [
   {
     path: '/',
-    name: 'add-item-select',
+    name: 'create-new-item',
+    beforeEnter: auth,
+    component: () => import('@/views/pages/brand/index')
+  },
+  {
+    path: '/add-new-item',
+    name: 'add-new-item',
     beforeEnter: auth,
     component: () => import('@/views/pages/add-item-select/index')
   },
@@ -60,18 +66,18 @@ const routes = [
     beforeEnter: guest,
     component: () => import('@/views/pages/login/index')
   },
-  {
-    path: '/create-payment-method',
-    name: 'create-payment-method',
-    beforeEnter: auth,
-    component: () => import('@/views/pages/create-payment-method/index')
-  },
-  {
-    path: '/create-expenses-type',
-    name: 'create-expenses-type',
-    beforeEnter: auth,
-    component: () => import('@/views/pages/create-expenses-type/index')
-  },
+  //   {
+  //     path: '/create-payment-method',
+  //     name: 'create-payment-method',
+  //     beforeEnter: auth,
+  //     component: () => import('@/views/pages/create-payment-method/index')
+  //   },
+  //   {
+  //     path: '/create-expenses-type',
+  //     name: 'create-expenses-type',
+  //     beforeEnter: auth,
+  //     component: () => import('@/views/pages/create-expenses-type/index')
+  //   },
   {
     path: '/create-user',
     name: 'create-user',

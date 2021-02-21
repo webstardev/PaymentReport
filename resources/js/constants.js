@@ -50,6 +50,7 @@ export const AGENT_SYSTEM = {
 };
 
 export const KEY_IN_STEPS = {
+  CREATE_BRAND: 'Create Brand',
   SELECT_BRAND: 'Select brand',
   SELECT_DATE: 'Select date',
   SELECT_CURRENCY: 'Select currency',
@@ -69,6 +70,12 @@ export const KEY_IN_TYPE = {
 export const RECEIVED_STATUS = {
   YES: 'Yes',
   PENDING: 'No'
+};
+
+export const ADD_NEW_ITEM_STEPS = {
+  SELECT_ADD_TYPE: 'Select add type',
+  ADD_PAYMENT_METHOD: 'Add payment method',
+  ADD_EXPENSES_TYPE: 'Add expenses type'
 };
 
 // export const EXPENSES_TYPE = [

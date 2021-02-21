@@ -1,6 +1,11 @@
 <template>
-  <b-form @submit="onSubmit" class="pt-4">
+  <b-form @submit="onSubmit">
     <b-row>
+      <b-col md="4">
+        <a class="btn-prev" @click="gotoPrev">{{ `< Prev` }}</a>
+      </b-col>
+    </b-row>
+    <b-row class="pt-4">
       <b-col md="4">
         <b-form-group label="Insert Brand Name" label-for="brand-name">
           <b-form-input
@@ -37,6 +42,9 @@ export default {
     this.brandName = this.curBrandName;
   },
   methods: {
+    gotoPrev() {
+      this.$emit('gotoPrev');
+    },
     onSubmit(event) {
       event.preventDefault();
       this.$emit('gotoNext', {

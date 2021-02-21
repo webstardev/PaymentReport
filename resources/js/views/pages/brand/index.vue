@@ -2,9 +2,35 @@
   <b-container fluid class="root-container">
     <top-navbar></top-navbar>
     <b-container fluid="xl" class="main-container  ml-auto mr-auto py-4">
+      <template v-if="curStep === brandSteps.CREATE_BRAND">
+        <b-row class="pt-4">
+          <b-col md="12" class="d-flex align-item-center">
+            <h3>Create Brand</h3>
+            <b-button
+              variant="link"
+              class="ml-4"
+              @click="$router.push({ name: 'add-new-item' })"
+              >Add new item</b-button
+            >
+          </b-col>
+        </b-row>
+        <b-row class="mt-2">
+          <b-col md="6" class="d-flex">
+            <b-button variant="primary" type="button" @click="createBrand">
+              Create Brand
+            </b-button>
+          </b-col>
+        </b-row>
+      </template>
+
       <template v-if="curStep === brandSteps.BRAND_NAME">
         <brand-name
           :curBrandName="formData.brand_name"
+          @gotoPrev="
+            $event => {
+              curStep = brandSteps.CREATE_BRAND;
+            }
+          "
           @gotoNext="
             $event => {
               formData = { ...formData, ...$event };
@@ -191,7 +217,7 @@ export default {
       countryOptions: COUNTRIES,
       currencyOptions: CURRENCIES,
       agentSystem: AGENT_SYSTEM,
-      curStep: BRAND_STPES.BRAND_NAME,
+      curStep: BRAND_STPES.CREATE_BRAND,
       formData: {
         brand_name: '',
         category: {
@@ -220,7 +246,7 @@ export default {
         });
         if (res && res.data) {
           Swal.fire({
-            title: `Brand ${this.formData.brand_name} Added`,
+            title: `Brand ${this.formData.brand_name} Created`,
             icon: 'success'
           }).then(result => {
             this.formData = {
@@ -235,12 +261,12 @@ export default {
               selling: 0,
               comments: ''
             };
-            this.curStep = BRAND_STPES.BRAND_NAME;
+            this.curStep = BRAND_STPES.CREATE_BRAND;
           });
         }
       } catch (err) {
         Swal.fire({
-          title: 'Add Brand Failed.',
+          title: 'Create Brand Failed.',
           icon: 'error'
         });
       }
