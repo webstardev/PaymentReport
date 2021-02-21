@@ -2,7 +2,7 @@
   <b-container fluid class="root-container">
     <top-navbar></top-navbar>
     <b-form class="login-signup-form" @submit.prevent="onSubmit">
-      <h1 class="text-center mb-2">Create a user</h1>
+      <h1 class="text-center mb-2">Add a user</h1>
       <b-form-group
         id="register-email"
         label="Email"
