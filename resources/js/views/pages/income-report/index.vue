@@ -94,7 +94,20 @@
                 <td>{{ `${income.brand.currency} ${income.sum}` }}</td>
                 <td>{{ Number(income.sum_euro).toFixed(2) }}</td>
                 <td>
-                  {{ income.received === 'Yes' ? 'Approved' : 'Pending' }}
+                  <template v-if="income.received === 'Yes'">
+                    Approved
+                  </template>
+                  <template v-else>
+                    <b-dropdown
+                      variant="outline-primary"
+                      class="m-2"
+                      text="Pending"
+                    >
+                      <b-dropdown-item @click="changeStatus(income.id)"
+                        >Approved</b-dropdown-item
+                      >
+                    </b-dropdown>
+                  </template>
                 </td>
               </tr>
               <tr v-if="incomeReportList.length > 0">
@@ -139,6 +152,7 @@ import { calculateCurrency } from '@/utils/currency';
 import TopNavbar from '@/sharedComponents/top-navbar.vue';
 import DateRangerSelector from '@/sharedComponents/date-range-selector.vue';
 import IncomeReportDataFilter from './data-filter.vue';
+import Swal from 'sweetalert2';
 export default {
   name: 'income-report',
   components: {
@@ -201,6 +215,53 @@ export default {
       this.filter[newValue.keyName] = newValue.value;
       this.filterIncomeReport();
     },
+    changeStatus(incomeId) {
+      Swal.fire({
+        title: 'Are you sure to change approved?',
+        showCancelButton: true,
+        confirmButtonText: 'Yes'
+      }).then(result => {
+        if (result.isConfirmed) {
+          const loader = this.$loading.show();
+          axios
+            .post(
+              '/api/income-key-in/changestatus',
+              { id: incomeId, received: 'Yes' },
+              {
+                headers: {
+                  'Content-Type': 'application/json'
+                }
+              }
+            )
+            .then(res => {
+              if (res && res.data) {
+                Swal.fire({
+                  icon: 'success',
+                  title: 'Change Status Success'
+                });
+                this.incomeReportList = this.incomeReportList.map(item => {
+                  if (item.id === incomeId) return { ...item, received: 'Yes' };
+                  return item;
+                });
+              } else {
+                Swal.fire({
+                  icon: 'error',
+                  title: 'Change Status Failed'
+                });
+              }
+
+              loader.hide();
+            })
+            .catch(err => {
+              loader.hide();
+              Swal.fire({
+                icon: 'error',
+                title: 'Change Status Failed'
+              });
+            });
+        }
+      });
+    },
     async filterIncomeReport() {
       const loader = this.$loading.show();
       try {
@@ -249,5 +310,8 @@ export default {
   td {
     border: 1px solid grey;
   }
+}
+
+.pending-dropdown {
 }
 </style>

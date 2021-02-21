@@ -31,6 +31,7 @@ Route::group(['middleware' => 'auth:api'], function () {
     Route::get('income-key-in/{id}', 'IncomeKeyInController@get');
     Route::post('income-key-in', 'IncomeKeyInController@create');
     Route::post('income-key-in/filter', 'IncomeKeyInController@filter');
+    Route::post('income-key-in/changestatus', 'IncomeKeyInController@changeStatus');
 
     Route::get('expenses-key-in/{id}', 'ExpensesKeyInController@get');
     Route::post('expenses-key-in', 'ExpensesKeyInController@create');

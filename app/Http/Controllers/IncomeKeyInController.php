@@ -95,4 +95,16 @@ class IncomeKeyInController extends Controller
         }
     }
 
+    public function changeStatus(Request $request) {
+        try {
+            $income = IncomeKeyIn::find($request->id);
+            $income->received = $request->received;
+            $income->save();
+            return $income;
+        } catch(\Throwable $e) {
+            Log::error('Change Income Status : ' . $e->getMessage());
+            return response()->json(['error' => 'Internal server error'], 500);
+        }
+    }
+
 }
