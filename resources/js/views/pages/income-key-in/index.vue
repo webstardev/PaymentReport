@@ -3,19 +3,7 @@
     <top-navbar></top-navbar>
     <b-container fluid="xl" class="main-container ml-auto mr-auto py-4">
       <b-form @submit="onSubmit" class="pt-4">
-        <b-row v-if="curStep === keySteps.CREATE_KEY_IN">
-          <b-col md="6">
-            <h3>Create Income-Key In</h3>
-          </b-col>
-        </b-row>
-
-        <b-row
-          class="mb-2"
-          v-if="
-            curStep !== keySteps.CREATE_KEY_IN &&
-              curStep !== keySteps.SELECT_BRAND
-          "
-        >
+        <b-row class="mb-2" v-if="curStep !== keySteps.SELECT_BRAND">
           <b-col md="4">
             <a class="btn-prev" @click="gotoPrev">{{ `< Prev` }}</a>
           </b-col>
@@ -136,12 +124,12 @@ export default {
   data() {
     return {
       keySteps: KEY_IN_STEPS,
-      curStep: KEY_IN_STEPS.CREATE_KEY_IN,
+      curStep: KEY_IN_STEPS.SELECT_BRAND,
       receivedStatus: RECEIVED_STATUS,
       brandList: [],
       paymentMethodList: [],
       formData: {
-        brand_id: null,
+        brand_id: '',
         date: null,
         sum: 0,
         payment_method: [],
@@ -162,18 +150,13 @@ export default {
   },
   computed: {
     buttonStr: function() {
-      if (this.curStep === KEY_IN_STEPS.CREATE_KEY_IN)
-        return 'Create Income-Key in';
-      else if (this.curStep === KEY_IN_STEPS.SELECT_COMMENTS) return 'Submit';
+      if (this.curStep === KEY_IN_STEPS.SELECT_COMMENTS) return 'Submit';
       return 'Next';
     }
   },
   methods: {
     gotoPrev() {
       switch (this.curStep) {
-        case KEY_IN_STEPS.SELECT_BRAND:
-          this.curStep = KEY_IN_STEPS.CREATE_KEY_IN;
-          break;
         case KEY_IN_STEPS.SELECT_DATE:
           this.curStep = KEY_IN_STEPS.SELECT_BRAND;
           break;
@@ -190,7 +173,7 @@ export default {
           this.curStep = KEY_IN_STEPS.SELECT_RECEIVED;
           break;
         default:
-          this.curStep = KEY_IN_STEPS.CREATE_KEY_IN;
+          this.curStep = KEY_IN_STEPS.SELECT_BRAND;
           break;
       }
     },
@@ -229,7 +212,7 @@ export default {
                   comments: ''
                 };
               });
-              this.curStep = KEY_IN_STEPS.CREATE_KEY_IN;
+              this.curStep = KEY_IN_STEPS.SELECT_BRAND;
             } else {
               Swal.fire({
                 title: 'Create KeyIn Failed.',
@@ -247,13 +230,9 @@ export default {
         loader.hide();
       } else {
         switch (this.curStep) {
-          case KEY_IN_STEPS.CREATE_KEY_IN:
-            this.curStep = KEY_IN_STEPS.SELECT_BRAND;
-            break;
           case KEY_IN_STEPS.SELECT_BRAND:
             this.curStep = KEY_IN_STEPS.SELECT_DATE;
             break;
-
           case KEY_IN_STEPS.SELECT_DATE:
             this.curStep = KEY_IN_STEPS.SELECT_SUM;
             break;
@@ -267,7 +246,7 @@ export default {
             this.curStep = KEY_IN_STEPS.SELECT_COMMENTS;
             break;
           default:
-            this.curStep = KEY_IN_STEPS.CREATE_KEY_IN;
+            this.curStep = KEY_IN_STEPS.SELECT_BRAND;
             break;
         }
       }

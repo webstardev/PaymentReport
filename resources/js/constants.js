@@ -51,7 +51,6 @@ export const AGENT_SYSTEM = {
 };
 
 export const KEY_IN_STEPS = {
-  CREATE_KEY_IN: 'Create Key',
   SELECT_BRAND: 'Select brand',
   SELECT_DATE: 'Select date',
   SELECT_CURRENCY: 'Select currency',

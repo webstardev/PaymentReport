@@ -17,18 +17,18 @@
         <router-link
           to="/income-key-in"
           :class="`${checkActiveMenu('income-key-in') && 'active'} mx-3`"
-          >Income-Key in</router-link
+          >Add Income</router-link
         >
         <router-link
           to="/expenses-key-in"
           :class="`${checkActiveMenu('expenses-key-in') && 'active'} mx-3`"
-          >Expenses Key in</router-link
+          >Add Expenses</router-link
         >
-        <router-link
+        <!-- <router-link
           :class="`${checkActiveMenu('create-new-item') && 'active'} mx-3`"
           to="/create-new-item"
           >Create New Item
-        </router-link>
+        </router-link> -->
         <template v-if="currentUser.user_type !== userType.VIEW">
           <router-link
             :class="`${checkActiveMenu('income-report') && 'active'} mx-3`"
@@ -70,16 +70,16 @@
             </template>
             <template v-if="currentUser.user_type === userType.ADMIN">
               <b-dropdown-item @click="$router.push({ name: 'create-user' })"
-                >Create User</b-dropdown-item
+                >Add User</b-dropdown-item
               >
-              <b-dropdown-item
+              <!-- <b-dropdown-item
                 @click="$router.push({ name: 'create-payment-method' })"
                 >Create Payment Method</b-dropdown-item
               >
               <b-dropdown-item
                 @click="$router.push({ name: 'create-expenses-type' })"
                 >Create Expenses Type</b-dropdown-item
-              >
+              > -->
             </template>
             <b-dropdown-item @click="handleClickSignOut"
               >Sign out</b-dropdown-item
