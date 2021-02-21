@@ -116,39 +116,48 @@ export default {
     async onSubmit(event) {
       event.preventDefault();
       this.submitted = true;
-      this.$validator.validateAll().then(async valid => {
-        if (valid) {
-          const loader = this.$loading.show();
-          try {
-            let res = await axios.post('/api/create-user', this.formData);
-            if (res && res.data) {
-              Swal.fire({
-                title: 'User Created',
-                icon: 'success'
-              });
 
-              this.formData = {
-                email: '',
-                username: '',
-                password: '',
-                user_type: ''
-              };
-              this.submitted = false;
+      Swal.fire({
+        title: 'Are you sure?',
+        text: `Create user ${this.formData.username} as ${this.formData.user_type}`,
+        showCancelButton: true
+      }).then(res => {
+        if (res.isConfirmed) {
+          this.$validator.validateAll().then(async valid => {
+            if (valid) {
+              const loader = this.$loading.show();
+              try {
+                let res = await axios.post('/api/create-user', this.formData);
+                if (res && res.data) {
+                  Swal.fire({
+                    title: `User ${this.formData.user_type} Created`,
+                    icon: 'success'
+                  });
+
+                  this.formData = {
+                    email: '',
+                    username: '',
+                    password: '',
+                    user_type: ''
+                  };
+                  this.submitted = false;
+                }
+              } catch (err) {
+                if (err.response.status === 409) {
+                  this.$validator.errors.add({
+                    field: err.response.data.error.field,
+                    msg: err.response.data.error.msg
+                  });
+                } else {
+                  Swal.fire({
+                    title: 'User Create Failed',
+                    icon: 'error'
+                  });
+                }
+              }
+              loader.hide();
             }
-          } catch (err) {
-            if (err.response.status === 409) {
-              this.$validator.errors.add({
-                field: err.response.data.error.field,
-                msg: err.response.data.error.msg
-              });
-            } else {
-              Swal.fire({
-                title: 'User Create Failed',
-                icon: 'error'
-              });
-            }
-          }
-          loader.hide();
+          });
         }
       });
     }
