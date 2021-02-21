@@ -5,7 +5,7 @@
       <b-form @submit="onSubmit" class="pt-4">
         <b-row>
           <b-col md="6">
-            <h3>Create Expenses Type</h3>
+            <h3>Add Expenses Type</h3>
           </b-col>
         </b-row>
 
@@ -23,9 +23,7 @@
         </b-row>
         <b-row class="mt-2">
           <b-col>
-            <b-button type="submit" variant="primary"
-              >Create Expenses Type</b-button
-            >
+            <b-button type="submit" variant="primary">Submit</b-button>
           </b-col>
         </b-row>
       </b-form>

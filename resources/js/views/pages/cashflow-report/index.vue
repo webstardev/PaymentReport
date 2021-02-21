@@ -41,7 +41,7 @@
               <tr>
                 <td>{{ Number(totalIncome).toFixed(2) }}</td>
                 <td>{{ Number(totalExpenses).toFixed(2) }}</td>
-                <td>{{ Number(totalIncome + totalExpenses).toFixed(2) }}</td>
+                <td>{{ Number(totalIncome - totalExpenses).toFixed(2) }}</td>
               </tr>
             </tbody>
           </table>

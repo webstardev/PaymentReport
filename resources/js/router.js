@@ -8,9 +8,9 @@ Vue.use(Router);
 const routes = [
   {
     path: '/',
-    name: 'create-new-item',
+    name: 'add-item-select',
     beforeEnter: auth,
-    component: () => import('@/views/pages/brand/index')
+    component: () => import('@/views/pages/add-item-select/index')
   },
   {
     path: '/income-key-in',

@@ -5,7 +5,6 @@ export const USER_TYPE = {
 };
 
 export const BRAND_STPES = {
-  CREATE_BRAND: 'Create Brand',
   BRAND_NAME: 'Insert Brand Name',
   CATEGORY_SELECT: 'Category Select',
   AGENT_SYSTEM_SELECT: 'Agent System Select',

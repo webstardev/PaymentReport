@@ -2,21 +2,6 @@
   <b-container fluid class="root-container">
     <top-navbar></top-navbar>
     <b-container fluid="xl" class="main-container  ml-auto mr-auto py-4">
-      <template v-if="curStep === brandSteps.CREATE_BRAND">
-        <b-row class="pt-4">
-          <b-col md="6">
-            <h3>Create Brand</h3>
-          </b-col>
-        </b-row>
-        <b-row>
-          <b-col md="6" class="d-flex">
-            <b-button variant="primary" type="button" @click="createBrand">
-              Create Brand
-            </b-button>
-          </b-col>
-        </b-row>
-      </template>
-
       <template v-if="curStep === brandSteps.BRAND_NAME">
         <brand-name
           :curBrandName="formData.brand_name"
@@ -206,7 +191,7 @@ export default {
       countryOptions: COUNTRIES,
       currencyOptions: CURRENCIES,
       agentSystem: AGENT_SYSTEM,
-      curStep: BRAND_STPES.CREATE_BRAND,
+      curStep: BRAND_STPES.BRAND_NAME,
       formData: {
         brand_name: '',
         category: {
@@ -235,7 +220,7 @@ export default {
         });
         if (res && res.data) {
           Swal.fire({
-            title: `Brand ${this.formData.brand_name} Created`,
+            title: `Brand ${this.formData.brand_name} Added`,
             icon: 'success'
           }).then(result => {
             this.formData = {
@@ -250,12 +235,12 @@ export default {
               selling: 0,
               comments: ''
             };
-            this.curStep = BRAND_STPES.CREATE_BRAND;
+            this.curStep = BRAND_STPES.BRAND_NAME;
           });
         }
       } catch (err) {
         Swal.fire({
-          title: 'Create Brand Failed.',
+          title: 'Add Brand Failed.',
           icon: 'error'
         });
       }

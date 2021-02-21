@@ -5,13 +5,13 @@
       <b-form @submit="onSubmit" class="pt-4">
         <b-row>
           <b-col md="6">
-            <h3>Create Payment Method</h3>
+            <h3>Add Payment Method</h3>
           </b-col>
         </b-row>
 
         <b-row>
           <b-col md="4">
-            <b-form-group label="Payment Method Name" label-for="name">
+            <b-form-group label="Payment Method Name:" label-for="name">
               <b-form-input
                 id="name"
                 v-model="name"
@@ -23,9 +23,7 @@
         </b-row>
         <b-row class="mt-2">
           <b-col>
-            <b-button type="submit" variant="primary"
-              >Create Payment Method</b-button
-            >
+            <b-button type="submit" variant="primary">Sbumit</b-button>
           </b-col>
         </b-row>
       </b-form>
@@ -66,12 +64,12 @@ export default {
           if (res && res.data) {
             this.name = '';
             Swal.fire({
-              title: 'Create Payment Method Success.',
+              title: 'Add Payment Method Success.',
               icon: 'success'
             });
           } else {
             Swal.fire({
-              title: 'Create Payment Method Failed.',
+              title: 'Add Payment Method Failed.',
               icon: 'warning'
             });
           }
@@ -79,7 +77,7 @@ export default {
         })
         .catch(err => {
           Swal.fire({
-            title: 'Create Payment Method Failed.',
+            title: 'Add Payment Method Failed.',
             icon: 'error'
           });
           loader.hide();
