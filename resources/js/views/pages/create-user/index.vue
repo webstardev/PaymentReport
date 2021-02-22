@@ -4,22 +4,6 @@
     <b-form class="login-signup-form" @submit.prevent="onSubmit">
       <h1 class="text-center mb-2">Add a user</h1>
       <b-form-group
-        id="register-email"
-        label="Email"
-        label-for="input-email"
-        :invalid-feedback="errors.first('email')"
-        :state="!(submitted && errors.has('email'))"
-      >
-        <b-form-input
-          id="input-email"
-          name="email"
-          v-model="formData.email"
-          v-validate="`required`"
-          placeholder="Enter email"
-          type="email"
-        ></b-form-input>
-      </b-form-group>
-      <b-form-group
         id="register-username"
         label="Username"
         label-for="input-username"
@@ -97,7 +81,6 @@ export default {
       submitted: false,
       userType: USER_TYPE,
       formData: {
-        email: '',
         username: '',
         password: '',
         user_type: ''
@@ -135,7 +118,6 @@ export default {
                   });
 
                   this.formData = {
-                    email: '',
                     username: '',
                     password: '',
                     user_type: ''

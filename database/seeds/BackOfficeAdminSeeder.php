@@ -16,7 +16,6 @@ class BackOfficeAdminSeeder extends Seeder
         User::insert(
             [
                 'username'=> 'Admin',
-                'email' => 'BackOfficeAdmin@test.com',
                 'password' => bcrypt('BackAdmin123!'),
                 'user_type' => 'Admin',
                 'created_at' => Carbon::now()->format('Y-m-d H:i:s'),

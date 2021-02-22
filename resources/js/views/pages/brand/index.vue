@@ -3,22 +3,23 @@
     <top-navbar></top-navbar>
     <b-container fluid="xl" class="main-container  ml-auto mr-auto py-4">
       <template v-if="curStep === brandSteps.CREATE_BRAND">
-        <b-row class="pt-4">
+        <!-- <b-row class="pt-4">
           <b-col md="12" class="d-flex align-item-center">
             <h3>Create Brand</h3>
+        </b-row> -->
+        <b-row class="mt-4">
+          <b-col md="6" class="d-flex">
+            <b-button variant="primary" type="button" @click="createBrand">
+              Create Brand
+            </b-button>
+
             <b-button
-              variant="link"
+              variant="primary"
               class="ml-4"
               @click="$router.push({ name: 'add-new-item' })"
               >Add new item</b-button
             >
           </b-col>
-        </b-row>
-        <b-row class="mt-2">
-          <b-col md="6" class="d-flex">
-            <b-button variant="primary" type="button" @click="createBrand">
-              Create Brand
-            </b-button>
           </b-col>
         </b-row>
       </template>

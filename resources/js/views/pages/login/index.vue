@@ -6,7 +6,7 @@
       <h1 class="text-center mb-2">Login</h1>
       <b-form-group
         id="login-username"
-        label="Username or Email"
+        label="Username"
         label-for="input-username"
         :invalid-feedback="errors.first('username')"
         :state="!(submitted && errors.has('username'))"
@@ -16,7 +16,7 @@
           name="username"
           v-model="formData.username"
           v-validate="`required`"
-          placeholder="Enter usrename or email"
+          placeholder="Enter usrename"
         ></b-form-input>
       </b-form-group>
       <b-form-group
