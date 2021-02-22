@@ -1,7 +1,7 @@
 <template>
   <b-container fluid class="root-container">
     <top-navbar></top-navbar>
-    <b-container fluid="xl" class="main-container ml-auto mr-auto py-4">
+    <b-container fluid class="main-container ml-auto mr-auto py-4">
       <b-row class="pt-4" v-if="curStep === steps.SELECT_ADD_TYPE">
         <b-col md="6">
           <b-dropdown

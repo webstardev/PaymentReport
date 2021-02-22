@@ -1,7 +1,7 @@
 <template>
   <b-container fluid class="root-container">
     <top-navbar></top-navbar>
-    <b-container fluid="xl" class="main-container ml-auto mr-auto py-4">
+    <b-container class="main-container ml-auto mr-auto py-4">
       <b-form @submit="onSubmit" class="pt-4">
         <b-row class="mb-2" v-if="curStep !== keySteps.SELECT_BRAND">
           <b-col md="4">

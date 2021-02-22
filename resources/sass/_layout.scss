@@ -5,4 +5,5 @@
 
 .main-container {
   margin-top: var(--navbarHeight);
+  max-width: calc(100vw - 100px) !important;
 }
