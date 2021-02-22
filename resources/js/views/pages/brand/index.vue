@@ -9,18 +9,22 @@
         </b-row> -->
         <b-row class="mt-4">
           <b-col md="6" class="d-flex">
-            <b-button size="sm" variant="primary" type="button" @click="createBrand">
+            <b-button
+              size="sm"
+              variant="primary"
+              type="button"
+              @click="createBrand"
+            >
               Create Brand
             </b-button>
 
             <b-button
-                size="sm"
+              size="sm"
               variant="primary"
               class="ml-4"
               @click="$router.push({ name: 'add-new-item' })"
               >Add new item</b-button
             >
-          </b-col>
           </b-col>
         </b-row>
       </template>
