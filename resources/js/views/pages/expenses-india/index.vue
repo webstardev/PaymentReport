@@ -53,7 +53,7 @@
 
 <script>
 import { mapGetters } from 'vuex';
-import { CATEGORY, USER_TYPE } from '@/constants';
+import { USER_TYPE } from '@/constants';
 import { getBrand } from '@/services/apis';
 import { getDateRange } from '@/utils/date';
 import { calculateCurrency } from '@/utils/currency';
@@ -71,7 +71,6 @@ export default {
   data() {
     return {
       currencyData: {},
-      category: CATEGORY,
       dateRange: {
         type: 'custom',
         value: 'Today',

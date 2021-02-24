@@ -37,52 +37,23 @@
                 <td>{{ income.user.username }}</td>
                 <td>{{ income.brand.name }}</td>
                 <td>
-                  {{
-                    income.brand.category.type ===
-                      category.AGENT_SYSTEM.value &&
-                    income.brand.category.agent_system ===
-                      agentySystem.SUPERMASTER.value
-                      ? income.brand.category.name
-                      : ''
-                  }}
+                  {{ income.brand.category.id === 2 ? 'Super Master' : '' }}
+                </td>
+                <td>
+                  {{ income.brand.category.id === 3 ? 'Master' : '' }}
+                </td>
+                <td>
+                  {{ income.brand.category === 4 ? 'Agent' : '' }}
+                </td>
+                <td>
+                  {{ income.brand.category.id === 5 ? 'Api' : '' }}
+                </td>
+                <td>
+                  {{ income.brand.category.id === 6 ? 'White Label' : '' }}
                 </td>
                 <td>
                   {{
-                    income.brand.category.type ===
-                      category.AGENT_SYSTEM.value &&
-                    income.brand.category.agent_system ===
-                      agentySystem.MASTER.value
-                      ? income.brand.category.name
-                      : ''
-                  }}
-                </td>
-                <td>
-                  {{
-                    income.brand.category.type ===
-                      category.AGENT_SYSTEM.value &&
-                    income.brand.category.agent_system ===
-                      agentySystem.AGENT.value
-                      ? income.brand.category.name
-                      : ''
-                  }}
-                </td>
-                <td>
-                  {{
-                    income.brand.category.type === category.API.value
-                      ? income.brand.category.name
-                      : ''
-                  }}
-                </td>
-                <td>
-                  {{
-                    income.brand.category.type === category.WHITE_LABEL.value
-                      ? income.brand.category.name
-                      : ''
-                  }}
-                </td>
-                <td>
-                  {{
-                    income.brand.category.type === category.OTHER.value
+                    income.brand.category.id > 6
                       ? income.brand.category.name
                       : ''
                   }}
@@ -146,7 +117,7 @@
 
 <script>
 import { mapGetters } from 'vuex';
-import { CATEGORY, USER_TYPE, AGENT_SYSTEM } from '@/constants';
+import { USER_TYPE } from '@/constants';
 import { getDateRange } from '@/utils/date';
 import { calculateCurrency } from '@/utils/currency';
 import TopNavbar from '@/sharedComponents/top-navbar.vue';
@@ -163,12 +134,9 @@ export default {
   computed: {
     ...mapGetters(['currentUser', 'check'])
   },
-
   data() {
     return {
       currencyData: {},
-      category: CATEGORY,
-      agentySystem: AGENT_SYSTEM,
       dateRange: {
         type: 'custom',
         value: 'Today',
@@ -310,8 +278,5 @@ export default {
   td {
     border: 1px solid grey;
   }
-}
-
-.pending-dropdown {
 }
 </style>

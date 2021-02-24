@@ -42,7 +42,7 @@ class IncomeKeyInController extends Controller
         $endDate = $date_range['endDate'];
 
         try {
-            $incomeKeyIn = IncomeKeyIn::with(['brand', 'user', 'paymentMethods'])
+            $incomeKeyIn = IncomeKeyIn::with(['brand', 'user', 'paymentMethods', 'brand.category'])
             ->when($brand_id && $brand_id != 'all', function ($query) use ($brand_id) {
                 $query->whereHas('brand', function($query) use ($brand_id) {
                     $query->where('id', $brand_id);
@@ -54,8 +54,7 @@ class IncomeKeyInController extends Controller
             ->when(($startDate && $endDate), function ($query) use ($startDate, $endDate) {
                 $query->where('date', '>=', $startDate)
                 ->where('date', '<=', $endDate);
-            })
-            ->get();
+            })->get();
 
             if ($payment_method && $payment_method != 'all') {
                 $newIncomeKeyIn = [];
@@ -64,7 +63,6 @@ class IncomeKeyInController extends Controller
                         function($o) { return $o->id;},
                         json_decode($value)->payment_methods
                     );
-                    Log::error($paymentIds);
                     if (in_array($payment_method, $paymentIds)) {
                         array_push($newIncomeKeyIn, $value);
                     }
@@ -83,11 +81,11 @@ class IncomeKeyInController extends Controller
         try {
             if ($id ==='all'){
                 if (Auth::user()->user_type === 'Admin')
-                    $income = IncomeKeyIn::with(['paymentMethods', 'user', 'brand'])->get();
+                    $income = IncomeKeyIn::with(['paymentMethods', 'user', 'brand', 'brand.category' ])->get();
                 else
-                    $income = IncomeKeyIn::where('user_id', Auth::user()->id)->with(['paymentMethods', 'user', 'brand'])->get();
+                    $income = IncomeKeyIn::where('user_id', Auth::user()->id)->with(['paymentMethods', 'user', 'brand', 'brand.category'])->get();
             } else
-                $income = IncomeKeyIn::where('id', $id)->with(['paymentMethods', 'user', 'brand'])->get();
+                $income = IncomeKeyIn::where('id', $id)->with(['paymentMethods', 'user', 'brand', 'brand.category'])->get();
             return $income;
         } catch(\Throwable $e) {
             Log::error('Get Income KeyIn : ' . $e->getMessage());

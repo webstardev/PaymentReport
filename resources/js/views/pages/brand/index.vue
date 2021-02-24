@@ -280,7 +280,6 @@ export default {
           break;
         case BRAND_STPES.CATEGORY_SELECT:
           {
-            debugger;
             if (this.checkHadChild(this.formData.category_id))
               this.curStep = BRAND_STPES.AGENT_SYSTEM_SELECT;
             else this.curStep = BRAND_STPES.COUNTRY;

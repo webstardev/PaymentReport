@@ -36,15 +36,15 @@ export const CATEGORY = {
 export const AGENT_SYSTEM = {
   SUPERMASTER: {
     title: 'Super Master',
-    value: 'SUPERMASTER'
+    value: 2
   },
   MASTER: {
     title: 'Master',
-    value: 'MASTER'
+    value: 3
   },
   AGENT: {
     title: 'Agent',
-    value: 'AGENT'
+    value: 4
   }
 };
 
