@@ -8,7 +8,6 @@ export const BRAND_STPES = {
   BRAND_NAME: 'Insert Brand Name',
   CATEGORY_SELECT: 'Category Select',
   AGENT_SYSTEM_SELECT: 'Agent System Select',
-  CATEGORY_INFO: 'Category Info',
   COUNTRY: 'Country',
   CURRENCY: 'Currency',
   SELLING: 'Selling',
@@ -50,7 +49,6 @@ export const AGENT_SYSTEM = {
 };
 
 export const KEY_IN_STEPS = {
-  CREATE_BRAND: 'Create Brand',
   SELECT_BRAND: 'Select brand',
   SELECT_DATE: 'Select date',
   SELECT_CURRENCY: 'Select currency',
@@ -75,7 +73,8 @@ export const RECEIVED_STATUS = {
 export const ADD_NEW_ITEM_STEPS = {
   SELECT_ADD_TYPE: 'Select add type',
   ADD_PAYMENT_METHOD: 'Add payment method',
-  ADD_EXPENSES_TYPE: 'Add expenses type'
+  ADD_EXPENSES_TYPE: 'Add expenses type',
+  ADD_CATEGORY: 'Add category'
 };
 
 // export const EXPENSES_TYPE = [

@@ -2,41 +2,9 @@
   <b-container fluid class="root-container">
     <top-navbar></top-navbar>
     <b-container fluid class="main-container  ml-auto mr-auto py-4">
-      <template v-if="curStep === brandSteps.CREATE_BRAND">
-        <!-- <b-row class="pt-4">
-          <b-col md="12" class="d-flex align-item-center">
-            <h3>Create Brand</h3>
-        </b-row> -->
-        <b-row class="mt-4">
-          <b-col md="6" class="d-flex">
-            <b-button
-              size="sm"
-              variant="primary"
-              type="button"
-              @click="createBrand"
-            >
-              Create Brand
-            </b-button>
-
-            <b-button
-              size="sm"
-              variant="primary"
-              class="ml-4"
-              @click="$router.push({ name: 'add-new-item' })"
-              >Add new item</b-button
-            >
-          </b-col>
-        </b-row>
-      </template>
-
       <template v-if="curStep === brandSteps.BRAND_NAME">
         <brand-name
           :curBrandName="formData.brand_name"
-          @gotoPrev="
-            $event => {
-              curStep = brandSteps.CREATE_BRAND;
-            }
-          "
           @gotoNext="
             $event => {
               formData = { ...formData, ...$event };
@@ -60,7 +28,7 @@
               if ($event.type === categoryOptions.AGENT_SYSTEM.value) {
                 curStep = brandSteps.AGENT_SYSTEM_SELECT;
               } else {
-                curStep = brandSteps.CATEGORY_INFO;
+                curStep = brandSteps.COUNTRY;
               }
             }
           "
@@ -78,7 +46,7 @@
           "
           @gotoNext="
             $event => {
-              curStep = brandSteps.CATEGORY_INFO;
+              curStep = brandSteps.COUNTRY;
               formData = {
                 ...formData,
                 category: { ...formData.category, ...$event }
@@ -89,34 +57,12 @@
         </agent-system-selector>
       </template>
 
-      <template v-if="curStep === brandSteps.CATEGORY_INFO">
-        <category-name
-          :curCategory="formData.category.name"
-          @gotoPrev="
-            $event => {
-              if (formData.category.type === categoryOptions.AGENT_SYSTEM.value)
-                curStep = brandSteps.AGENT_SYSTEM;
-              else curStep = brandSteps.CATEGORY_SELECT;
-            }
-          "
-          @setValue="
-            $event => {
-              formData = {
-                ...formData,
-                category: { ...formData.category, name: $event }
-              };
-              curStep = brandSteps.COUNTRY;
-            }
-          "
-        ></category-name>
-      </template>
-
       <template v-if="curStep === brandSteps.COUNTRY">
         <country-selector
           :curCountry="formData.country"
           @gotoPrev="
             $event => {
-              curStep = brandSteps.CATEGORY_INFO;
+              curStep = brandSteps.CATEGORY_SELECT;
             }
           "
           @gotoNext="
@@ -223,7 +169,7 @@ export default {
       countryOptions: COUNTRIES,
       currencyOptions: CURRENCIES,
       agentSystem: AGENT_SYSTEM,
-      curStep: BRAND_STPES.CREATE_BRAND,
+      curStep: BRAND_STPES.BRAND_NAME,
       formData: {
         brand_name: '',
         category: {
@@ -267,7 +213,7 @@ export default {
               selling: 0,
               comments: ''
             };
-            this.curStep = BRAND_STPES.CREATE_BRAND;
+            this.curStep = BRAND_STPES.BRAND_NAME;
           });
         }
       } catch (err) {

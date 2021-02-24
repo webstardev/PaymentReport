@@ -13,5 +13,6 @@ class DatabaseSeeder extends Seeder
         $this->call(BackOfficeAdminSeeder::class);
         $this->call(PaymentMethodSeeder::class);
         $this->call(ExpesesTypeSeeder::class);
+        $this->call(CategorySeeder::class);
     }
 }

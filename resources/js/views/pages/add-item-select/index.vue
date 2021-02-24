@@ -16,6 +16,9 @@
             <b-dropdown-item @click="curStep = steps.ADD_EXPENSES_TYPE"
               >Add Expenses Type</b-dropdown-item
             >
+            <b-dropdown-item @click="curStep = steps.ADD_CATEGORY"
+              >Add Category</b-dropdown-item
+            >
           </b-dropdown>
         </b-col>
       </b-row>
@@ -56,6 +59,7 @@
           </b-col>
         </b-row>
       </b-form>
+
       <b-form
         @submit="onSubmit"
         class="pt-4"
@@ -89,6 +93,43 @@
         <b-row class="mt-2">
           <b-col>
             <b-button type="submit" variant="primary">Submit</b-button>
+          </b-col>
+        </b-row>
+      </b-form>
+
+      <b-form
+        @submit="onSubmit"
+        class="pt-4"
+        v-if="curStep === steps.ADD_CATEGORY"
+      >
+        <b-row>
+          <b-col md="4">
+            <a class="btn-prev" @click="curStep = steps.SELECT_ADD_TYPE">{{
+              `< Prev`
+            }}</a>
+          </b-col>
+        </b-row>
+        <b-row class="mt-2">
+          <b-col md="6">
+            <h3>Add Category</h3>
+          </b-col>
+        </b-row>
+
+        <b-row>
+          <b-col md="4">
+            <b-form-group label="Category Name:" label-for="name">
+              <b-form-input
+                id="name"
+                v-model="name"
+                type="text"
+                required
+              ></b-form-input>
+            </b-form-group>
+          </b-col>
+        </b-row>
+        <b-row class="mt-2">
+          <b-col>
+            <b-button type="submit" variant="primary">Sbumit</b-button>
           </b-col>
         </b-row>
       </b-form>
@@ -179,6 +220,39 @@ export default {
           .catch(err => {
             Swal.fire({
               title: 'Create Expenses Type Failed.',
+              icon: 'error'
+            });
+            loader.hide();
+          });
+      } else if (this.curStep === ADD_NEW_ITEM_STEPS.ADD_CATEGORY) {
+        axios
+          .post(
+            '/api/category',
+            { name: this.name },
+            {
+              headers: {
+                'Content-Type': 'application/json'
+              }
+            }
+          )
+          .then(res => {
+            if (res && res.data) {
+              this.name = '';
+              Swal.fire({
+                title: 'Create Category Success.',
+                icon: 'success'
+              });
+            } else {
+              Swal.fire({
+                title: 'Create Category Failed.',
+                icon: 'warning'
+              });
+            }
+            loader.hide();
+          })
+          .catch(err => {
+            Swal.fire({
+              title: 'Create Category Failed.',
               icon: 'error'
             });
             loader.hide();
