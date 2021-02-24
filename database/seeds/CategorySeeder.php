@@ -20,17 +20,17 @@ class CategorySeeder extends Seeder
         ]);
         Category::insert([
             'name' =>'Super Master',
-            'parent' => '0',
+            'parent' => '1',
             'had_child' => '-1'
         ]);
         Category::insert([
             'name' =>'Master',
-            'parent' => '0',
+            'parent' => '1',
             'had_child' => '-1'
         ]);
         Category::insert([
             'name' =>'Agent',
-            'parent' => '0',
+            'parent' => '1',
             'had_child' => '-1'
         ]);
         Category::insert([

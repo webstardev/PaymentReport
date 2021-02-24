@@ -16,7 +16,7 @@ class BrandController extends Controller
             $brand = new Brand();
             $brand->user_id = Auth::user()->id;
             $brand->name = $request->brand_name;
-            $brand->category = $request->category;
+            $brand->category_id = $request->category_id;
             $brand->country = $request->country;
             $brand->currency = $request->currency;
             $brand->selling = $request->selling;
@@ -33,8 +33,8 @@ class BrandController extends Controller
 	{
 		try {
 			if ($id == 'all')
-				return Brand::where('user_id', Auth::user()->id)->get();
-			else return Brand::where('user_id', Auth::user()->id)->where('id', $id)->first();
+				return Brand::with('category')->where('user_id', Auth::user()->id)->get();
+			else return Brand::with('category')->where('user_id', Auth::user()->id)->where('id', $id)->first();
 		} catch (\Throwable $e) {
 			Log::error('Get Brand (' . $id . ') : ' . $e->getMessage());
 			return 'Brand not found';
