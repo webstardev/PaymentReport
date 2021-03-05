@@ -1,13 +1,7 @@
 <?php
-
-use App\Http\Controllers\AuthController;
-use App\Http\Controllers\BrandController;
-use App\Http\Controllers\CategoryController;
-use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
 
-use App\Models\Brand;
 /*
 |--------------------------------------------------------------------------
 | API Routes
@@ -45,7 +39,7 @@ Route::group(['middleware' => 'auth:api'], function () {
     Route::get('payment-method/{id}', "PaymentMethodController@get");
     Route::post('payment-method', "PaymentMethodController@create");
 
-    Route::get('/supplier', "SupplierController@get");
+    Route::get('/supplier/{id}', "SupplierController@get");
     Route::post('/supplier', "SupplierController@create");
 
     Route::get('category/{id}', "CategoryController@get");

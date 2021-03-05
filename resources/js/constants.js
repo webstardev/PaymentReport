@@ -50,6 +50,7 @@ export const AGENT_SYSTEM = {
 
 export const KEY_IN_STEPS = {
   SELECT_BRAND: 'Select brand',
+  SELECT_SUPPLIER: 'Select supplier',
   SELECT_DATE: 'Select date',
   SELECT_CURRENCY: 'Select currency',
   SELECT_COUNTRY: 'Select country',

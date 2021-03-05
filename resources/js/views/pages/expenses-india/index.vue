@@ -54,7 +54,7 @@
 <script>
 import { mapGetters } from 'vuex';
 import { USER_TYPE } from '@/constants';
-import { getBrand } from '@/services/apis';
+import { getSupplier } from '@/services/apis';
 import { getDateRange } from '@/utils/date';
 import { calculateCurrency } from '@/utils/currency';
 import TopNavbar from '@/sharedComponents/top-navbar.vue';
@@ -96,9 +96,9 @@ export default {
 
     // get brand
     try {
-      this.brandList = await getBrand();
+      this.supplierList = await getSupplier();
     } catch (err) {
-      this.brandList = [];
+      this.supplierList = [];
     }
     loader.hide();
     this.filterReport();

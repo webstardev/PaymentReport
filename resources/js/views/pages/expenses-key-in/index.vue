@@ -3,24 +3,28 @@
     <top-navbar></top-navbar>
     <b-container class="main-container ml-auto mr-auto py-4">
       <b-form @submit="onSubmit" class="pt-4">
-        <b-row class="mb-2" v-if="curStep !== keySteps.SELECT_BRAND">
+        <b-row class="mb-2" v-if="curStep !== keySteps.SELECT_SUPPLIER">
           <b-col md="4">
             <a class="btn-prev" @click="gotoPrev">{{ `< Prev` }}</a>
           </b-col>
         </b-row>
 
-        <b-row v-if="curStep === keySteps.SELECT_BRAND">
+        <b-row v-if="curStep === keySteps.SELECT_SUPPLIER">
           <b-col md="4">
-            <b-form-group label="Brand:" label-for="brand">
-              <b-form-select id="brand" v-model="formData.brand_id" required>
-                <option disabled :select="!formData.brand_id" value=""
-                  >Select a brand</option
+            <b-form-group label="Supplier:" label-for="supplier">
+              <b-form-select
+                id="supplier"
+                v-model="formData.supplier_id"
+                required
+              >
+                <option disabled :select="!formData.supplier_id" value=""
+                  >Select a supplier</option
                 >
                 <option
-                  v-for="(brand, idx) in brandList"
+                  v-for="(supplier, idx) in supplierList"
                   :key="idx"
-                  :value="brand.id"
-                  >{{ brand.name }}
+                  :value="supplier.id"
+                  >{{ supplier.name }}
                 </option>
               </b-form-select>
             </b-form-group>
@@ -153,7 +157,11 @@
 import Swal from 'sweetalert2';
 import { KEY_IN_STEPS, CURRENCIES, COUNTRIES } from '@/constants';
 import TopNavbar from '@/sharedComponents/top-navbar.vue';
-import { getBrand, getPaymentMethod, getExpensesType } from '@/services/apis';
+import {
+  getSupplier,
+  getPaymentMethod,
+  getExpensesType
+} from '@/services/apis';
 
 export default {
   name: 'expenses-key-in',
@@ -163,14 +171,14 @@ export default {
   data() {
     return {
       keySteps: KEY_IN_STEPS,
-      curStep: KEY_IN_STEPS.SELECT_BRAND,
+      curStep: KEY_IN_STEPS.SELECT_SUPPLIER,
       currencyOptions: Object.keys(CURRENCIES),
       countryOptions: COUNTRIES,
-      brandList: [],
+      supplierList: [],
       paymentMethodList: [],
       expensesTypeList: [],
       formData: {
-        brand_id: '',
+        supplier_id: '',
         date: null,
         sum: 0,
         payment_method: [],
@@ -184,7 +192,7 @@ export default {
   async created() {
     const loader = this.$loading.show();
     try {
-      this.brandList = await getBrand();
+      this.supplierList = await getSupplier();
       this.paymentMethodList = await getPaymentMethod();
       this.expensesTypeList = await getExpensesType();
     } catch (err) {
@@ -202,7 +210,7 @@ export default {
     gotoPrev() {
       switch (this.curStep) {
         case KEY_IN_STEPS.SELECT_DATE:
-          this.curStep = KEY_IN_STEPS.SELECT_BRAND;
+          this.curStep = KEY_IN_STEPS.SELECT_SUPPLIER;
           break;
         case KEY_IN_STEPS.SELECT_CURRENCY:
           this.curStep = KEY_IN_STEPS.SELECT_DATE;
@@ -223,7 +231,7 @@ export default {
           this.curStep = KEY_IN_STEPS.SELECT_PAYMENT_METHOD;
           break;
         default:
-          this.curStep = KEY_IN_STEPS.SELECT_BRAND;
+          this.curStep = KEY_IN_STEPS.SELECT_SUPPLIER;
           break;
       }
     },
@@ -233,7 +241,7 @@ export default {
       if (this.curStep === KEY_IN_STEPS.SELECT_COMMENTS) {
         const loader = this.$loading.show();
         let keyInFormData = {
-          brand_id: this.formData.brand_id,
+          supplier_id: this.formData.supplier_id,
           date: this.formData.date,
           currency: this.formData.currency,
           country: this.formData.country,
@@ -255,7 +263,7 @@ export default {
                 icon: 'success'
               }).then(result => {
                 this.formData = {
-                  brand_id: null,
+                  supplier_id: null,
                   date: null,
                   sum: 0,
                   payment_method: [],
@@ -265,7 +273,7 @@ export default {
                   expenses_type_id: ''
                 };
               });
-              this.curStep = KEY_IN_STEPS.SELECT_BRAND;
+              this.curStep = KEY_IN_STEPS.SELECT_SUPPLIER;
             } else {
               Swal.fire({
                 title: 'Expenses Add Failed.',
@@ -283,7 +291,7 @@ export default {
         loader.hide();
       } else {
         switch (this.curStep) {
-          case KEY_IN_STEPS.SELECT_BRAND:
+          case KEY_IN_STEPS.SELECT_SUPPLIER:
             this.curStep = KEY_IN_STEPS.SELECT_DATE;
             break;
           case KEY_IN_STEPS.SELECT_DATE:
@@ -305,7 +313,7 @@ export default {
             this.curStep = KEY_IN_STEPS.SELECT_SUM;
             break;
           default:
-            this.curStep = KEY_IN_STEPS.SELECT_BRAND;
+            this.curStep = KEY_IN_STEPS.SELECT_SUPPLIER;
             break;
         }
       }

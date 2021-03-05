@@ -15,7 +15,7 @@ class ExpensesKeyInController extends Controller
         try {
             $expensesKeyIn = new ExpensesKeyIn();
             $expensesKeyIn->user_id = Auth::user()->id;
-            $expensesKeyIn->brand_id = $request->brand_id;
+            $expensesKeyIn->supplier_id = $request->supplier_id;
             $expensesKeyIn->date = $request->date;
             $expensesKeyIn->sum = $request->sum;
             $expensesKeyIn->comments = $request->comments;
@@ -34,7 +34,7 @@ class ExpensesKeyInController extends Controller
 
     public function filter(Request $request)
     {
-        $brand_id = isset($request->filter['brand_id']) ? $request->filter['brand_id'] : null;
+        $supplier_id = isset($request->filter['supplier_id']) ? $request->filter['supplier_id'] : null;
         $payment_method = isset($request->filter['payment_method']) ?  $request->filter['payment_method'] : null;
         $expenses_type = isset($request->filter['expenses_type']) ?  $request->filter['expenses_type'] : null;
         $country = isset($request->filter['country']) ? $request->filter['country'] : null;
@@ -44,10 +44,10 @@ class ExpensesKeyInController extends Controller
         $endDate = $date_range['endDate'];
 
         try {
-            $expensesKeyIn = ExpensesKeyIn::with(['brand', 'brand.category', 'user', 'expensesType', 'paymentMethods'])
-            ->when($brand_id && $brand_id != 'all', function ($query) use ($brand_id) {
-                $query->whereHas('brand', function($query) use ($brand_id) {
-                    $query->where('id', $brand_id);
+            $expensesKeyIn = ExpensesKeyIn::with(['supplier', 'user', 'expensesType', 'paymentMethods'])
+            ->when($supplier_id && $supplier_id != 'all', function ($query) use ($supplier_id) {
+                $query->whereHas('supplier', function($query) use ($supplier_id) {
+                    $query->where('id', $supplier_id);
                 });
             })
             ->when($country && $country !='all', function ($query) use ($country) {
@@ -91,11 +91,11 @@ class ExpensesKeyInController extends Controller
         try {
             if ($id ==='all') {
                 if (Auth::user()->user_type === 'Admin')
-                    $expenses = ExpensesKeyIn::where('user_id', Auth::user()->id)->with(['paymentMethods', 'user', 'brand', 'brand.category', 'expensesType'])->get();
+                    $expenses = ExpensesKeyIn::where('user_id', Auth::user()->id)->with(['paymentMethods', 'user', 'supplier', 'expensesType'])->get();
                 else
-                    $expenses = ExpensesKeyIn::with(['paymentMethods', 'user', 'brand', 'expensesType'])->get();
+                    $expenses = ExpensesKeyIn::with(['paymentMethods', 'user', 'supplier', 'expensesType'])->get();
             } else{
-                $expenses = ExpensesKeyIn::where('id', $id)->with(['paymentMethods', 'user', 'brand', 'brand.category', 'expensesType'])->get();
+                $expenses = ExpensesKeyIn::where('id', $id)->with(['paymentMethods', 'user', 'supplier', 'expensesType'])->get();
             }
             return $expenses;
         } catch(\Throwable $e) {

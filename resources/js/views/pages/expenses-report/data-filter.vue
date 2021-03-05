@@ -3,96 +3,22 @@
     <b-col class="expenses-data-filter-col mt-3" md="12">
       <b-form-group
         class="dropdown-container mr-3"
-        label="Brand:"
-        labe-for="filter-brand"
+        label="Supplier:"
+        labe-for="filter-supplier"
       >
         <b-form-select
-          id="filter-brand"
-          :value="filter.brand_id"
-          @change="$event => changeFilter('brand_id', $event)"
+          id="filter-supplier"
+          :value="filter.supplier_id"
+          @change="$event => changeFilter('supplier_id', $event)"
         >
           <option value="all" key="all">All</option>
-          <option v-for="brand in brandList" :key="brand.id" :value="brand.id">
-            {{ brand.name }}
+          <option
+            v-for="supplier in supplierList"
+            :key="supplier.id"
+            :value="supplier.id"
+          >
+            {{ supplier.name }}
           </option>
-        </b-form-select>
-      </b-form-group>
-      <b-form-group
-        class="dropdown-container mr-3"
-        label="Super Master:"
-        labe-for="filter-supermaster"
-      >
-        <b-form-select
-          id="filter-supermaster"
-          :value="filter.supermaster"
-          @change="$event => changeFilter('supermaster', $event)"
-        >
-          <option value="all" key="all">All</option>
-        </b-form-select>
-      </b-form-group>
-      <b-form-group
-        class="dropdown-container mr-3"
-        label="Master:"
-        labe-for="filter-master"
-      >
-        <b-form-select
-          id="filter-master"
-          :value="filter.master"
-          @change="$event => changeFilter('master', $event)"
-        >
-          <option value="all" key="all">All</option>
-        </b-form-select>
-      </b-form-group>
-      <b-form-group
-        class="dropdown-container mr-3"
-        label="Agent:"
-        labe-for="filter-agent"
-      >
-        <b-form-select
-          id="filter-agent"
-          :value="filter.agent"
-          @change="$event => changeFilter('agent', $event)"
-        >
-          <option value="all" key="all">All</option>
-        </b-form-select>
-      </b-form-group>
-      <b-form-group
-        class="dropdown-container mr-3"
-        label="Api:"
-        labe-for="filter-api"
-      >
-        <b-form-select
-          id="filter-api"
-          :value="filter.api"
-          @change="$event => changeFilter('api', $event)"
-        >
-          <option value="all" key="all">All</option>
-        </b-form-select>
-      </b-form-group>
-      <b-form-group
-        class="dropdown-container mr-3"
-        label="White Label:"
-        labe-for="filter-whitelabel"
-      >
-        <b-form-select
-          id="filter-whitelabel"
-          :value="filter.whitelabel"
-          @change="$event => changeFilter('whitelabel', $event)"
-        >
-          <option value="all" key="all">All</option>
-        </b-form-select>
-      </b-form-group>
-      <b-form-group
-        class="dropdown-container mr-3"
-        label="Other:"
-        labe-for="filter-other"
-      >
-        <b-form-select
-          id="filter-other"
-          :value="filter.other"
-          @change="$event => changeFilter('other', $event)"
-        >
-          <option value="all" key="all">All</option>
         </b-form-select>
       </b-form-group>
       <b-form-group
@@ -141,7 +67,11 @@
 </template>
 
 <script>
-import { getBrand, getPaymentMethod, getExpensesType } from '@/services/apis';
+import {
+  getSupplier,
+  getPaymentMethod,
+  getExpensesType
+} from '@/services/apis';
 
 export default {
   name: 'expenses-report-data-filter',
@@ -150,13 +80,7 @@ export default {
       type: Object,
       default: function() {
         return {
-          brand_id: 'all',
-          supermaster: 'all',
-          master: 'all',
-          agent: 'all',
-          api: 'all',
-          whitelabel: 'all',
-          other: 'all',
+          supplier_id: 'all',
           payment_method: 'all'
         };
       }
@@ -164,7 +88,7 @@ export default {
   },
   data() {
     return {
-      brandList: [],
+      supplierList: [],
       paymentMethodList: [],
       expensesList: []
     };
@@ -177,7 +101,7 @@ export default {
   async created() {
     const loader = this.$loading.show();
     try {
-      this.brandList = await getBrand();
+      this.supplierList = await getSupplier();
       this.paymentMethodList = await getPaymentMethod();
       this.expensesList = await getExpensesType();
     } catch (err) {

@@ -59,3 +59,23 @@ export const getExpensesType = (id = 'all') => {
     }
   });
 };
+
+export const getSupplier = (id = 'all') => {
+  return new Promise((resolve, reject) => {
+    try {
+      axios
+        .get(`/api/supplier/${id}`)
+        .then(res => {
+          if (res && res.data) {
+            resolve(res.data);
+          }
+          reject([]);
+        })
+        .catch(err => {
+          reject([]);
+        });
+    } catch (err) {
+      reject([]);
+    }
+  });
+};

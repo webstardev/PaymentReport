@@ -17,13 +17,7 @@
               <tr>
                 <th>Date/Time</th>
                 <th>User</th>
-                <th>Brand</th>
-                <th>Super Master</th>
-                <th>Master</th>
-                <th>Agent</th>
-                <th>API</th>
-                <th>White Label</th>
-                <th>Other</th>
+                <th>Supplier</th>
                 <th>Expenses Type</th>
                 <th>Payment method</th>
                 <th>Sum(in Original currency)</th>
@@ -34,29 +28,7 @@
               <tr v-for="expenses in expensesReportList" :key="expenses.id">
                 <td>{{ expenses.date | moment('MM-DD-YYYY') }}</td>
                 <td>{{ expenses.user.username }}</td>
-                <td>{{ expenses.brand.name }}</td>
-                <td>
-                  {{ expenses.brand.category.id === 2 ? 'Super Master' : '' }}
-                </td>
-                <td>
-                  {{ expenses.brand.category.id === 3 ? 'Master' : '' }}
-                </td>
-                <td>
-                  {{ expenses.brand.category === 4 ? 'Agent' : '' }}
-                </td>
-                <td>
-                  {{ expenses.brand.category.id === 5 ? 'Api' : '' }}
-                </td>
-                <td>
-                  {{ expenses.brand.category.id === 6 ? 'White Label' : '' }}
-                </td>
-                <td>
-                  {{
-                    expenses.brand.category.id > 6
-                      ? expenses.brand.category.name
-                      : ''
-                  }}
-                </td>
+                <td>{{ expenses.supplier.name }}</td>
                 <td>{{ expenses.expenses_type.name }}</td>
                 <td>
                   {{
@@ -70,12 +42,6 @@
                 </td>
               </tr>
               <tr v-if="expensesReportList.length > 0">
-                <td class="border-none"></td>
-                <td class="border-none"></td>
-                <td class="border-none"></td>
-                <td class="border-none"></td>
-                <td class="border-none"></td>
-                <td class="border-none"></td>
                 <td class="border-none"></td>
                 <td class="border-none"></td>
                 <td class="border-none"></td>
@@ -131,7 +97,7 @@ export default {
         endDate: getDateRange('today').endDate
       },
       filter: {
-        brand_id: 'all',
+        supplier_id: 'all',
         supermaster: 'all',
         master: 'all',
         agent: 'all',
