@@ -16,7 +16,7 @@ class CreateExpensesKeyInTable extends Migration
         Schema::create('expenses_key_ins', function (Blueprint $table) {
             $table->id();
             $table->foreignId('user_id')->constraind('users');
-            $table->foreignId('brand_id')->constraind('brands');
+            $table->foreignId('supplier_id')->constraind('suppliers');
             $table->timestamp('date');
             $table->string('currency');
             $table->string('country');

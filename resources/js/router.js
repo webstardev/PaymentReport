@@ -25,6 +25,12 @@ const routes = [
     component: () => import('@/views/pages/add-item-select/index')
   },
   {
+    path: '/create-supplier',
+    name: 'create-supplier',
+    beforeEnter: auth,
+    component: () => import('@/views/pages/create-supplier')
+  },
+  {
     path: '/income-key-in',
     name: 'income-key-in',
     beforeEnter: auth,

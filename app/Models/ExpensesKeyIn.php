@@ -7,9 +7,9 @@ use Illuminate\Database\Eloquent\Model;
 
 class ExpensesKeyIn extends Model
 {
-    public function brand()
+    public function supplier()
 	{
-		return $this->belongsTo('App\Models\Brand');
+		return $this->belongsTo('App\Models\Supplier');
 	}
 
     public function user()

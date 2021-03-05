@@ -45,6 +45,9 @@ Route::group(['middleware' => 'auth:api'], function () {
     Route::get('payment-method/{id}', "PaymentMethodController@get");
     Route::post('payment-method', "PaymentMethodController@create");
 
+    Route::get('/supplier', "SupplierController@get");
+    Route::post('/supplier', "SupplierController@create");
+
     Route::get('category/{id}', "CategoryController@get");
     Route::post('category', "CategoryController@create");
 
