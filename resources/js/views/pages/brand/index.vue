@@ -60,52 +60,9 @@
           </b-row>
           <b-row>
             <b-col md="4">
-              <b-button type="submit" variant="primary">Next</b-button>
-            </b-col>
-          </b-row>
-        </b-form>
-      </template>
-
-      <template v-if="curStep === brandSteps.AGENT_SYSTEM_SELECT">
-        <b-form @submit="onSubmit">
-          <b-row>
-            <b-col md="4">
-              <a
-                class="btn-prev"
-                @click="curStep = brandSteps.CATEGORY_SELECT"
-                >{{ `< Prev` }}</a
-              >
-            </b-col>
-          </b-row>
-          <b-row class="pt-4">
-            <b-col md="4">
-              <b-form-group label="Agent System:" label-for="agent-system">
-                <b-form-select
-                  id="agent-system"
-                  v-model="formData.subcategory_id"
-                  required
-                >
-                  <option
-                    value=""
-                    disabled
-                    :selected="!formData.subcategory_id"
-                  >
-                    Select agent system
-                  </option>
-                  <option
-                    v-for="subCategory in subCategories"
-                    :key="subCategory.id"
-                    :value="subCategory.id"
-                  >
-                    {{ subCategory.name }}
-                  </option>
-                </b-form-select>
-              </b-form-group>
-            </b-col>
-          </b-row>
-          <b-row>
-            <b-col md="4">
-              <b-button type="submit" variant="primary">Next</b-button>
+              <b-button type="submit" variant="primary">{{
+                formData.category_id === 1 ? 'Submit' : 'Next'
+              }}</b-button>
             </b-col>
           </b-row>
         </b-form>
@@ -116,9 +73,7 @@
           :curCountry="formData.country"
           @gotoPrev="
             $event => {
-              if (formData.subcategory_id)
-                curStep = brandSteps.AGENT_SYSTEM_SELECT;
-              else curStep = brandSteps.CATEGORY_SELECT;
+              curStep = brandSteps.CATEGORY_SELECT;
             }
           "
           @gotoNext="
@@ -229,7 +184,6 @@ export default {
       formData: {
         brand_name: '',
         category_id: '',
-        subcategory_id: '',
         country: '',
         currency: '',
         selling: 0,
@@ -249,22 +203,7 @@ export default {
         loader.hide();
       });
   },
-  computed: {
-    subCategories: function() {
-      if (
-        this.formData.category_id &&
-        this.checkHadChild(this.formData.category_id)
-      ) {
-        return this.categories.filter(
-          item => item.parent === this.formData.category_id
-        );
-      } else return [];
-    }
-  },
   methods: {
-    changeCategoryId(event) {
-      this.formData.subcategory_id = '';
-    },
     checkHadChild(id) {
       const findOne = this.categories.find(item => item.id === id);
       if (findOne) {
@@ -272,7 +211,45 @@ export default {
         else return false;
       } else return false;
     },
-    async onSubmit(event) {
+    async createBrand() {
+      const loader = this.$loading.show();
+      try {
+        let res = await axios.post(
+          '/api/brand',
+          {
+            ...this.formData
+          },
+          {
+            headers: {
+              'Content-Type': 'application/json'
+            }
+          }
+        );
+        if (res && res.data) {
+          Swal.fire({
+            title: `Brand ${this.formData.brand_name} Created`,
+            icon: 'success'
+          }).then(result => {
+            this.formData = {
+              brand_name: '',
+              category_id: null,
+              country: '',
+              currency: '',
+              selling: 0,
+              comments: ''
+            };
+            this.curStep = BRAND_STPES.BRAND_NAME;
+          });
+        }
+      } catch (err) {
+        Swal.fire({
+          title: 'Create Brand Failed.',
+          icon: 'error'
+        });
+      }
+      loader.hide();
+    },
+    onSubmit(event) {
       event.preventDefault();
       switch (this.curStep) {
         case BRAND_STPES.BRAND_NAME:
@@ -280,13 +257,9 @@ export default {
           break;
         case BRAND_STPES.CATEGORY_SELECT:
           {
-            if (this.checkHadChild(this.formData.category_id))
-              this.curStep = BRAND_STPES.AGENT_SYSTEM_SELECT;
+            if (this.formData.category_id === 1) this.createBrand();
             else this.curStep = BRAND_STPES.COUNTRY;
           }
-          break;
-        case BRAND_STPES.AGENT_SYSTEM_SELECT:
-          this.curStep = BRAND_STPES.COUNTRY;
           break;
         case BRAND_STPES.COUNTRY:
           this.curStep = BRAND_STPES.CURRENCY;
@@ -295,48 +268,7 @@ export default {
           this.curStep = BRAND_STPES.SELLING;
           break;
         case BRAND_STPES.COMMENTS:
-          {
-            const loader = this.$loading.show();
-            try {
-              let res = await axios.post(
-                '/api/brand',
-                {
-                  ...this.formData,
-                  category_id: this.checkHadChild(this.formData.category_id)
-                    ? this.formData.subcategory_id
-                    : this.formData.category_id
-                },
-                {
-                  headers: {
-                    'Content-Type': 'application/json'
-                  }
-                }
-              );
-              if (res && res.data) {
-                Swal.fire({
-                  title: `Brand ${this.formData.brand_name} Created`,
-                  icon: 'success'
-                }).then(result => {
-                  this.formData = {
-                    brand_name: '',
-                    category_id: null,
-                    subcategory_id: null,
-                    country: '',
-                    currency: '',
-                    selling: 0,
-                    comments: ''
-                  };
-                  this.curStep = BRAND_STPES.BRAND_NAME;
-                });
-              }
-            } catch (err) {
-              Swal.fire({
-                title: 'Create Brand Failed.',
-                icon: 'error'
-              });
-            }
-            loader.hide();
-          }
+          this.createBrand();
           break;
         default:
           this.curStep = BRAND_STPES.BRAND_NAME;

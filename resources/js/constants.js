@@ -14,6 +14,16 @@ export const BRAND_STPES = {
   COMMENTS: 'Comments'
 };
 
+export const AGENT_STEPS = {
+  AGENT_NAME: 'Agent Name',
+  BRAND_SELECT: 'Brand select',
+  CATEGORY_SELECT: 'Select Category',
+  COUNTRY: 'Country',
+  CURRENCY: 'Currency',
+  SELLING: 'Selling',
+  COMMENTS: 'Comments'
+};
+
 export const CATEGORY = {
   AGENT_SYSTEM: {
     title: 'Agent system',

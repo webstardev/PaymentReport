@@ -26,6 +26,16 @@
           <b-button
             size="sm"
             variant="primary"
+            type="button"
+            class="ml-4"
+            @click="$router.push({ name: 'add-agent' })"
+          >
+            Add agent
+          </b-button>
+
+          <b-button
+            size="sm"
+            variant="primary"
             class="ml-4"
             @click="$router.push({ name: 'add-new-item' })"
           >

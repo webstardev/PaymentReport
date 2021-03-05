@@ -21,6 +21,7 @@ Route::group(['middleware' => 'guest:api'], function () {
 
 Route::group(['middleware' => 'auth:api'], function () {
     Route::post('brand', 'BrandController@create');
+    Route::post('brand/filter', 'BrandController@filter');
     Route::get('brand/{id}', 'BrandController@get');
 
     Route::get('income-key-in/{id}', 'IncomeKeyInController@get');
@@ -44,6 +45,11 @@ Route::group(['middleware' => 'auth:api'], function () {
 
     Route::get('category/{id}', "CategoryController@get");
     Route::post('category', "CategoryController@create");
+    Route::get('category/{id}/sub-category', "CategoryController@getSubCategory");
+
+    Route::get('/agent/{id}', "AgentController@get");
+    Route::post('/agent', "AgentController@create");
+    Route::post('/agent/filter', "AgentController@filter");
 
     Route::post('create-user', "UserController@createUser");
 });

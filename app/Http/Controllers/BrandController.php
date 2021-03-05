@@ -41,4 +41,21 @@ class BrandController extends Controller
 		}
 	}
 
+    public function filter(Request $request)
+    {
+        $category_id = isset($request->filter['category_id']) ? $request->filter['category_id'] : null;
+        try {
+            $brands = Brand::with(['category'])
+            ->when($category_id, function($query) use ($category_id) {
+                $query->whereHas('category', function($query) use ($category_id) {
+                    $query->where('category_id', $category_id);
+                });
+            })->get();
+            return $brands;
+        } catch (\Throwable $e) {
+			Log::error('Filter Brand' . $e->getMessage());
+			return 'Brand not found';
+		}
+    }
+
 }

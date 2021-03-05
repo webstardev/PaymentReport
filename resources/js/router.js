@@ -19,6 +19,12 @@ const routes = [
     component: () => import('@/views/pages/brand/index')
   },
   {
+    path: '/add-agent',
+    name: 'add-agent',
+    beforeEnter: auth,
+    component: () => import('@/views/pages/add-agent/index')
+  },
+  {
     path: '/add-new-item',
     name: 'add-new-item',
     beforeEnter: auth,

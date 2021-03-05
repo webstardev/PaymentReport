@@ -35,4 +35,15 @@ class CategoryController extends Controller
         }
 
     }
+
+    public function getSubCategory($id)
+    {
+        try {
+            $category = Category::where('parent', $id)->get();
+            return $category;
+        } catch (\Throwable $e) {
+            Log::error('Get Category : ' . $e->getMessage());
+            return response()->json(['error' => 'Internal server error'], 500);
+        }
+    }
 }
