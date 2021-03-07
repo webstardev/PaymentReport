@@ -17,7 +17,7 @@
           </option>
         </b-form-select>
       </b-form-group>
-      <b-form-group
+      <!-- <b-form-group
         class="dropdown-container mr-3"
         label="Super Master:"
         labe-for="filter-supermaster"
@@ -42,8 +42,8 @@
         >
           <option value="all" key="all">All</option>
         </b-form-select>
-      </b-form-group>
-      <b-form-group
+      </b-form-group> -->
+      <!-- <b-form-group
         class="dropdown-container mr-3"
         label="Agent:"
         labe-for="filter-agent"
@@ -55,7 +55,7 @@
         >
           <option value="all" key="all">All</option>
         </b-form-select>
-      </b-form-group>
+      </b-form-group> -->
       <b-form-group
         class="dropdown-container mr-3"
         label="Api:"
@@ -145,9 +145,9 @@ export default {
       default: function() {
         return {
           brand_id: 'all',
-          supermaster: 'all',
-          master: 'all',
-          agent: 'all',
+          //   supermaster: 'all',
+          //   master: 'all',
+          //   agent: 'all',
           api: 'all',
           whitelabel: 'all',
           other: 'all',

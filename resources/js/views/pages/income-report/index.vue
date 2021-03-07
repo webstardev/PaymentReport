@@ -18,9 +18,9 @@
                 <th>Date/Time</th>
                 <th>User</th>
                 <th>Brand</th>
-                <th>Super Master</th>
-                <th>Master</th>
-                <th>Agent</th>
+                <!-- <th>Super Master</th>
+                <th>Master</th> -->
+                <!-- <th>Agent</th> -->
                 <th>API</th>
                 <th>White Label</th>
                 <th>Other</th>
@@ -36,7 +36,7 @@
                 <td>{{ income.date | moment('MM-DD-YYYY') }}</td>
                 <td>{{ income.user.username }}</td>
                 <td>{{ income.brand.name }}</td>
-                <td>
+                <!-- <td>
                   {{ income.brand.category.id === 2 ? 'Super Master' : '' }}
                 </td>
                 <td>
@@ -44,7 +44,7 @@
                 </td>
                 <td>
                   {{ income.brand.category === 4 ? 'Agent' : '' }}
-                </td>
+                </td> -->
                 <td>
                   {{ income.brand.category.id === 5 ? 'Api' : '' }}
                 </td>
@@ -85,9 +85,9 @@
                 <td class="border-none"></td>
                 <td class="border-none"></td>
                 <td class="border-none"></td>
+                <!-- <td class="border-none"></td>
                 <td class="border-none"></td>
-                <td class="border-none"></td>
-                <td class="border-none"></td>
+                <td class="border-none"></td> -->
                 <td class="border-none"></td>
                 <td class="border-none"></td>
                 <td class="border-none"></td>
@@ -145,9 +145,9 @@ export default {
       },
       filter: {
         brand_id: 'all',
-        supermaster: 'all',
-        master: 'all',
-        agent: 'all',
+        // supermaster: 'all',
+        // master: 'all',
+        // agent: 'all',
         api: 'all',
         whitelabel: 'all',
         other: 'all',

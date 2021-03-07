@@ -141,13 +141,15 @@ export default {
   async created() {
     const loader = this.$loading.show();
     try {
-      this.brandList = await getBrand();
+      const allBrands = await getBrand();
+      this.brandList = allBrands.filter(item => item.category_id !== 1);
       this.paymentMethodList = await getPaymentMethod();
     } catch (err) {
       loader.hide();
     }
     loader.hide();
   },
+
   computed: {
     buttonStr: function() {
       if (this.curStep === KEY_IN_STEPS.SELECT_COMMENTS) return 'Submit';
