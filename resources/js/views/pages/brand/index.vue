@@ -9,7 +9,7 @@
               <b-form-group label="Insert Brand Name" label-for="brand-name">
                 <b-form-input
                   id="brand-name"
-                  v-model="formData.brand_name"
+                  v-model="formData.name"
                   required
                 ></b-form-input>
               </b-form-group>
@@ -39,7 +39,6 @@
                   id="category"
                   v-model="formData.category_id"
                   placeholder="Select category"
-                  @change="changeCategoryId"
                   required
                 >
                   <option disabled value="" :selected="!formData.category_id"
@@ -182,7 +181,7 @@ export default {
       currencyOptions: CURRENCIES,
       curStep: BRAND_STPES.BRAND_NAME,
       formData: {
-        brand_name: '',
+        name: '',
         category_id: '',
         country: '',
         currency: '',
@@ -217,7 +216,8 @@ export default {
         let res = await axios.post(
           '/api/brand',
           {
-            ...this.formData
+            ...this.formData,
+            parent_id: -1
           },
           {
             headers: {
@@ -227,11 +227,11 @@ export default {
         );
         if (res && res.data) {
           Swal.fire({
-            title: `Brand ${this.formData.brand_name} Created`,
+            title: `Brand ${this.formData.name} Created`,
             icon: 'success'
           }).then(result => {
             this.formData = {
-              brand_name: '',
+              name: '',
               category_id: null,
               country: '',
               currency: '',

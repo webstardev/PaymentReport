@@ -217,7 +217,6 @@ export default {
                   title: 'Change Status Failed'
                 });
               }
-
               loader.hide();
             })
             .catch(err => {
@@ -251,6 +250,7 @@ export default {
           }
         );
         if (resList && resList.status === 200) {
+          debugger;
           this.incomeReportList = [
             ...resList.data.map(item => {
               return {
@@ -262,6 +262,7 @@ export default {
               };
             })
           ];
+          debugger;
         }
       } catch (err) {
         this.incomeReportList = [];

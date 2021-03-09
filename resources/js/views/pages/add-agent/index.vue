@@ -37,11 +37,11 @@
               <b-form-group label="Brand:" label-for="brand">
                 <b-form-select
                   id="brand"
-                  v-model="formData.brand_id"
+                  v-model="formData.parent_id"
                   placeholder="Select Brand"
                   required
                 >
-                  <option disabled value="" :selected="!formData.brand_id"
+                  <option disabled value="" :selected="!formData.parent_id"
                     >Select Brand</option
                   >
                   <option
@@ -216,7 +216,7 @@ export default {
       agentBrandList: [],
       formData: {
         name: '',
-        brand_id: '',
+        parent_id: '',
         category_id: '',
         country: '',
         currency: '',
@@ -254,7 +254,7 @@ export default {
     createAgent() {
       const loader = this.$loading.show();
       axios
-        .post('/api/agent', this.formData, {
+        .post('/api/brand', this.formData, {
           headers: {
             'Content-Type': 'application/json'
           }
@@ -268,7 +268,7 @@ export default {
             this.curStep = AGENT_STEPS.AGENT_NAME;
             this.formData = {
               name: '',
-              brand_id: '',
+              parent_id: '',
               category_id: '',
               country: '',
               currency: '',

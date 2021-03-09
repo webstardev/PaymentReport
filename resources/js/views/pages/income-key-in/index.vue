@@ -3,16 +3,16 @@
     <top-navbar></top-navbar>
     <b-container class="main-container ml-auto mr-auto py-4">
       <b-form @submit="onSubmit" class="pt-4">
-        <b-row class="mb-2" v-if="curStep !== keySteps.SELECT_BRAND">
+        <b-row class="mb-2" v-if="curStep !== keySteps.SELECT_AGENT">
           <b-col md="4">
             <a class="btn-prev" @click="gotoPrev">{{ `< Prev` }}</a>
           </b-col>
         </b-row>
 
-        <b-row v-if="curStep === keySteps.SELECT_BRAND">
+        <b-row v-if="curStep === keySteps.SELECT_AGENT">
           <b-col md="4">
-            <b-form-group label="Brand:" label-for="brand">
-              <b-form-select id="brand" v-model="formData.brand_id" required>
+            <b-form-group label="Agent:" label-for="agent">
+              <b-form-select id="agent" v-model="formData.brand_id" required>
                 <option disabled :select="!formData.brand_id" value=""
                   >Select a brand</option
                 >
@@ -124,7 +124,7 @@ export default {
   data() {
     return {
       keySteps: KEY_IN_STEPS,
-      curStep: KEY_IN_STEPS.SELECT_BRAND,
+      curStep: KEY_IN_STEPS.SELECT_AGENT,
       receivedStatus: RECEIVED_STATUS,
       brandList: [],
       paymentMethodList: [],
@@ -141,8 +141,8 @@ export default {
   async created() {
     const loader = this.$loading.show();
     try {
-      const allBrands = await getBrand();
-      this.brandList = allBrands.filter(item => item.category_id !== 1);
+      const resBrandList = await getBrand();
+      this.brandList = resBrandList.filter(item => item.category_id !== 1);
       this.paymentMethodList = await getPaymentMethod();
     } catch (err) {
       loader.hide();
@@ -160,7 +160,7 @@ export default {
     gotoPrev() {
       switch (this.curStep) {
         case KEY_IN_STEPS.SELECT_DATE:
-          this.curStep = KEY_IN_STEPS.SELECT_BRAND;
+          this.curStep = KEY_IN_STEPS.SELECT_AGENT;
           break;
         case KEY_IN_STEPS.SELECT_SUM:
           this.curStep = KEY_IN_STEPS.SELECT_DATE;
@@ -175,7 +175,7 @@ export default {
           this.curStep = KEY_IN_STEPS.SELECT_RECEIVED;
           break;
         default:
-          this.curStep = KEY_IN_STEPS.SELECT_BRAND;
+          this.curStep = KEY_IN_STEPS.SELECT_AGENT;
           break;
       }
     },
@@ -214,7 +214,7 @@ export default {
                   comments: ''
                 };
               });
-              this.curStep = KEY_IN_STEPS.SELECT_BRAND;
+              this.curStep = KEY_IN_STEPS.SELECT_AGENT;
             } else {
               Swal.fire({
                 title: 'Income Add Failed.',
@@ -232,7 +232,7 @@ export default {
         loader.hide();
       } else {
         switch (this.curStep) {
-          case KEY_IN_STEPS.SELECT_BRAND:
+          case KEY_IN_STEPS.SELECT_AGENT:
             this.curStep = KEY_IN_STEPS.SELECT_DATE;
             break;
           case KEY_IN_STEPS.SELECT_DATE:
@@ -248,7 +248,7 @@ export default {
             this.curStep = KEY_IN_STEPS.SELECT_COMMENTS;
             break;
           default:
-            this.curStep = KEY_IN_STEPS.SELECT_BRAND;
+            this.curStep = KEY_IN_STEPS.SELECT_AGENT;
             break;
         }
       }

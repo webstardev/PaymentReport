@@ -18,6 +18,7 @@ class CreateBrandsTable extends Migration
             $table->foreignId('user_id');
             $table->string('name');
             $table->foreignId('category_id')->constraind('categories');
+            $table->integer('parent_id')->nullable();
             $table->string('country')->nullable();
             $table->string('currency')->nullable();
             $table->float('selling')->nullable();

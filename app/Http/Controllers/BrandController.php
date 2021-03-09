@@ -15,8 +15,9 @@ class BrandController extends Controller
         try {
             $brand = new Brand();
             $brand->user_id = Auth::user()->id;
-            $brand->name = $request->brand_name;
+            $brand->name = $request->name;
             $brand->category_id = $request->category_id;
+            $brand->parent_id = $request->parent_id;
             $brand->country = $request->country;
             $brand->currency = $request->currency;
             $brand->selling = $request->selling;

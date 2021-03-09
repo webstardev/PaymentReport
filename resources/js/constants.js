@@ -16,7 +16,7 @@ export const BRAND_STPES = {
 
 export const AGENT_STEPS = {
   AGENT_NAME: 'Agent Name',
-  BRAND_SELECT: 'Brand select',
+  AGENT_SELECT: 'Agent select',
   CATEGORY_SELECT: 'Select Category',
   COUNTRY: 'Country',
   CURRENCY: 'Currency',
