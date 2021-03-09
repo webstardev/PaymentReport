@@ -54,7 +54,7 @@ class ExpensesKeyInController extends Controller
                 $query->where('country', $country);
             })
             ->when($expenses_type && $expenses_type != 'all', function ($query) use ($expenses_type) {
-                $query->whereHas('expenses_type', function($query) use ($expenses_type) {
+                $query->whereHas('expensesType', function($query) use ($expenses_type) {
                     $query->where('id', $expenses_type);
                 });
             })
