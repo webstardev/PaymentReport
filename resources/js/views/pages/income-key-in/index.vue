@@ -3,24 +3,42 @@
     <top-navbar></top-navbar>
     <b-container class="main-container ml-auto mr-auto py-4">
       <b-form @submit="onSubmit" class="pt-4">
-        <b-row class="mb-2" v-if="curStep !== keySteps.SELECT_AGENT">
+        <b-row class="mb-2" v-if="curStep !== keySteps.SELECT_BRAND">
           <b-col md="4">
             <a class="btn-prev" @click="gotoPrev">{{ `< Prev` }}</a>
+          </b-col>
+        </b-row>
+
+        <b-row v-if="curStep === keySteps.SELECT_BRAND">
+          <b-col md="4">
+            <b-form-group label="Brand:" label-for="brand">
+              <b-form-select id="brand" v-model="formData.brand_id" required>
+                <option disabled :select="!formData.brand_id" value=""
+                  >Select a brand</option
+                >
+                <option
+                  v-for="(brand, idx) in parentBrandList"
+                  :key="idx"
+                  :value="brand.id"
+                  >{{ brand.name }}
+                </option>
+              </b-form-select>
+            </b-form-group>
           </b-col>
         </b-row>
 
         <b-row v-if="curStep === keySteps.SELECT_AGENT">
           <b-col md="4">
             <b-form-group label="Agent:" label-for="agent">
-              <b-form-select id="agent" v-model="formData.brand_id" required>
-                <option disabled :select="!formData.brand_id" value=""
-                  >Select a brand</option
+              <b-form-select id="agent" v-model="formData.agent_id" required>
+                <option disabled :select="!formData.agent_id" value=""
+                  >Select a agent</option
                 >
                 <option
-                  v-for="(brand, idx) in brandList"
+                  v-for="(agent, idx) in agentList"
                   :key="idx"
-                  :value="brand.id"
-                  >{{ brand.name }}
+                  :value="agent.id"
+                  >{{ agent.name }}
                 </option>
               </b-form-select>
             </b-form-group>
@@ -113,7 +131,7 @@
 <script>
 import Swal from 'sweetalert2';
 import { getBrand, getPaymentMethod } from '@/services/apis';
-import { KEY_IN_STEPS, KEY_IN_TYPE, RECEIVED_STATUS } from '@/constants';
+import { KEY_IN_INCOME_STEPS, KEY_IN_TYPE, RECEIVED_STATUS } from '@/constants';
 import TopNavbar from '@/sharedComponents/top-navbar.vue';
 
 export default {
@@ -123,13 +141,14 @@ export default {
   },
   data() {
     return {
-      keySteps: KEY_IN_STEPS,
-      curStep: KEY_IN_STEPS.SELECT_AGENT,
+      keySteps: KEY_IN_INCOME_STEPS,
+      curStep: KEY_IN_INCOME_STEPS.SELECT_BRAND,
       receivedStatus: RECEIVED_STATUS,
       brandList: [],
       paymentMethodList: [],
       formData: {
         brand_id: '',
+        agent_id: '',
         date: null,
         sum: 0,
         payment_method: [],
@@ -141,52 +160,72 @@ export default {
   async created() {
     const loader = this.$loading.show();
     try {
-      const resBrandList = await getBrand();
-      this.brandList = resBrandList.filter(item => item.category_id !== 1);
+      this.brandList = await getBrand();
       this.paymentMethodList = await getPaymentMethod();
     } catch (err) {
       loader.hide();
     }
     loader.hide();
   },
-
   computed: {
     buttonStr: function() {
-      if (this.curStep === KEY_IN_STEPS.SELECT_COMMENTS) return 'Submit';
+      if (this.curStep === KEY_IN_INCOME_STEPS.SELECT_COMMENTS) return 'Submit';
       return 'Next';
+    },
+    parentBrandList: function() {
+      return this.brandList.filter(item => item.parent_id === -1);
+    },
+    agentList: function() {
+      const categoryId = this.getBrandCategoryId(this.formData.brand_id);
+      if (categoryId === 1) {
+        return this.brandList.filter(
+          item => item.parent_id === this.formData.brand_id
+        );
+      } else return [];
     }
   },
   methods: {
+    getBrandCategoryId(brandID) {
+      const findOne = this.brandList.find(item => item.id === brandID);
+      if (findOne) return findOne.category_id;
+      return -1;
+    },
     gotoPrev() {
       switch (this.curStep) {
-        case KEY_IN_STEPS.SELECT_DATE:
-          this.curStep = KEY_IN_STEPS.SELECT_AGENT;
+        case KEY_IN_INCOME_STEPS.SELECT_DATE:
+          {
+            if (this.getBrandCategoryId(this.formData.brand_id) === 1)
+              this.curStep = KEY_IN_INCOME_STEPS.SELECT_AGENT;
+            else this.curStep = KEY_IN_INCOME_STEPS.SELECT_BRAND;
+          }
           break;
-        case KEY_IN_STEPS.SELECT_SUM:
-          this.curStep = KEY_IN_STEPS.SELECT_DATE;
+        case KEY_IN_INCOME_STEPS.SELECT_SUM:
+          this.curStep = KEY_IN_INCOME_STEPS.SELECT_DATE;
           break;
-        case KEY_IN_STEPS.SELECT_PAYMENT_METHOD:
-          this.curStep = KEY_IN_STEPS.SELECT_SUM;
+        case KEY_IN_INCOME_STEPS.SELECT_PAYMENT_METHOD:
+          this.curStep = KEY_IN_INCOME_STEPS.SELECT_SUM;
           break;
-        case KEY_IN_STEPS.SELECT_RECEIVED:
-          this.curStep = KEY_IN_STEPS.SELECT_PAYMENT_METHOD;
+        case KEY_IN_INCOME_STEPS.SELECT_RECEIVED:
+          this.curStep = KEY_IN_INCOME_STEPS.SELECT_PAYMENT_METHOD;
           break;
-        case KEY_IN_STEPS.SELECT_COMMENTS:
-          this.curStep = KEY_IN_STEPS.SELECT_RECEIVED;
+        case KEY_IN_INCOME_STEPS.SELECT_COMMENTS:
+          this.curStep = KEY_IN_INCOME_STEPS.SELECT_RECEIVED;
           break;
         default:
-          this.curStep = KEY_IN_STEPS.SELECT_AGENT;
+          this.curStep = KEY_IN_INCOME_STEPS.SELECT_BRAND;
           break;
       }
     },
+
     async onSubmit(event) {
       event.preventDefault();
 
-      if (this.curStep === KEY_IN_STEPS.SELECT_COMMENTS) {
+      if (this.curStep === KEY_IN_INCOME_STEPS.SELECT_COMMENTS) {
         const loader = this.$loading.show();
         let keyInFormData = {
           type: KEY_IN_TYPE.INCOME,
           brand_id: this.formData.brand_id,
+          agent_id: this.formData.agent_id,
           date: this.formData.date,
           sum: this.formData.sum,
           payment_method: this.formData.payment_method.map(x => x.id),
@@ -207,6 +246,7 @@ export default {
               }).then(result => {
                 this.formData = {
                   brand_id: null,
+                  agent_id: null,
                   date: null,
                   sum: 0,
                   payment_method: [],
@@ -214,7 +254,7 @@ export default {
                   comments: ''
                 };
               });
-              this.curStep = KEY_IN_STEPS.SELECT_AGENT;
+              this.curStep = KEY_IN_INCOME_STEPS.SELECT_AGENT;
             } else {
               Swal.fire({
                 title: 'Income Add Failed.',
@@ -232,23 +272,30 @@ export default {
         loader.hide();
       } else {
         switch (this.curStep) {
-          case KEY_IN_STEPS.SELECT_AGENT:
-            this.curStep = KEY_IN_STEPS.SELECT_DATE;
+          case KEY_IN_INCOME_STEPS.SELECT_BRAND:
+            {
+              if (this.getBrandCategoryId(this.formData.brand_id) === 1)
+                this.curStep = KEY_IN_INCOME_STEPS.SELECT_AGENT;
+              else this.curStep = KEY_IN_INCOME_STEPS.SELECT_DATE;
+            }
             break;
-          case KEY_IN_STEPS.SELECT_DATE:
-            this.curStep = KEY_IN_STEPS.SELECT_SUM;
+          case KEY_IN_INCOME_STEPS.SELECT_AGENT:
+            this.curStep = KEY_IN_INCOME_STEPS.SELECT_DATE;
             break;
-          case KEY_IN_STEPS.SELECT_SUM:
-            this.curStep = KEY_IN_STEPS.SELECT_PAYMENT_METHOD;
+          case KEY_IN_INCOME_STEPS.SELECT_DATE:
+            this.curStep = KEY_IN_INCOME_STEPS.SELECT_SUM;
             break;
-          case KEY_IN_STEPS.SELECT_PAYMENT_METHOD:
-            this.curStep = KEY_IN_STEPS.SELECT_RECEIVED;
+          case KEY_IN_INCOME_STEPS.SELECT_SUM:
+            this.curStep = KEY_IN_INCOME_STEPS.SELECT_PAYMENT_METHOD;
             break;
-          case KEY_IN_STEPS.SELECT_RECEIVED:
-            this.curStep = KEY_IN_STEPS.SELECT_COMMENTS;
+          case KEY_IN_INCOME_STEPS.SELECT_PAYMENT_METHOD:
+            this.curStep = KEY_IN_INCOME_STEPS.SELECT_RECEIVED;
+            break;
+          case KEY_IN_INCOME_STEPS.SELECT_RECEIVED:
+            this.curStep = KEY_IN_INCOME_STEPS.SELECT_COMMENTS;
             break;
           default:
-            this.curStep = KEY_IN_STEPS.SELECT_AGENT;
+            this.curStep = KEY_IN_INCOME_STEPS.SELECT_BRAND;
             break;
         }
       }

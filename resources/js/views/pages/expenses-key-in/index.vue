@@ -43,24 +43,6 @@
           </b-col>
         </b-row>
 
-        <b-row v-if="curStep === keySteps.SELECT_CURRENCY">
-          <b-col md="4">
-            <b-form-group label="Currency:" label-for="currency">
-              <b-form-select id="country" v-model="formData.currency" required>
-                <option disabled :selected="!formData.currency" value=""
-                  >Select a currency</option
-                >
-                <option
-                  v-for="(option, idx) in currencyOptions"
-                  :key="idx"
-                  :value="option"
-                >
-                  {{ option }}
-                </option>
-              </b-form-select>
-            </b-form-group>
-          </b-col>
-        </b-row>
         <b-row v-if="curStep === keySteps.SELECT_COUNTRY">
           <b-col md="4">
             <b-form-group label="Counry:" label-for="country">
@@ -74,6 +56,25 @@
                   :value="option.name"
                 >
                   {{ option.name }}
+                </option>
+              </b-form-select>
+            </b-form-group>
+          </b-col>
+        </b-row>
+
+        <b-row v-if="curStep === keySteps.SELECT_CURRENCY">
+          <b-col md="4">
+            <b-form-group label="Currency:" label-for="currency">
+              <b-form-select id="country" v-model="formData.currency" required>
+                <option disabled :selected="!formData.currency" value=""
+                  >Select a currency</option
+                >
+                <option
+                  v-for="(option, idx) in currencyOptions"
+                  :key="idx"
+                  :value="option"
+                >
+                  {{ option }}
                 </option>
               </b-form-select>
             </b-form-group>
@@ -212,11 +213,11 @@ export default {
         case KEY_IN_STEPS.SELECT_DATE:
           this.curStep = KEY_IN_STEPS.SELECT_SUPPLIER;
           break;
-        case KEY_IN_STEPS.SELECT_CURRENCY:
+        case KEY_IN_STEPS.SELECT_COUNTRY:
           this.curStep = KEY_IN_STEPS.SELECT_DATE;
           break;
-        case KEY_IN_STEPS.SELECT_COUNTRY:
-          this.curStep = KEY_IN_STEPS.SELECT_CURRENCY;
+        case KEY_IN_STEPS.SELECT_CURRENCY:
+          this.curStep = KEY_IN_STEPS.SELECT_COUNTRY;
           break;
         case KEY_IN_STEPS.SELECT_EXPENSES_TYPE:
           this.curStep = KEY_IN_STEPS.SELECT_COUNTRY;
@@ -295,7 +296,7 @@ export default {
             this.curStep = KEY_IN_STEPS.SELECT_DATE;
             break;
           case KEY_IN_STEPS.SELECT_DATE:
-            this.curStep = KEY_IN_STEPS.SELECT_CURRENCY;
+            this.curStep = KEY_IN_STEPS.SELECT_COUNTRY;
             break;
           case KEY_IN_STEPS.SELECT_SUM:
             this.curStep = KEY_IN_STEPS.SELECT_PAYMENT_METHOD;
@@ -303,10 +304,10 @@ export default {
           case KEY_IN_STEPS.SELECT_PAYMENT_METHOD:
             this.curStep = KEY_IN_STEPS.SELECT_COMMENTS;
             break;
-          case KEY_IN_STEPS.SELECT_CURRENCY:
-            this.curStep = KEY_IN_STEPS.SELECT_COUNTRY;
-            break;
           case KEY_IN_STEPS.SELECT_COUNTRY:
+            this.curStep = KEY_IN_STEPS.SELECT_CURRENCY;
+            break;
+          case KEY_IN_STEPS.SELECT_CURRENCY:
             this.curStep = KEY_IN_STEPS.SELECT_EXPENSES_TYPE;
             break;
           case KEY_IN_STEPS.SELECT_EXPENSES_TYPE:

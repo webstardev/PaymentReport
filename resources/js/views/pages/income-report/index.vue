@@ -20,7 +20,7 @@
                 <th>Brand</th>
                 <!-- <th>Super Master</th>
                 <th>Master</th> -->
-                <!-- <th>Agent</th> -->
+                <th>Agent</th>
                 <th>API</th>
                 <th>White Label</th>
                 <th>Other</th>
@@ -36,6 +36,9 @@
                 <td>{{ income.date | moment('MM-DD-YYYY') }}</td>
                 <td>{{ income.user.username }}</td>
                 <td>{{ income.brand.name }}</td>
+                <td>
+                  {{ income.brand.category_id === 1 ? income.agent.name : '' }}
+                </td>
                 <!-- <td>
                   {{ income.brand.category.id === 2 ? 'Super Master' : '' }}
                 </td>
@@ -62,7 +65,15 @@
                 <td>
                   {{ income.payment_methods.map(item => item.name).join(', ') }}
                 </td>
-                <td>{{ `${income.brand.currency} ${income.sum}` }}</td>
+                <td>
+                  {{
+                    `${
+                      income.brand.category_id === 1
+                        ? income.agent.currency
+                        : income.brand.currency
+                    } ${income.sum}`
+                  }}
+                </td>
                 <td>{{ Number(income.sum_euro).toFixed(2) }}</td>
                 <td>
                   <template v-if="income.received === 'Yes'">
@@ -82,6 +93,7 @@
                 </td>
               </tr>
               <tr v-if="incomeReportList.length > 0">
+                <td class="border-none"></td>
                 <td class="border-none"></td>
                 <td class="border-none"></td>
                 <td class="border-none"></td>
@@ -145,6 +157,7 @@ export default {
       },
       filter: {
         brand_id: 'all',
+        agent_id: 'all',
         // supermaster: 'all',
         // master: 'all',
         // agent: 'all',
@@ -250,19 +263,23 @@ export default {
           }
         );
         if (resList && resList.status === 200) {
-          debugger;
           this.incomeReportList = [
             ...resList.data.map(item => {
               return {
                 ...item,
                 sum_euro: calculateCurrency(
-                  { sum: item.sum, currency: item.brand.currency },
+                  {
+                    sum: item.sum,
+                    currency:
+                      item.brand.category_id === 1
+                        ? item.agent.currency
+                        : item.brand.currency
+                  },
                   this.currencyData
                 )
               };
             })
           ];
-          debugger;
         }
       } catch (err) {
         this.incomeReportList = [];

@@ -11,6 +11,11 @@ class IncomeKeyIn extends Model
 		return $this->belongsTo('App\Models\Brand');
 	}
 
+    public function agent()
+    {
+        return $this->belongsTo('App\Models\Brand');
+    }
+
     public function user()
 	{
 		return $this->belongsTo('App\User');

@@ -17,6 +17,7 @@ class CreateIncomeKeyInsTable extends Migration
             $table->id();
             $table->foreignId('user_id')->constraind('users');
             $table->foreignId('brand_id')->constraind('brands');
+            $table->foreignId('agent_id')->constraind('brands')->nullable();
             $table->timestamp('date');
             $table->float('sum');
             $table->string('received');

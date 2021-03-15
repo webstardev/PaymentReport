@@ -145,7 +145,13 @@ export default {
               return {
                 ...item,
                 sum_euro: calculateCurrency(
-                  { sum: item.sum, currency: item.brand.currency },
+                  {
+                    sum: item.sum,
+                    currency:
+                      item.category_id === 1
+                        ? item.agent.currency
+                        : item.brand.currency
+                  },
                   this.currencyData
                 )
               };

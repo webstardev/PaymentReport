@@ -1,37 +1,10 @@
 <template>
   <b-container fluid class="root-container">
     <top-navbar></top-navbar>
-    <b-container fluid class="main-container ml-auto mr-auto py-4">
-      <template v-if="curStep === agentSteps.AGENT_NAME">
-        <b-form @submit="onSubmit">
-          <b-row class="pt-4">
-            <b-col md="4">
-              <b-form-group label="Insert Brand Name" label-for="agent-name">
-                <b-form-input
-                  id="agent-name"
-                  v-model="formData.name"
-                  required
-                ></b-form-input>
-              </b-form-group>
-            </b-col>
-          </b-row>
-          <b-row>
-            <b-col md="4">
-              <b-button type="submit" variant="primary">Next</b-button>
-            </b-col>
-          </b-row>
-        </b-form>
-      </template>
 
-      <template v-if="curStep === agentSteps.BRAND_SELECT">
+    <b-container fluid class="main-container ml-auto mr-auto py-4">
+      <template v-if="curStep === agentSteps.AGENT_SELECT">
         <b-form @submit="onSubmit">
-          <b-row>
-            <b-col md="4">
-              <a class="btn-prev" @click="curStep = agentSteps.AGENT_NAME">{{
-                `< Prev`
-              }}</a>
-            </b-col>
-          </b-row>
           <b-row class="pt-4">
             <b-col md="4">
               <b-form-group label="Brand:" label-for="brand">
@@ -67,7 +40,7 @@
         <b-form @submit="onSubmit">
           <b-row>
             <b-col md="4">
-              <a class="btn-prev" @click="curStep = agentSteps.BRAND_SELECT">{{
+              <a class="btn-prev" @click="curStep = agentSteps.AGENT_SELECT">{{
                 `< Prev`
               }}</a>
             </b-col>
@@ -103,12 +76,40 @@
         </b-form>
       </template>
 
+      <template v-if="curStep === agentSteps.AGENT_NAME">
+        <b-row>
+          <b-col md="4">
+            <a class="btn-prev" @click="curStep = agentSteps.CATEGORY_SELECT">{{
+              `< Prev`
+            }}</a>
+          </b-col>
+        </b-row>
+        <b-form @submit="onSubmit">
+          <b-row class="pt-4">
+            <b-col md="4">
+              <b-form-group label="Insert Brand Name" label-for="agent-name">
+                <b-form-input
+                  id="agent-name"
+                  v-model="formData.name"
+                  required
+                ></b-form-input>
+              </b-form-group>
+            </b-col>
+          </b-row>
+          <b-row>
+            <b-col md="4">
+              <b-button type="submit" variant="primary">Next</b-button>
+            </b-col>
+          </b-row>
+        </b-form>
+      </template>
+
       <template v-if="curStep === agentSteps.COUNTRY">
         <country-selector
           :curCountry="formData.country"
           @gotoPrev="
             $event => {
-              curStep = agentSteps.CATEGORY_SELECT;
+              curStep = agentSteps.AGENT_NAME;
             }
           "
           @gotoNext="
@@ -211,7 +212,7 @@ export default {
   data() {
     return {
       agentSteps: AGENT_STEPS,
-      curStep: AGENT_STEPS.AGENT_NAME,
+      curStep: AGENT_STEPS.AGENT_SELECT,
       categoryList: [],
       agentBrandList: [],
       formData: {
@@ -220,7 +221,7 @@ export default {
         category_id: '',
         country: '',
         currency: '',
-        selling: '',
+        selling: 0,
         comments: ''
       }
     };
@@ -294,13 +295,13 @@ export default {
     onSubmit(event) {
       event.preventDefault();
       switch (this.curStep) {
-        case AGENT_STEPS.AGENT_NAME:
-          this.curStep = AGENT_STEPS.BRAND_SELECT;
-          break;
-        case AGENT_STEPS.BRAND_SELECT:
+        case AGENT_STEPS.AGENT_SELECT:
           this.curStep = AGENT_STEPS.CATEGORY_SELECT;
           break;
         case AGENT_STEPS.CATEGORY_SELECT:
+          this.curStep = AGENT_STEPS.AGENT_NAME;
+          break;
+        case AGENT_STEPS.AGENT_NAME:
           this.curStep = AGENT_STEPS.COUNTRY;
           break;
         case AGENT_STEPS.COUNTRY:

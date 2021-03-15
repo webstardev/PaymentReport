@@ -17,6 +17,7 @@ class IncomeKeyInController extends Controller
             $incomeKeyIn = new IncomeKeyIn();
             $incomeKeyIn->user_id = Auth::user()->id;
             $incomeKeyIn->brand_id = $request->brand_id;
+            $incomeKeyIn->agent_id = $request->agent_id;
             $incomeKeyIn->date = $request->date;
             $incomeKeyIn->sum = $request->sum;
             $incomeKeyIn->received = $request->received;
@@ -34,6 +35,7 @@ class IncomeKeyInController extends Controller
     public function filter(Request $request)
     {
         $brand_id = isset($request->filter['brand_id']) ? $request->filter['brand_id'] : null;
+        $agent_id = isset($request->filter['agent_id']) ? $request->filter['agent_id'] : null;
         $payment_method = isset($request->filter['payment_method']) ?  $request->filter['payment_method'] : null;
         $status = isset($request->filter['status']) ? $request->filter['status'] : null;
 
@@ -42,10 +44,15 @@ class IncomeKeyInController extends Controller
         $endDate = $date_range['endDate'];
 
         try {
-            $incomeKeyIn = IncomeKeyIn::with(['brand', 'user', 'paymentMethods', 'brand.category'])
+            $incomeKeyIn = IncomeKeyIn::with(['brand', 'agent', 'user', 'paymentMethods', 'brand.category'])
             ->when($brand_id && $brand_id != 'all', function ($query) use ($brand_id) {
                 $query->whereHas('brand', function($query) use ($brand_id) {
                     $query->where('id', $brand_id);
+                });
+            })
+            ->when($agent_id && $agent_id != 'all', function ($query) use ($agent_id) {
+                $query->whereHas('agent', function($query) use ($agent_id) {
+                    $query->where('id', $agent_id);
                 });
             })
             ->when($status && $status !='all', function ($query) use ($status) {
@@ -81,9 +88,9 @@ class IncomeKeyInController extends Controller
         try {
             if ($id ==='all'){
                 if (Auth::user()->user_type === 'Admin')
-                    $income = IncomeKeyIn::with(['paymentMethods', 'user', 'brand', 'brand.category' ])->get();
+                    $income = IncomeKeyIn::with(['paymentMethods', 'user', 'brand', 'agent','brand.category' ])->get();
                 else
-                    $income = IncomeKeyIn::where('user_id', Auth::user()->id)->with(['paymentMethods', 'user', 'brand', 'brand.category'])->get();
+                    $income = IncomeKeyIn::where('user_id', Auth::user()->id)->with(['paymentMethods', 'user', 'brand', 'agent', 'brand.category'])->get();
             } else
                 $income = IncomeKeyIn::where('id', $id)->with(['paymentMethods', 'user', 'brand', 'brand.category'])->get();
             return $income;

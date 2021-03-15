@@ -15,9 +15,9 @@ export const BRAND_STPES = {
 };
 
 export const AGENT_STEPS = {
-  AGENT_NAME: 'Agent Name',
   AGENT_SELECT: 'Agent select',
   CATEGORY_SELECT: 'Select Category',
+  AGENT_NAME: 'Agent Name',
   COUNTRY: 'Country',
   CURRENCY: 'Currency',
   SELLING: 'Selling',
@@ -58,12 +58,22 @@ export const AGENT_SYSTEM = {
   }
 };
 
+export const KEY_IN_INCOME_STEPS = {
+  SELECT_BRAND: 'Select Brand',
+  SELECT_AGENT: 'Select Agent',
+  SELECT_DATE: 'Select Date',
+  SELECT_SUM: 'Select Sum',
+  SELECT_PAYMENT_METHOD: 'Select Payment Method',
+  SELECT_RECEIVED: 'Select Received',
+  SELECT_COMMENTS: 'Select Comments'
+};
+
 export const KEY_IN_STEPS = {
   SELECT_BRAND: 'Select brand',
   SELECT_SUPPLIER: 'Select supplier',
   SELECT_DATE: 'Select date',
-  SELECT_CURRENCY: 'Select currency',
   SELECT_COUNTRY: 'Select country',
+  SELECT_CURRENCY: 'Select currency',
   SELECT_EXPENSES_TYPE: 'Select expenses type',
   SELECT_SUM: 'Select sum',
   SELECT_PAYMENT_METHOD: 'Select payment method',

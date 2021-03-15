@@ -17,6 +17,25 @@
           </option>
         </b-form-select>
       </b-form-group>
+
+      <b-form-group
+        class="dropdown-container mr-3"
+        label="Brand:"
+        labe-for="filter-brand"
+        v-if="filter.parent_id"
+      >
+        <b-form-select
+          id="filter-brand"
+          :value="filter.parent_id"
+          @change="$event => changeFilter('agent_id', $event)"
+        >
+          <option value="all" key="all">All</option>
+          <option v-for="brand in agnetList" :key="brand.id" :value="brand.id">
+            {{ brand.name }}
+          </option>
+        </b-form-select>
+      </b-form-group>
+
       <!-- <b-form-group
         class="dropdown-container mr-3"
         label="Super Master:"
@@ -145,6 +164,7 @@ export default {
       default: function() {
         return {
           brand_id: 'all',
+          agent_id: 'all',
           //   supermaster: 'all',
           //   master: 'all',
           //   agent: 'all',
@@ -160,8 +180,25 @@ export default {
   data() {
     return {
       brandList: [],
-      paymentList: []
+      paymentList: [],
+      agnetList: []
     };
+  },
+  watch: {
+    brand_id: async function(val) {
+      changeFilter('agnet_id', 'all');
+      const resAgentList = await axios.post(
+        '/api/brand/filter',
+        { filter: { parent_id: brand_id } },
+        {
+          headers: {
+            'Content-Type': 'application/json'
+          }
+        }
+      );
+      if (resAgentList && resAgentList.data)
+        this.agnetList = [...resAgentList.data];
+    }
   },
   methods: {
     changeFilter(keyName, value) {
